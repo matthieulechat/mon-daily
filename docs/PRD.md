@@ -1,0 +1,55 @@
+# PRD — "Mon Daily" (remplaçant du Spotify Daily Drive)
+
+## 1. Contexte & Problème
+
+Spotify a supprimé la fonctionnalité **Daily Drive** en mars 2026 (mix quotidien musique + actus, personnalisé, régénéré automatiquement). Aucun remplaçant officiel équivalent n'existe côté Spotify (l'AI DJ ne couvre pas la partie actus/podcasts) ni côté Deezer/Apple Music.
+
+**Contrainte forte à connaître** : Spotify a déprécié en novembre 2024 son endpoint `/recommendations` (et `/audio-features`, `/related-artists`) pour toute app créée après cette date. Il n'existe donc plus de moteur de recommandation "boîte noire" officiel et gratuit — la personnalisation musicale doit être reconstruite maison à partir des données d'écoute de l'utilisateur (top tracks/artists, genres, recherche par mot-clé).
+
+## 2. Objectif produit
+
+Permettre à un utilisateur de retrouver une expérience équivalente au Daily Drive : une playlist qui se régénère automatiquement chaque jour, mélangeant :
+- 🎵 de la musique personnalisée selon ses goûts,
+- 🎙️ des podcasts d'actu en français (Le Monde, France Info, AFP...),
+- et ce, **directement dans l'app qu'il utilise déjà** (Spotify, puis Deezer, puis Apple Music) — sans qu'il ait besoin d'ouvrir une app tierce au quotidien.
+
+## 3. Utilisateurs cibles
+
+- V1 : usage personnel (toi-même) — validation du concept.
+- V2 : élargissement possible à un petit groupe d'utilisateurs (amis/famille) si le concept tient la route.
+
+## 4. Périmètre fonctionnel (MVP — Spotify uniquement)
+
+### Must have
+- Connexion OAuth de l'utilisateur à son compte Spotify.
+- Récupération des goûts musicaux (top tracks / top artists / genres dominants).
+- Génération d'une sélection musicale personnalisée (basée sur genres + recherche, sans `/recommendations`).
+- Sélection de podcasts d'actu FR (flux RSS statiques au départ : Le Monde, France Info...).
+- Mix musique/podcasts dans une playlist Spotify dédiée ("Mon Daily").
+- Régénération automatique 1x/jour (backend, sans action utilisateur).
+- Stockage sécurisé des tokens OAuth (refresh token chiffré).
+
+### Nice to have (V1.x)
+- Réglage de la proportion musique/actu par l'utilisateur.
+- Choix des sources d'actu (médias).
+- Historique des playlists générées (éviter les doublons d'un jour sur l'autre).
+
+### Hors scope V1
+- Deezer (V2) et Apple Music (V3) — architecture pensée pour, mais pas implémentés en V1.
+- Multi-utilisateurs à grande échelle (pas de dashboard admin, pas de facturation).
+- Analyse audio fine (mood/énergie) — impossible gratuitement sans `/audio-features`.
+
+## 5. Critères de succès
+
+- La playlist Spotify se régénère seule chaque matin sans intervention.
+- Le mix musical "sonne juste" par rapport aux goûts réels de l'utilisateur (validation subjective).
+- Le système tient sur plusieurs semaines sans rupture de token (refresh géré correctement).
+
+## 6. Risques identifiés
+
+| Risque | Impact | Mitigation |
+|---|---|---|
+| Pas de `/recommendations` Spotify | Perso musicale moins fine | Approche genres + search, itérative |
+| Expiration/révocation des tokens OAuth | Playlist qui s'arrête de se mettre à jour | Refresh token + alerte si échec |
+| Flux RSS podcasts qui changent de format | Cassure du mix actu | Parsing RSS défensif + fallback |
+| Rate limits API Spotify | Échec de génération si trop d'appels | Cache local des top tracks/artists (24h) |
