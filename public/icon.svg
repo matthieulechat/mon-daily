@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+    </style>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="#05080f"/>
+  <circle cx="256" cy="256" r="230" fill="none" stroke="#2f93ff" stroke-width="2" opacity="0.35"/>
+  <circle cx="256" cy="256" r="195" fill="none" stroke="#2f93ff" stroke-width="2" opacity="0.28"/>
+  <circle cx="256" cy="256" r="160" fill="none" stroke="#2f93ff" stroke-width="2" opacity="0.2"/>
+  <circle cx="256" cy="256" r="125" fill="none" stroke="#2f93ff" stroke-width="2" opacity="0.14"/>
+  <circle cx="256" cy="256" r="100" fill="#ffd23f"/>
+  <g transform="translate(178,178) scale(6.5)" stroke="#03060c" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M16.247 7.761a6 6 0 0 1 0 8.478"/>
+    <path d="M19.075 4.933a10 10 0 0 1 0 14.134"/>
+    <path d="M4.925 19.067a10 10 0 0 1 0-14.134"/>
+    <path d="M7.753 16.239a6 6 0 0 1 0-8.478"/>
+    <circle cx="12" cy="12" r="2"/>
+  </g>
+  <circle cx="256" cy="256" r="10" fill="#05080f"/>
+  <text x="40" y="470" font-family="Archivo Black, sans-serif" font-size="50" fill="#ffffff">Mon Daily</text>
+</svg>

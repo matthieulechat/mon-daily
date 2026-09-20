@@ -1,0 +1,1135 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon Daily — Logo Creator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Archivo+Black&family=JetBrains+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #05080f;
+        color: #e6edf7;
+        font-family: "Archivo", sans-serif;
+        padding: 2rem;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      h1 {
+        font-family: "Archivo Black", sans-serif;
+        font-size: 1.5rem;
+        margin-bottom: 0.3rem;
+      }
+      .subtitle {
+        font-size: 0.85rem;
+        color: #7686a0;
+        margin-bottom: 1.25rem;
+      }
+      .palette {
+        display: flex;
+        gap: 0.6rem;
+        margin-bottom: 2.5rem;
+        flex-wrap: wrap;
+      }
+      .swatch {
+        width: 30px;
+        height: 30px;
+        border-radius: 7px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .swatch-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 3px;
+      }
+      .swatch-label {
+        font-size: 0.62rem;
+        color: #7686a0;
+        text-align: center;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .group {
+        margin-bottom: 2.5rem;
+      }
+      .group-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: #7686a0;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 1rem;
+        border-left: 3px solid #2f93ff;
+        padding-left: 0.75rem;
+      }
+      .group-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 1rem;
+      }
+      .card {
+        background: #0e1826;
+        border-radius: 12px;
+        padding: 1.1rem;
+        border: 1px solid rgba(230, 237, 247, 0.08);
+      }
+      .card-label {
+        font-family: "JetBrains Mono", monospace;
+        font-size: 0.7rem;
+        color: #7686a0;
+        margin-bottom: 0.4rem;
+        letter-spacing: 0.08em;
+      }
+      .card-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 0.15rem;
+      }
+      .card-desc {
+        font-size: 0.72rem;
+        color: #7686a0;
+        margin-bottom: 0.8rem;
+        line-height: 1.35;
+        min-height: 2.4em;
+      }
+      .preview-main {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+      }
+      .footer-note {
+        margin-top: 2rem;
+        padding: 1rem 1.25rem;
+        background: #0e1826;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        color: #a9b7cc;
+        border-left: 3px solid #2f93ff;
+        line-height: 1.6;
+      }
+      @media (max-width: 1100px) {
+        .group-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 700px) {
+        .group-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Mon Daily — Logo Creator</h1>
+      <p class="subtitle">
+        15 propositions · A→E strict · F→J dégradé · K→O créatif & alternatives
+        · direction "Bulletin Groove"
+      </p>
+      <div class="palette">
+        <div class="swatch-wrap">
+          <div class="swatch" style="background: #2f93ff"></div>
+          <div class="swatch-label">primary</div>
+        </div>
+        <div class="swatch-wrap">
+          <div
+            class="swatch"
+            style="background: #03060c; border-color: rgba(255, 255, 255, 0.2)"
+          ></div>
+          <div class="swatch-label">primary-fg</div>
+        </div>
+        <div class="swatch-wrap">
+          <div class="swatch" style="background: #0e1826"></div>
+          <div class="swatch-label">secondary</div>
+        </div>
+        <div class="swatch-wrap">
+          <div
+            class="swatch"
+            style="background: #05080f; border-color: rgba(255, 255, 255, 0.2)"
+          ></div>
+          <div class="swatch-label">background</div>
+        </div>
+        <div class="swatch-wrap">
+          <div class="swatch" style="background: #ffd23f"></div>
+          <div class="swatch-label">accent</div>
+        </div>
+        <div class="swatch-wrap">
+          <div class="swatch" style="background: #a3e635"></div>
+          <div class="swatch-label">highlight</div>
+        </div>
+      </div>
+    </header>
+
+    <section class="group">
+      <h2 class="group-label">Strict — Fonds pleins</h2>
+      <div class="group-grid">
+        <div class="card">
+          <div class="card-label">A</div>
+          <div class="card-title">Primaire</div>
+          <div class="card-desc">La référence, le plus professionnel.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#2f93ff" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">B</div>
+          <div class="card-title">Nuit</div>
+          <div class="card-desc">Mode dark absolu, parfait sur macOS.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#05080f" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#ffd23f"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">C</div>
+          <div class="card-title">Jour</div>
+          <div class="card-desc">Mode clair, lisible sur fond blanc.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#e6edf7" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#2f93ff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">D</div>
+          <div class="card-title">Secondaire</div>
+          <div class="card-desc">Variante douce du primary, presque noire.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#0e1826" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">E</div>
+          <div class="card-title">Accent</div>
+          <div class="card-desc">L'accent "breaking" prend le devant.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#ffd23f" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#03060c"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-label">Dégradé</h2>
+      <div class="group-grid">
+        <div class="card">
+          <div class="card-label">F</div>
+          <div class="card-title">Diagonal</div>
+          <div class="card-desc">Dynamisme, direction.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <defs>
+                <linearGradient id="gradF" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2f93ff" />
+                  <stop offset="100%" stop-color="#ffd23f" />
+                </linearGradient>
+              </defs>
+              <rect width="512" height="512" rx="108" fill="url(#gradF)" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#03060c"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">G</div>
+          <div class="card-title">Radial Centre</div>
+          <div class="card-desc">Source lumineuse, profondeur.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <defs>
+                <radialGradient id="gradG" cx="35%" cy="35%">
+                  <stop offset="0%" stop-color="#6db3ff" />
+                  <stop offset="100%" stop-color="#1c5cb3" />
+                </radialGradient>
+              </defs>
+              <rect width="512" height="512" rx="108" fill="url(#gradG)" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#03060c"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">H</div>
+          <div class="card-title">Vertical</div>
+          <div class="card-desc">Élévation, sobriété.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <defs>
+                <linearGradient id="gradH" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#6db3ff" />
+                  <stop offset="100%" stop-color="#2f93ff" />
+                </linearGradient>
+              </defs>
+              <rect width="512" height="512" rx="108" fill="url(#gradH)" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#03060c"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">I</div>
+          <div class="card-title">Tricolore</div>
+          <div class="card-desc">Palette complète, richesse.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <defs>
+                <linearGradient id="gradI" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2f93ff" />
+                  <stop offset="50%" stop-color="#7686a0" />
+                  <stop offset="100%" stop-color="#ffd23f" />
+                </linearGradient>
+              </defs>
+              <rect width="512" height="512" rx="108" fill="url(#gradI)" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#03060c"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">J</div>
+          <div class="card-title">Aurora</div>
+          <div class="card-desc">Effet lumineux, mémorable.</div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <defs>
+                <linearGradient id="gradJ" x1="100%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#ffd23f" />
+                  <stop offset="100%" stop-color="#2f93ff" />
+                </linearGradient>
+                <radialGradient id="gradJglow" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35" />
+                  <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+                </radialGradient>
+              </defs>
+              <rect width="512" height="512" rx="108" fill="url(#gradJ)" />
+              <rect width="512" height="512" rx="108" fill="url(#gradJglow)" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#03060c"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-label">Créatif & Icônes alternatives</h2>
+      <div class="group-grid">
+        <div class="card">
+          <div class="card-label">K</div>
+          <div class="card-title">Thème App</div>
+          <div class="card-desc">
+            La signature "Bulletin Groove" — sillons de vinyle.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <defs>
+                <pattern
+                  id="grooves"
+                  width="512"
+                  height="512"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <circle
+                    cx="450"
+                    cy="60"
+                    r="30"
+                    fill="none"
+                    stroke="#2f93ff"
+                    stroke-width="1.5"
+                    opacity="0.18"
+                  />
+                  <circle
+                    cx="450"
+                    cy="60"
+                    r="60"
+                    fill="none"
+                    stroke="#2f93ff"
+                    stroke-width="1.5"
+                    opacity="0.14"
+                  />
+                  <circle
+                    cx="450"
+                    cy="60"
+                    r="90"
+                    fill="none"
+                    stroke="#2f93ff"
+                    stroke-width="1.5"
+                    opacity="0.1"
+                  />
+                  <circle
+                    cx="450"
+                    cy="60"
+                    r="120"
+                    fill="none"
+                    stroke="#2f93ff"
+                    stroke-width="1.5"
+                    opacity="0.07"
+                  />
+                  <circle
+                    cx="450"
+                    cy="60"
+                    r="150"
+                    fill="none"
+                    stroke="#2f93ff"
+                    stroke-width="1.5"
+                    opacity="0.05"
+                  />
+                </pattern>
+              </defs>
+              <rect width="512" height="512" rx="108" fill="#05080f" />
+              <rect width="512" height="512" rx="108" fill="url(#grooves)" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#ffd23f"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">L</div>
+          <div class="card-title">Duotone</div>
+          <div class="card-desc">
+            Chaque onde une couleur — l'icône prend vie.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#0e1826" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" stroke="#a3e635" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" stroke="#ffd23f" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" stroke="#ffd23f" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" stroke="#a3e635" />
+                <circle cx="12" cy="12" r="2" stroke="#2f93ff" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">M</div>
+          <div class="card-title">Alt. 1 — Waves</div>
+          <div class="card-desc">
+            Onde audio plutôt que radio : plus "waveform".
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#2f93ff" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#ffffff"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" />
+                <path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" />
+                <path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">N</div>
+          <div class="card-title">Alt. 2 — Sunrise</div>
+          <div class="card-desc">
+            Lever de soleil : le côté "briefing du matin".
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <defs>
+                <linearGradient id="gradN" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#2f93ff" />
+                  <stop offset="100%" stop-color="#ffd23f" />
+                </linearGradient>
+              </defs>
+              <rect width="512" height="512" rx="108" fill="url(#gradN)" />
+              <g
+                transform="translate(106,106) scale(12.5)"
+                stroke="#03060c"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M12 2v8" />
+                <path d="m4.93 10.93 1.41 1.41" />
+                <path d="M2 18h2" />
+                <path d="M20 18h2" />
+                <path d="m19.07 10.93-1.41 1.41" />
+                <path d="M22 22H2" />
+                <path d="m8 6 4-4 4 4" />
+                <path d="M16 18a4 4 0 0 0-8 0" />
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">O</div>
+          <div class="card-title">Maximum Créatif</div>
+          <div class="card-desc">
+            Le disque vinyle lui-même comme logo — le motif "en cours de
+            lecture" de l'app, en macro.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#05080f" />
+              <circle
+                cx="256"
+                cy="256"
+                r="230"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.35"
+              />
+              <circle
+                cx="256"
+                cy="256"
+                r="195"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.28"
+              />
+              <circle
+                cx="256"
+                cy="256"
+                r="160"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.2"
+              />
+              <circle
+                cx="256"
+                cy="256"
+                r="125"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.14"
+              />
+              <circle cx="256" cy="256" r="100" fill="#ffd23f" />
+              <g
+                transform="translate(178,178) scale(6.5)"
+                stroke="#03060c"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <circle cx="256" cy="256" r="10" fill="#05080f" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-label">Variantes impact — d'après O</h2>
+      <div class="group-grid">
+        <div class="card">
+          <div class="card-label">P</div>
+          <div class="card-title">Gros Plan</div>
+          <div class="card-desc">
+            Le label occupe presque tout le cadre, icône agrandie — lisible même
+            en petit favicon.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#05080f" />
+              <circle
+                cx="256"
+                cy="256"
+                r="248"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="6"
+                opacity="0.4"
+              />
+              <circle cx="256" cy="256" r="205" fill="#ffd23f" />
+              <g
+                transform="translate(136,136) scale(10)"
+                stroke="#03060c"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <circle cx="256" cy="256" r="14" fill="#05080f" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">Q</div>
+          <div class="card-title">Plein Cadre</div>
+          <div class="card-desc">
+            Le disque devient le fond entier — jaune plein, sillons discrets
+            près du bord, icône bleu vif.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#ffd23f" />
+              <circle
+                cx="256"
+                cy="256"
+                r="248"
+                fill="none"
+                stroke="#03060c"
+                stroke-width="4"
+                opacity="0.15"
+              />
+              <circle
+                cx="256"
+                cy="256"
+                r="220"
+                fill="none"
+                stroke="#03060c"
+                stroke-width="4"
+                opacity="0.15"
+              />
+              <g
+                transform="translate(146,146) scale(9)"
+                stroke="#2f93ff"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <circle cx="256" cy="256" r="12" fill="#03060c" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">R</div>
+          <div class="card-title">Anneau Épais</div>
+          <div class="card-desc">
+            Silhouette "sticker" — anneau accent épais autour du disque bleu,
+            très découpé, fort en petit format.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#0e1826" />
+              <circle
+                cx="256"
+                cy="256"
+                r="215"
+                fill="#2f93ff"
+                stroke="#ffd23f"
+                stroke-width="26"
+              />
+              <g
+                transform="translate(156,156) scale(8.3)"
+                stroke="#ffffff"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <circle cx="256" cy="256" r="12" fill="#a3e635" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-label">Avec texte — "Mon Daily"</h2>
+      <div class="group-grid">
+        <div class="card">
+          <div class="card-label">S</div>
+          <div class="card-title">Étiquette</div>
+          <div class="card-desc">
+            Icône + nom empilés dans le label, comme une vraie étiquette de
+            vinyle.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#05080f" />
+              <circle
+                cx="256"
+                cy="256"
+                r="230"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.25"
+              />
+              <circle
+                cx="256"
+                cy="256"
+                r="195"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.18"
+              />
+              <circle cx="256" cy="256" r="100" fill="#ffd23f" />
+              <g
+                transform="translate(208,167) scale(4)"
+                stroke="#03060c"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <text
+                x="256"
+                y="305"
+                font-family="Archivo Black"
+                font-size="26"
+                fill="#03060c"
+                text-anchor="middle"
+                letter-spacing="1"
+              >
+                MON DAILY
+              </text>
+              <circle cx="256" cy="256" r="8" fill="#05080f" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">T</div>
+          <div class="card-title">Cercle de Texte</div>
+          <div class="card-desc">
+            Le nom suit la courbe du disque, comme le texte imprimé autour d'un
+            vrai label vinyle.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#2f93ff" />
+              <defs>
+                <path
+                  id="arcT"
+                  d="M 106,266 A 150,150 0 0 1 406,266"
+                  fill="none"
+                />
+              </defs>
+              <circle cx="256" cy="256" r="90" fill="#ffd23f" />
+              <g
+                transform="translate(226,226) scale(3.2)"
+                stroke="#03060c"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <text
+                font-family="Archivo Black"
+                font-size="34"
+                fill="#ffffff"
+                letter-spacing="2"
+              >
+                <textPath href="#arcT" startOffset="50%" text-anchor="middle">
+                  MON DAILY
+                </textPath>
+              </text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">U</div>
+          <div class="card-title">Bandeau</div>
+          <div class="card-desc">
+            Le texte devient le sujet principal, façon bandeau collé sur le
+            disque — le plus lisible en tout petit.
+          </div>
+          <div class="preview-main">
+            <svg width="120" height="120" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#0e1826" />
+              <circle
+                cx="256"
+                cy="256"
+                r="215"
+                fill="#2f93ff"
+                stroke="#ffd23f"
+                stroke-width="20"
+              />
+              <g
+                transform="translate(221,146) scale(3)"
+                stroke="#ffd23f"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <rect
+                x="86"
+                y="270"
+                width="340"
+                height="66"
+                rx="12"
+                fill="#03060c"
+              />
+              <text
+                x="256"
+                y="313"
+                font-family="Archivo Black"
+                font-size="34"
+                fill="#ffffff"
+                text-anchor="middle"
+                letter-spacing="1"
+              >
+                MON DAILY
+              </text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="group">
+      <h2 class="group-label">
+        Direction finale — inspirée de l'original Daily Drive
+      </h2>
+      <div class="group-grid" style="grid-template-columns: repeat(2, 1fr)">
+        <div class="card">
+          <div class="card-label">V</div>
+          <div class="card-title">Mon Daily — Onde</div>
+          <div class="card-desc">
+            Même codes que l'ancien Daily Drive : fond uni sombre, forme lime
+            XXL qui déborde du cadre, nom en bas à gauche en casse normale —
+            mais avec notre propre icône d'onde plutôt qu'un ruban abstrait.
+          </div>
+          <div class="preview-main">
+            <svg width="200" height="200" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="24" fill="#0e1826" />
+              <circle
+                cx="256"
+                cy="230"
+                r="270"
+                fill="none"
+                stroke="#a3e635"
+                stroke-width="1"
+                opacity="0.06"
+              />
+              <g
+                transform="translate(40,14) scale(18.5)"
+                stroke="#a3e635"
+                stroke-width="1.15"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <text
+                x="40"
+                y="470"
+                font-family="Archivo Black"
+                font-size="54"
+                fill="#ffffff"
+              >
+                Mon Daily
+              </text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-label">W</div>
+          <div class="card-title">O + Mon Daily</div>
+          <div class="card-desc">
+            Exactement O (disque, sillons, label jaune, icône centrée) avec le
+            nom ajouté en bas à gauche, blanc, casse normale — comme sur
+            l'original.
+          </div>
+          <div class="preview-main">
+            <svg width="200" height="200" viewBox="0 0 512 512">
+              <rect width="512" height="512" rx="108" fill="#05080f" />
+              <circle
+                cx="256"
+                cy="256"
+                r="230"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.35"
+              />
+              <circle
+                cx="256"
+                cy="256"
+                r="195"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.28"
+              />
+              <circle
+                cx="256"
+                cy="256"
+                r="160"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.2"
+              />
+              <circle
+                cx="256"
+                cy="256"
+                r="125"
+                fill="none"
+                stroke="#2f93ff"
+                stroke-width="2"
+                opacity="0.14"
+              />
+              <circle cx="256" cy="256" r="100" fill="#ffd23f" />
+              <g
+                transform="translate(178,178) scale(6.5)"
+                stroke="#03060c"
+                stroke-width="1.7"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                fill="none"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </g>
+              <circle cx="256" cy="256" r="10" fill="#05080f" />
+              <text
+                x="40"
+                y="470"
+                font-family="Archivo Black"
+                font-size="50"
+                fill="#ffffff"
+              >
+                Mon Daily
+              </text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      Réponds avec la lettre du logo (ex : "K") ou une combinaison (ex : "fond
+      de O avec les couleurs de L"). Tu peux aussi décrire un ajustement.
+    </div>
+  </body>
+</html>

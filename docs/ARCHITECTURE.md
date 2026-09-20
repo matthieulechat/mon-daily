@@ -209,6 +209,11 @@ Chaque plateforme (`SpotifyProvider`, `DeezerProvider`, `AppleMusicProvider`) im
 - **`.env` jamais commité**.
 - Prévoir un cas d'échec propre si un utilisateur révoque l'accès.
 
+## Contrainte Spotify — plafond utilisateurs (Development Mode)
+- L'app Spotify reste en **Development Mode** tant qu'aucune démarche d'extension n'est faite → **5 comptes utilisateurs autorisés maximum** (toi inclus), à ajouter manuellement en allowlist dans le Developer Dashboard.
+- Seul le compte développeur (celui qui a créé l'app) doit être Premium ; les comptes utilisateurs ajoutés peuvent rester en Free.
+- La table `users` (Étape B, Supabase) doit donc rester dimensionnée pour un petit nombre d'utilisateurs (5 max côté Spotify) — pas de logique de scale à prévoir tant que ce plafond n'est pas levé.
+
 ## Points d'extension futurs
 - `discovery-engine.ts` : endroit où brancher une source de recommandation plus fine si besoin, sans toucher au reste du pipeline.
 - `rss-fetcher.ts` : conçu pour accepter une liste de flux configurable par utilisateur (Phase 5).

@@ -1,0 +1,2265 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mon Daily — Moodboard UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Archivo+Black&family=Fira+Code:wght@400;500&family=Fraunces:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Public+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Sora:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: #0b0b0e;
+        color: #e5e5e5;
+        font-family: "Inter", sans-serif;
+        padding: 2.5rem 1.5rem;
+      }
+      .page-header {
+        max-width: 980px;
+        margin: 0 auto 2.5rem;
+      }
+      .page-header h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+      }
+      .page-header p {
+        color: #9a9a9a;
+        font-size: 0.9rem;
+        max-width: 640px;
+        line-height: 1.5;
+      }
+
+      .direction {
+        max-width: 980px;
+        margin: 0 auto 3.5rem;
+        border-radius: 20px;
+        overflow: hidden;
+        background: var(--background);
+        color: var(--foreground);
+        border: 1px solid var(--border);
+        position: relative;
+      }
+      .direction-inner {
+        position: relative;
+        z-index: 1;
+        padding: 2rem 2rem 2.25rem;
+      }
+      .direction-eyebrow {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 0.4rem;
+      }
+      .direction-title {
+        font-family: var(--font-display);
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+      }
+      .direction-tagline {
+        font-family: var(--font-body);
+        font-size: 0.88rem;
+        color: var(--muted);
+        max-width: 560px;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+
+      .swatches {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-bottom: 1rem;
+      }
+      .swatch {
+        text-align: center;
+      }
+      .swatch-chip {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
+      .swatch-label {
+        font-family: var(--font-mono);
+        font-size: 0.6rem;
+        color: var(--muted);
+        margin-top: 4px;
+        white-space: nowrap;
+      }
+
+      .font-labels {
+        display: flex;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.75rem;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        color: var(--muted);
+      }
+      .font-labels b {
+        color: var(--foreground);
+        font-weight: 500;
+      }
+
+      .mock-app {
+        background: var(--secondary);
+        border-radius: 14px;
+        padding: 1.25rem 1.4rem 1.5rem;
+        border: 1px solid var(--border);
+      }
+      .mock-nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.25rem;
+      }
+      .mock-brand {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-display);
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--foreground);
+      }
+      .brand-icon {
+        color: var(--primary);
+        flex-shrink: 0;
+      }
+      .mock-tabs {
+        display: flex;
+        gap: 1.1rem;
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+      .mock-tabs span:first-child {
+        color: var(--foreground);
+        font-weight: 600;
+        border-bottom: 2px solid var(--primary);
+        padding-bottom: 4px;
+      }
+
+      .mock-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 1rem;
+      }
+      .mock-card {
+        background: var(--background);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 1rem 1.1rem;
+      }
+      .mock-card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+      }
+      .mock-card-title {
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 0.85rem;
+      }
+      .mock-badge {
+        font-family: var(--font-mono);
+        font-size: 0.62rem;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        font-weight: 600;
+      }
+      .mock-track,
+      .mock-podcast {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--font-body);
+        font-size: 0.78rem;
+        padding: 5px 0;
+        border-bottom: 1px solid var(--border);
+        color: var(--foreground);
+      }
+      .mock-track:last-child,
+      .mock-podcast:last-child {
+        border-bottom: none;
+      }
+      .mock-track span:last-child,
+      .mock-podcast span:last-child {
+        color: var(--muted);
+        font-size: 0.72rem;
+      }
+
+      .mock-card.wide {
+        grid-column: 1 / -1;
+        margin-top: 1rem;
+      }
+      .mock-ratio-label {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        color: var(--muted);
+        margin-bottom: 0.5rem;
+      }
+      .mock-ratio-bar {
+        display: flex;
+        height: 10px;
+        border-radius: 6px;
+        overflow: hidden;
+        margin-bottom: 0.6rem;
+      }
+      .mock-ratio-music {
+        background: var(--primary);
+      }
+      .mock-ratio-info {
+        background: var(--accent);
+      }
+      .mock-ratio-caption {
+        font-family: var(--font-body);
+        font-size: 0.76rem;
+        color: var(--muted);
+      }
+      .mock-ratio-caption b {
+        color: var(--foreground);
+      }
+
+      /* Signatures visuelles (seulement où elles servent vraiment) */
+      .pattern-arcs::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-image: repeating-radial-gradient(
+          circle at 12% 8%,
+          transparent 0,
+          transparent 22px,
+          rgba(45, 212, 255, 0.05) 23px,
+          transparent 24px
+        );
+      }
+      .pattern-dots::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-image: radial-gradient(
+          rgba(163, 230, 53, 0.16) 1px,
+          transparent 1.4px
+        );
+        background-size: 16px 16px;
+      }
+      .pattern-dial::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-image: repeating-conic-gradient(
+          from 200deg at 100% 0%,
+          rgba(255, 210, 63, 0.07) 0deg 1deg,
+          transparent 1deg 6deg
+        );
+      }
+      .pattern-grooves::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        transform-origin: 88% 8%;
+        animation: vinylspin 40s linear infinite;
+        background-image:
+          repeating-radial-gradient(
+            circle at 88% 8%,
+            transparent 0 9px,
+            rgba(47, 147, 255, 0.06) 9px 10px
+          ),
+          conic-gradient(
+            from 0deg at 88% 8%,
+            transparent 0deg,
+            rgba(255, 255, 255, 0.06) 12deg,
+            transparent 26deg,
+            transparent 360deg
+          );
+      }
+      @keyframes vinylspin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Éléments radio / musique, réutilisables dans les variantes Bulletin */
+      .mock-freq {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--accent);
+        letter-spacing: 0.04em;
+      }
+      .eq-bars {
+        display: inline-flex;
+        align-items: flex-end;
+        gap: 2px;
+        height: 14px;
+        margin-right: 6px;
+        vertical-align: middle;
+      }
+      .eq-bars span {
+        width: 3px;
+        border-radius: 1px;
+        background: var(--primary);
+        animation: eqbounce 1.1s ease-in-out infinite;
+      }
+      .eq-bars span:nth-child(1) {
+        height: 6px;
+      }
+      .eq-bars span:nth-child(2) {
+        height: 14px;
+        background: var(--accent);
+        animation-delay: 0.2s;
+      }
+      .eq-bars span:nth-child(3) {
+        height: 9px;
+        animation-delay: 0.4s;
+      }
+      @keyframes eqbounce {
+        0%,
+        100% {
+          transform: scaleY(0.4);
+        }
+        50% {
+          transform: scaleY(1);
+        }
+      }
+      .live-dot {
+        position: relative;
+        display: inline-block;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--highlight);
+      }
+      .live-dot::after {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        border: 1px solid var(--highlight);
+        animation: livepulse 1.6s ease-out infinite;
+      }
+      @keyframes livepulse {
+        0% {
+          transform: scale(0.5);
+          opacity: 0.9;
+        }
+        100% {
+          transform: scale(2.1);
+          opacity: 0;
+        }
+      }
+      .mock-waveform {
+        display: flex;
+        align-items: flex-end;
+        gap: 3px;
+        height: 28px;
+        margin-bottom: 1.1rem;
+        padding: 0 2px;
+      }
+      .mock-waveform span {
+        flex: 1;
+        border-radius: 2px;
+        background: var(--primary);
+        opacity: 0.55;
+        transform-origin: bottom;
+        animation: wavepulse 1.1s ease-in-out infinite alternate;
+      }
+      .mock-waveform span.hi {
+        background: var(--accent);
+        opacity: 0.9;
+      }
+      @keyframes wavepulse {
+        0% {
+          transform: scaleY(0.55);
+        }
+        100% {
+          transform: scaleY(1.15);
+        }
+      }
+      .mock-waveform span:nth-child(2n) {
+        animation-delay: 0.25s;
+      }
+      .mock-waveform span:nth-child(3n) {
+        animation-delay: 0.5s;
+      }
+      .mock-waveform span:nth-child(5n) {
+        animation-delay: 0.75s;
+      }
+      .mock-vinyl {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        background: repeating-radial-gradient(
+          circle,
+          var(--secondary) 0px,
+          var(--secondary) 2px,
+          var(--border) 3px,
+          var(--secondary) 4px
+        );
+        border: 1px solid var(--border);
+        position: relative;
+      }
+      .mock-vinyl::after {
+        content: "";
+        position: absolute;
+        inset: 40%;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+      .mock-track.now-playing {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .mock-track.now-playing .track-info {
+        display: flex;
+        justify-content: space-between;
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-header">
+      <h1>Mon Daily — 6 directions de design</h1>
+      <p>
+        Chaque direction habille le même écran réel : nav "Aujourd'hui /
+        Réglages / Historique", la sélection musicale du jour, l'actu du jour,
+        et le futur réglage de ratio musique/actu + durée du mix. Réponds avec
+        le nom d'une direction, ou décris un ajustement.
+      </p>
+    </div>
+
+    <!-- 1. FRÉQUENCE -->
+    <section
+      class="direction pattern-arcs"
+      style="
+        --font-display: &quot;Space Grotesk&quot;, sans-serif;
+        --font-body: &quot;Inter&quot;, sans-serif;
+        --font-mono: &quot;JetBrains Mono&quot;, monospace;
+        --primary: #1ed760;
+        --primary-foreground: #04120a;
+        --secondary: #12211a;
+        --background: #0a0e0c;
+        --foreground: #eef2ef;
+        --accent: #2dd4ff;
+        --muted: #7c8b83;
+        --border: rgba(238, 242, 239, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Direction 01</div>
+        <h2 class="direction-title">Fréquence</h2>
+        <p class="direction-tagline">
+          La DA Spotify assumée jusqu'au bout : noir profond, vert néon en
+          signal fort, bleu électrique en accent rare. Ondes radio en filigrane
+          — l'app comme une fréquence qu'on capte chaque matin.
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #1ed760"></div>
+            <div class="swatch-label">--primary — #1ed760</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #04120a;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #04120a</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #12211a"></div>
+            <div class="swatch-label">--secondary — #12211a</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #0a0e0c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--background — #0a0e0c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #eef2ef"></div>
+            <div class="swatch-label">--foreground — #eef2ef</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2dd4ff"></div>
+            <div class="swatch-label">--accent — #2dd4ff</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #7c8b83"></div>
+            <div class="swatch-label">--muted — #7c8b83</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Space Grotesk</b></span>
+          <span>--font-body — <b>Inter</b></span>
+          <span>--font-mono — <b>JetBrains Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span class="mock-badge">3 épisodes</span>
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. VINYLE NOCTURNE -->
+    <section
+      class="direction"
+      style="
+        --font-display: &quot;Fraunces&quot;, serif;
+        --font-body: &quot;Inter&quot;, sans-serif;
+        --font-mono: &quot;IBM Plex Mono&quot;, monospace;
+        --primary: #f4c430;
+        --primary-foreground: #1a1200;
+        --secondary: #241c10;
+        --background: #0d0b08;
+        --foreground: #f5ede0;
+        --accent: #ff7a45;
+        --muted: #8a8172;
+        --border: rgba(245, 237, 224, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Direction 02</div>
+        <h2 class="direction-title">Vinyle Nocturne</h2>
+        <p class="direction-tagline">
+          Chaleur d'un jaune ambre au lieu du vert attendu — la platine qui
+          tourne tard le soir plutôt que l'appli qui scanne tes goûts. Serif
+          display pour un grain plus "disquaire" que "tech".
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #f4c430"></div>
+            <div class="swatch-label">--primary — #f4c430</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #1a1200;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #1a1200</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #241c10"></div>
+            <div class="swatch-label">--secondary — #241c10</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #0d0b08;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--background — #0d0b08</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #f5ede0"></div>
+            <div class="swatch-label">--foreground — #f5ede0</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #ff7a45"></div>
+            <div class="swatch-label">--accent — #ff7a45</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #8a8172"></div>
+            <div class="swatch-label">--muted — #8a8172</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Fraunces</b></span>
+          <span>--font-body — <b>Inter</b></span>
+          <span>--font-mono — <b>IBM Plex Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span class="mock-badge">3 épisodes</span>
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. FLASH INFO -->
+    <section
+      class="direction"
+      style="
+        --font-display: &quot;Archivo Black&quot;, sans-serif;
+        --font-body: &quot;Archivo&quot;, sans-serif;
+        --font-mono: &quot;Space Mono&quot;, monospace;
+        --primary: #2b7fff;
+        --primary-foreground: #04070f;
+        --secondary: #0f1b30;
+        --background: #060a14;
+        --foreground: #eef1fb;
+        --accent: #ffd23f;
+        --muted: #6f7a94;
+        --border: rgba(238, 241, 251, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Direction 03</div>
+        <h2 class="direction-title">Flash Info</h2>
+        <p class="direction-tagline">
+          Bleu nuit + typographie d'agence de presse (display en caps épais) —
+          l'actu prend le pas visuellement sur la musique, badges "breaking" en
+          jaune vif pour les épisodes du jour.
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2b7fff"></div>
+            <div class="swatch-label">--primary — #2b7fff</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #04070f;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #04070f</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #0f1b30"></div>
+            <div class="swatch-label">--secondary — #0f1b30</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #060a14;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--background — #060a14</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #eef1fb"></div>
+            <div class="swatch-label">--foreground — #eef1fb</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #ffd23f"></div>
+            <div class="swatch-label">--accent — #ffd23f</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #6f7a94"></div>
+            <div class="swatch-label">--muted — #6f7a94</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Archivo Black</b></span>
+          <span>--font-body — <b>Archivo</b></span>
+          <span>--font-mono — <b>Space Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span
+                  class="mock-badge"
+                  style="
+                    background: var(--accent);
+                    color: var(--primary-foreground);
+                  "
+                  >3 épisodes</span
+                >
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. ONDE VERTE -->
+    <section
+      class="direction"
+      style="
+        --font-display: &quot;Sora&quot;, sans-serif;
+        --font-body: &quot;Sora&quot;, sans-serif;
+        --font-mono: &quot;Fira Code&quot;, monospace;
+        --primary: #00e676;
+        --primary-foreground: #012109;
+        --secondary: #0b241a;
+        --background: #04120c;
+        --foreground: #e6fbe9;
+        --accent: #22d3ee;
+        --muted: #6fae8c;
+        --border: rgba(230, 251, 233, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Direction 04</div>
+        <h2 class="direction-title">Onde Verte</h2>
+        <p class="direction-tagline">
+          La plus proche de la référence donnée : vert néon signature, cyan en
+          second accent, fond quasi noir teinté de vert. Sora en display/body
+          pour un rendu app native, propre et actuel.
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #00e676"></div>
+            <div class="swatch-label">--primary — #00e676</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #012109;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #012109</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #0b241a"></div>
+            <div class="swatch-label">--secondary — #0b241a</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #04120c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--background — #04120c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #e6fbe9"></div>
+            <div class="swatch-label">--foreground — #e6fbe9</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #22d3ee"></div>
+            <div class="swatch-label">--accent — #22d3ee</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #6fae8c"></div>
+            <div class="swatch-label">--muted — #6fae8c</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Sora</b></span>
+          <span>--font-body — <b>Sora</b></span>
+          <span>--font-mono — <b>Fira Code</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span class="mock-badge">3 épisodes</span>
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. AURORE -->
+    <section
+      class="direction"
+      style="
+        --font-display: &quot;Fraunces&quot;, serif;
+        --font-body: &quot;Public Sans&quot;, sans-serif;
+        --font-mono: &quot;IBM Plex Mono&quot;, monospace;
+        --primary: #d9762a;
+        --primary-foreground: #2a1e14;
+        --secondary: #f1e0c8;
+        --background: #fbf3e7;
+        --foreground: #2a1e14;
+        --accent: #3f6b52;
+        --muted: #8a7860;
+        --border: rgba(42, 30, 20, 0.1);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Direction 05</div>
+        <h2 class="direction-title">Aurore</h2>
+        <p class="direction-tagline">
+          Contrepoint clair volontaire au reste du set : lever de soleil plutôt
+          que néon nocturne — sert l'idée du "briefing du matin" si l'ambiance
+          sombre finit par trop rappeler Spotify plutôt que "Mon Daily".
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #d9762a"></div>
+            <div class="swatch-label">--primary — #d9762a</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2a1e14"></div>
+            <div class="swatch-label">--primary-fg — #2a1e14</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #f1e0c8"></div>
+            <div class="swatch-label">--secondary — #f1e0c8</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #fbf3e7"></div>
+            <div class="swatch-label">--background — #fbf3e7</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2a1e14"></div>
+            <div class="swatch-label">--foreground — #2a1e14</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #3f6b52"></div>
+            <div class="swatch-label">--accent — #3f6b52</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #8a7860"></div>
+            <div class="swatch-label">--muted — #8a7860</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Fraunces</b></span>
+          <span>--font-body — <b>Public Sans</b></span>
+          <span>--font-mono — <b>IBM Plex Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span class="mock-badge">3 épisodes</span>
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SIGNAL -->
+    <section
+      class="direction pattern-dots"
+      style="
+        --font-display: &quot;JetBrains Mono&quot;, monospace;
+        --font-body: &quot;IBM Plex Sans&quot;, sans-serif;
+        --font-mono: &quot;JetBrains Mono&quot;, monospace;
+        --primary: #38bdf8;
+        --primary-foreground: #02131c;
+        --secondary: #0d151c;
+        --background: #05070a;
+        --foreground: #dbe7ee;
+        --accent: #a3e635;
+        --muted: #64748b;
+        --border: rgba(219, 231, 238, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Direction 06</div>
+        <h2 class="direction-title">Signal</h2>
+        <p class="direction-tagline">
+          Lecture "outil de données" plutôt que "playlist" : bleu cyan
+          technique, lime en accent d'état actif, display en monospace, grille
+          de points en fond — l'app comme un tableau de bord de ta consommation
+          quotidienne.
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #38bdf8"></div>
+            <div class="swatch-label">--primary — #38bdf8</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #02131c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #02131c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #0d151c"></div>
+            <div class="swatch-label">--secondary — #0d151c</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #05070a;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--background — #05070a</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #dbe7ee"></div>
+            <div class="swatch-label">--foreground — #dbe7ee</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #a3e635"></div>
+            <div class="swatch-label">--accent — #a3e635</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #64748b"></div>
+            <div class="swatch-label">--muted — #64748b</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>JetBrains Mono</b></span>
+          <span>--font-body — <b>IBM Plex Sans</b></span>
+          <span>--font-mono — <b>JetBrains Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span
+                  class="mock-badge"
+                  style="
+                    background: var(--accent);
+                    color: var(--primary-foreground);
+                  "
+                  >3 épisodes</span
+                >
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 7. SYNTHÈSE — TRANSMISSION -->
+    <section
+      class="direction pattern-dots"
+      style="
+        --font-display: &quot;Sora&quot;, sans-serif;
+        --font-body: &quot;Sora&quot;, sans-serif;
+        --font-mono: &quot;JetBrains Mono&quot;, monospace;
+        --primary: #00e676;
+        --primary-foreground: #012109;
+        --secondary: #0b241a;
+        --background: #04120c;
+        --foreground: #e6fbe9;
+        --accent: #22d3ee;
+        --highlight: #a3e635;
+        --muted: #6fae8c;
+        --border: rgba(230, 251, 233, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Synthèse — d'après 01 · 04 · 06</div>
+        <h2 class="direction-title">Transmission</h2>
+        <p class="direction-tagline">
+          Fond quasi noir teinté de vert (Onde Verte) et vert néon en signature
+          (Fréquence + Onde Verte), cyan en second accent commun aux trois,
+          grille de points en filigrane (Signal) pour le côté "flux qui tourne
+          en continu". Sora en display/body pour rester côté app plutôt que
+          terminal ; le lime de Signal ne survit qu'en touche rare (badge "en
+          direct").
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #00e676"></div>
+            <div class="swatch-label">--primary — #00e676</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #012109;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #012109</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #0b241a"></div>
+            <div class="swatch-label">--secondary — #0b241a</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #04120c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--background — #04120c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #e6fbe9"></div>
+            <div class="swatch-label">--foreground — #e6fbe9</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #22d3ee"></div>
+            <div class="swatch-label">--accent — #22d3ee</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #a3e635"></div>
+            <div class="swatch-label">--highlight — #a3e635</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #6fae8c"></div>
+            <div class="swatch-label">--muted — #6fae8c</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Sora</b></span>
+          <span>--font-body — <b>Sora</b></span>
+          <span>--font-mono — <b>JetBrains Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span
+                  class="mock-badge"
+                  style="
+                    background: var(--highlight);
+                    color: var(--primary-foreground);
+                  "
+                  >● en direct</span
+                >
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 8. SYNTHÈSE — BULLETIN -->
+    <section
+      class="direction pattern-dots"
+      style="
+        --font-display: &quot;Archivo Black&quot;, sans-serif;
+        --font-body: &quot;Archivo&quot;, sans-serif;
+        --font-mono: &quot;JetBrains Mono&quot;, monospace;
+        --primary: #2f93ff;
+        --primary-foreground: #03060c;
+        --secondary: #0e1826;
+        --background: #05080f;
+        --foreground: #e6edf7;
+        --accent: #ffd23f;
+        --highlight: #a3e635;
+        --muted: #7686a0;
+        --border: rgba(230, 237, 247, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Synthèse — d'après 03 · 06</div>
+        <h2 class="direction-title">Bulletin</h2>
+        <p class="direction-tagline">
+          Bleu électrique de Flash Info et Signal réunis sur un fond quasi noir,
+          display en caps épais (agence de presse) hérité de Flash Info, mono
+          JetBrains hérité de Signal pour les données. Le jaune "breaking" reste
+          l'accent principal des badges, le lime de Signal ne sert plus qu'au
+          point "en direct".
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2f93ff"></div>
+            <div class="swatch-label">--primary — #2f93ff</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #03060c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #03060c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #0e1826"></div>
+            <div class="swatch-label">--secondary — #0e1826</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #05080f;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--background — #05080f</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #e6edf7"></div>
+            <div class="swatch-label">--foreground — #e6edf7</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #ffd23f"></div>
+            <div class="swatch-label">--accent — #ffd23f</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #a3e635"></div>
+            <div class="swatch-label">--highlight — #a3e635</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #7686a0"></div>
+            <div class="swatch-label">--muted — #7686a0</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Archivo Black</b></span>
+          <span>--font-body — <b>Archivo</b></span>
+          <span>--font-mono — <b>JetBrains Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span
+                  class="mock-badge"
+                  style="
+                    background: var(--accent);
+                    color: var(--primary-foreground);
+                  "
+                  >Breaking</span
+                >
+              </div>
+              <div class="mock-podcast">
+                <span
+                  ><span style="color: var(--highlight)">●</span> France
+                  Info</span
+                ><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 9. BULLETIN FM (dial radio) -->
+    <section
+      class="direction pattern-dial"
+      style="
+        --font-display: &quot;Archivo Black&quot;, sans-serif;
+        --font-body: &quot;Archivo&quot;, sans-serif;
+        --font-mono: &quot;JetBrains Mono&quot;, monospace;
+        --primary: #2f93ff;
+        --primary-foreground: #03060c;
+        --secondary: #0e1826;
+        --background: #05080f;
+        --foreground: #e6edf7;
+        --accent: #ffd23f;
+        --highlight: #a3e635;
+        --muted: #7686a0;
+        --border: rgba(230, 237, 247, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Bulletin — variante 01</div>
+        <h2 class="direction-title">Bulletin FM</h2>
+        <p class="direction-tagline">
+          Cadran de tuner radio en filigrane (traits qui rayonnent depuis le
+          coin), fréquence affichée façon autoradio à côté du nom de l'app, et
+          un mini équaliseur animé devant chaque titre pour rappeler que ça
+          tourne en direct.
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2f93ff"></div>
+            <div class="swatch-label">--primary — #2f93ff</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #03060c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #03060c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #ffd23f"></div>
+            <div class="swatch-label">--accent — #ffd23f</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #a3e635"></div>
+            <div class="swatch-label">--highlight — #a3e635</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Archivo Black</b></span>
+          <span>--font-body — <b>Archivo</b></span>
+          <span>--font-mono — <b>JetBrains Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <span class="mock-freq">98.6 FM</span>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span
+                  ><span class="eq-bars"
+                    ><span></span><span></span><span></span></span
+                  >Petit Matin</span
+                ><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span
+                  class="mock-badge"
+                  style="
+                    background: var(--accent);
+                    color: var(--primary-foreground);
+                  "
+                  >Breaking</span
+                >
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. BULLETIN VINYLE -->
+    <section
+      class="direction pattern-grooves"
+      style="
+        --font-display: &quot;Archivo Black&quot;, sans-serif;
+        --font-body: &quot;Archivo&quot;, sans-serif;
+        --font-mono: &quot;JetBrains Mono&quot;, monospace;
+        --primary: #2f93ff;
+        --primary-foreground: #03060c;
+        --secondary: #0e1826;
+        --background: #05080f;
+        --foreground: #e6edf7;
+        --accent: #ffd23f;
+        --highlight: #a3e635;
+        --muted: #7686a0;
+        --border: rgba(230, 237, 247, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Bulletin — variante 02</div>
+        <h2 class="direction-title">Bulletin Vinyle</h2>
+        <p class="direction-tagline">
+          Sillons de vinyle en fond (cercles concentriques depuis le coin), un
+          vrai petit disque à côté du titre "en cours de lecture" — la
+          composante musicale reprend le dessus sur le côté presse du Bulletin
+          d'origine.
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2f93ff"></div>
+            <div class="swatch-label">--primary — #2f93ff</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #03060c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #03060c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #ffd23f"></div>
+            <div class="swatch-label">--accent — #ffd23f</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #a3e635"></div>
+            <div class="swatch-label">--highlight — #a3e635</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Archivo Black</b></span>
+          <span>--font-body — <b>Archivo</b></span>
+          <span>--font-mono — <b>JetBrains Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track now-playing">
+                <div class="mock-vinyl"></div>
+                <div class="track-info">
+                  <span>Petit Matin</span><span>Isaure Lenoir</span>
+                </div>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span
+                  class="mock-badge"
+                  style="
+                    background: var(--accent);
+                    color: var(--primary-foreground);
+                  "
+                  >Breaking</span
+                >
+              </div>
+              <div class="mock-podcast">
+                <span>France Info</span><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. BULLETIN ONDES -->
+    <section
+      class="direction pattern-dots"
+      style="
+        --font-display: &quot;Archivo Black&quot;, sans-serif;
+        --font-body: &quot;Archivo&quot;, sans-serif;
+        --font-mono: &quot;JetBrains Mono&quot;, monospace;
+        --primary: #2f93ff;
+        --primary-foreground: #03060c;
+        --secondary: #0e1826;
+        --background: #05080f;
+        --foreground: #e6edf7;
+        --accent: #ffd23f;
+        --highlight: #a3e635;
+        --muted: #7686a0;
+        --border: rgba(230, 237, 247, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Bulletin — variante 03</div>
+        <h2 class="direction-title">Bulletin Ondes</h2>
+        <p class="direction-tagline">
+          Une vraie barre de waveform sous la nav, comme un visualiseur audio
+          "now playing" — et un point "en direct" qui pulse réellement (CSS)
+          devant France Info plutôt qu'un simple badge statique.
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2f93ff"></div>
+            <div class="swatch-label">--primary — #2f93ff</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #03060c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #03060c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #ffd23f"></div>
+            <div class="swatch-label">--accent — #ffd23f</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #a3e635"></div>
+            <div class="swatch-label">--highlight — #a3e635</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Archivo Black</b></span>
+          <span>--font-body — <b>Archivo</b></span>
+          <span>--font-mono — <b>JetBrains Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-waveform">
+            <span style="height: 30%"></span
+            ><span class="hi" style="height: 70%"></span
+            ><span style="height: 45%"></span><span style="height: 90%"></span
+            ><span class="hi" style="height: 55%"></span
+            ><span style="height: 35%"></span><span style="height: 80%"></span
+            ><span class="hi" style="height: 25%"></span
+            ><span style="height: 60%"></span><span style="height: 40%"></span
+            ><span class="hi" style="height: 95%"></span
+            ><span style="height: 50%"></span>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track">
+                <span>Petit Matin</span><span>Isaure Lenoir</span>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span
+                  class="mock-badge"
+                  style="
+                    background: var(--accent);
+                    color: var(--primary-foreground);
+                  "
+                  >Breaking</span
+                >
+              </div>
+              <div class="mock-podcast">
+                <span><span class="live-dot"></span>&nbsp;France Info</span
+                ><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- 12. BULLETIN GROOVE (vinyle + ondes) -->
+    <section
+      class="direction pattern-grooves"
+      style="
+        --font-display: &quot;Archivo Black&quot;, sans-serif;
+        --font-body: &quot;Archivo&quot;, sans-serif;
+        --font-mono: &quot;JetBrains Mono&quot;, monospace;
+        --primary: #2f93ff;
+        --primary-foreground: #03060c;
+        --secondary: #0e1826;
+        --background: #05080f;
+        --foreground: #e6edf7;
+        --accent: #ffd23f;
+        --highlight: #a3e635;
+        --muted: #7686a0;
+        --border: rgba(230, 237, 247, 0.08);
+      "
+    >
+      <div class="direction-inner">
+        <div class="direction-eyebrow">Bulletin — mélange Vinyle × Ondes</div>
+        <h2 class="direction-title">Bulletin Groove</h2>
+        <p class="direction-tagline">
+          Sillons de vinyle en fond, disque à côté du titre en cours, waveform
+          sous la nav et point "en direct" qui pulse — les deux signatures
+          musicales réunies sur la même carte, la partie presse ne reste plus
+          que dans le badge "Breaking" et la typo Archivo Black.
+        </p>
+
+        <div class="swatches">
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #2f93ff"></div>
+            <div class="swatch-label">--primary — #2f93ff</div>
+          </div>
+          <div class="swatch">
+            <div
+              class="swatch-chip"
+              style="
+                background: #03060c;
+                border-color: rgba(255, 255, 255, 0.2);
+              "
+            ></div>
+            <div class="swatch-label">--primary-fg — #03060c</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #ffd23f"></div>
+            <div class="swatch-label">--accent — #ffd23f</div>
+          </div>
+          <div class="swatch">
+            <div class="swatch-chip" style="background: #a3e635"></div>
+            <div class="swatch-label">--highlight — #a3e635</div>
+          </div>
+        </div>
+        <div class="font-labels">
+          <span>--font-display — <b>Archivo Black</b></span>
+          <span>--font-body — <b>Archivo</b></span>
+          <span>--font-mono — <b>JetBrains Mono</b></span>
+        </div>
+
+        <div class="mock-app">
+          <div class="mock-nav">
+            <div class="mock-brand">
+              <svg
+                class="brand-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                width="20"
+                height="20"
+              >
+                <path d="M16.247 7.761a6 6 0 0 1 0 8.478" />
+                <path d="M19.075 4.933a10 10 0 0 1 0 14.134" />
+                <path d="M4.925 19.067a10 10 0 0 1 0-14.134" />
+                <path d="M7.753 16.239a6 6 0 0 1 0-8.478" />
+                <circle cx="12" cy="12" r="2" />
+              </svg>
+              Mon Daily
+            </div>
+            <div class="mock-tabs">
+              <span>Aujourd'hui</span><span>Réglages</span
+              ><span>Historique</span>
+            </div>
+          </div>
+          <div class="mock-waveform">
+            <span style="height: 30%"></span
+            ><span class="hi" style="height: 70%"></span
+            ><span style="height: 45%"></span><span style="height: 90%"></span
+            ><span class="hi" style="height: 55%"></span
+            ><span style="height: 35%"></span><span style="height: 80%"></span
+            ><span class="hi" style="height: 25%"></span
+            ><span style="height: 60%"></span><span style="height: 40%"></span
+            ><span class="hi" style="height: 95%"></span
+            ><span style="height: 50%"></span>
+          </div>
+          <div class="mock-grid">
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Sélection du jour</span
+                ><span class="mock-badge">32 titres</span>
+              </div>
+              <div class="mock-track now-playing">
+                <div class="mock-vinyl"></div>
+                <div class="track-info">
+                  <span>Petit Matin</span><span>Isaure Lenoir</span>
+                </div>
+              </div>
+              <div class="mock-track">
+                <span>Sablier</span><span>Kolibri</span>
+              </div>
+              <div class="mock-track">
+                <span>Horizon Sud</span><span>Nocturne Club</span>
+              </div>
+              <div class="mock-track">
+                <span>Lumière d'Août</span><span>Odessa Wren</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-head">
+                <span class="mock-card-title">Actu du jour</span
+                ><span
+                  class="mock-badge"
+                  style="
+                    background: var(--accent);
+                    color: var(--primary-foreground);
+                  "
+                  >Breaking</span
+                >
+              </div>
+              <div class="mock-podcast">
+                <span><span class="live-dot"></span>&nbsp;France Info</span
+                ><span>8h12 · 3 min</span>
+              </div>
+              <div class="mock-podcast">
+                <span>Le Monde</span><span>12 min</span>
+              </div>
+            </div>
+            <div class="mock-card wide">
+              <div class="mock-ratio-label">
+                <span>MUSIQUE 80%</span><span>ACTU 20%</span>
+              </div>
+              <div class="mock-ratio-bar">
+                <div class="mock-ratio-music" style="width: 80%"></div>
+                <div class="mock-ratio-info" style="width: 20%"></div>
+              </div>
+              <div class="mock-ratio-caption">
+                Format <b>moyen</b> — <b>45 min</b> au total
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
