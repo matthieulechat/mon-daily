@@ -6,3 +6,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and
 project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+
+### Added
+
+- Icône de l'application (identité visuelle "Bulletin Groove" : disque vinyle, label jaune, icône radio centrée)
