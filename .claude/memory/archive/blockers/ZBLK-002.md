@@ -1,11 +1,11 @@
 ---
-id: BLK-002
+id: ZBLK-002
 type: blocker
 date: 2026-09-07
 tags: [pnpm, install, esbuild, tooling, node]
 ---
 
-# BLK-002 — `pnpm install` échoue silencieusement (postinstall)
+# ZBLK-002 — `pnpm install` échoue silencieusement (postinstall)
 
 | Friction                                                                                                      | Cause réelle                                                                                                                                                                                                         | Solution                                                                                  | Statut |
 | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ------ |
@@ -13,4 +13,4 @@ tags: [pnpm, install, esbuild, tooling, node]
 
 ## Références
 
-- [LRN-002](../learnings/LRN-002.md) — pattern générique extrait de ce blocage
+- [LRN-002](../../learnings/LRN-002.md) — pattern générique extrait de ce blocage
