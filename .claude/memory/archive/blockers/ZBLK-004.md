@@ -1,11 +1,11 @@
 ---
-id: BLK-004
+id: ZBLK-004
 type: blocker
 date: 2026-09-20
 tags: [supabase, mcp, project-limit, naming]
 ---
 
-# BLK-004 — Création du projet Supabase Paris échouée 2 fois avant de réussir
+# ZBLK-004 — Création du projet Supabase Paris échouée 2 fois avant de réussir
 
 | Friction                                                                                                                                 | Cause réelle                                                                                                                                                                                                                                                                                           | Solution                                                                                                                   | Statut |
 | ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -13,4 +13,4 @@ tags: [supabase, mcp, project-limit, naming]
 
 ## Références
 
-- [BDR-006](../decisions/BDR-006.md) — décision ayant motivé cette recréation
+- [BDR-006](../../decisions/BDR-006.md) — décision ayant motivé cette recréation
