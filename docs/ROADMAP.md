@@ -2,23 +2,24 @@
 
 ## Phase 0 — Setup (avant dev)
 
-- [ ] Créer une app sur le Spotify Developer Dashboard (obtenir `client_id` / `client_secret`)
-- [ ] Choisir les scopes OAuth nécessaires (`user-top-read`, `playlist-modify-private`, `user-read-recently-played`)
-- [ ] Initialiser le repo Node/TypeScript (pnpm, structure de dossiers)
-- [ ] Choisir la DB (recommandation : **SQLite** pour démarrer léger, migration Postgres possible plus tard)
+- [x] Créer une app sur le Spotify Developer Dashboard (obtenir `client_id` / `client_secret`) — nécessitait le Premium du compte développeur (cf. [BDR-003](../.claude/memory/decisions/BDR-003.md)), débloqué le 2026-09-20
+- [x] Choisir les scopes OAuth nécessaires (`user-top-read`, `playlist-modify-private`, `user-read-recently-played`) — implémentés dans `oauth.service.ts`
+- [x] Initialiser le repo Node/TypeScript (pnpm, structure de dossiers)
+- [x] Choisir la DB — **Supabase Postgres dès la Phase 1** (SQLite/JSON local écartés, cf. [BDR-002](../.claude/memory/decisions/BDR-002.md)). Projet `mon-daily-paris` en région `eu-west-3` (Paris) — l'ancien projet `mon-daily` (Ireland, `eu-west-1`) est mis en pause, vide, à supprimer manuellement si besoin (pas d'outil pour le faire depuis Claude Code)
+- [x] Serveur MCP Supabase ajouté au projet (`.mcp.json`, scope projet, `project_ref` figé sur `mon-daily-paris`) pour faciliter les manipulations DB depuis Claude Code
 
 ## Phase 1 — MVP Spotify, script local (musique uniquement, sans podcasts)
 
-**Objectif : un script lancé à la main qui remplit une playlist Spotify avec de la musique personnalisée. Pas de Supabase à ce stade — stockage dans un simple fichier JSON local.**
+**Objectif : un script lancé à la main qui remplit une playlist Spotify avec de la musique personnalisée. Stockage Supabase dès cette phase (cf. [BDR-002](../.claude/memory/decisions/BDR-002.md)), pas de JSON local.**
 
-- [ ] Implémenter le flow OAuth (authorization code + PKCE)
-- [ ] Stocker le refresh token dans `data/store.json` (fichier local)
-- [ ] Récupérer top tracks / top artists (`time_range=short_term`)
-- [ ] Extraire les genres dominants
-- [ ] Construire la logique de recherche par genre (`/search?q=genre:"x"`)
-- [ ] Dédupliquer / mixer top tracks connus + découvertes
-- [ ] Créer/mettre à jour une playlist Spotify via l'API (`playlists/{id}/tracks`)
-- [ ] Lancer le script manuellement (`pnpm run generate`)
+- [x] Implémenter le flow OAuth (authorization code + PKCE) — `src/auth/oauth.service.ts` + `src/auth/login.ts`
+- [x] Stocker le refresh token dans Supabase (table `oauth_tokens`, RLS activé, accès via `service_role`) — `src/storage/supabase-storage.ts`
+- [x] Récupérer top tracks / top artists (`time_range=short_term`) — `src/providers/spotify.provider.ts`
+- [x] Extraire les genres dominants — `src/core/taste-analyzer.ts`
+- [x] Construire la logique de recherche par genre (`/search?q=genre:"x"`) — `src/core/discovery-engine.ts`
+- [x] Dédupliquer / mixer top tracks connus + découvertes — `src/generate.ts`
+- [x] Créer/mettre à jour une playlist Spotify via l'API (`playlists/{id}/tracks`) — `src/providers/spotify.provider.ts`
+- [ ] Lancer le script manuellement (`pnpm run login` puis `pnpm run generate <user_id>`) — code prêt, `.env.local` complet, **premier run pas encore fait**
 
 **Livrable** : tu lances une commande, ta playlist Spotify se remplit avec de la musique cohérente avec tes goûts.
 
