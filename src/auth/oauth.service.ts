@@ -5,7 +5,9 @@ import type { OAuthTokens } from "../types/index.js";
 export const SPOTIFY_SCOPES = [
   "user-top-read",
   "playlist-modify-private",
+  "playlist-read-private",
   "user-read-recently-played",
+  "ugc-image-upload",
 ].join(" ");
 
 const AUTHORIZE_URL = "https://accounts.spotify.com/authorize";

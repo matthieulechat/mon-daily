@@ -1,9 +1,16 @@
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
 import { refreshAccessToken } from "../auth/oauth.service.js";
 import type { Track } from "../types/index.js";
 import type { MusicProvider } from "./provider.interface.js";
 
 const API_BASE = "https://api.spotify.com/v1";
 const PLAYLIST_NAME = "Mon Daily";
+const PLAYLIST_DESCRIPTION =
+  "Un nouveau mix chaque jour, pressé sur vinyle : face A tes sons, face B tes news.";
+const COVER_IMAGE_PATH = fileURLToPath(
+  new URL("../../public/playlist-cover.jpg", import.meta.url),
+);
 const REFRESH_MARGIN_MS = 60_000;
 
 interface SpotifyArtistObject {
@@ -48,11 +55,8 @@ const spotifyFetch = async <T>(
     );
   }
 
-  if (response.status === 204) {
-    return undefined as T;
-  }
-
-  return (await response.json()) as T;
+  const text = await response.text();
+  return (text ? JSON.parse(text) : undefined) as T;
 };
 
 const toTrack = (track: SpotifyTrackObject): Track => ({
@@ -61,6 +65,18 @@ const toTrack = (track: SpotifyTrackObject): Track => ({
   artistNames: track.artists.map((artist) => artist.name),
   uri: track.uri,
 });
+
+const uploadCoverImage = async (
+  accessToken: string,
+  playlistId: string,
+): Promise<void> => {
+  const base64Image = await readFile(COVER_IMAGE_PATH, { encoding: "base64" });
+  await spotifyFetch(accessToken, `/playlists/${playlistId}/images`, {
+    method: "PUT",
+    headers: { "Content-Type": "image/jpeg" },
+    body: base64Image,
+  });
+};
 
 const findOrCreatePlaylistId = async (
   accessToken: string,
@@ -77,17 +93,18 @@ const findOrCreatePlaylistId = async (
 
   const created = await spotifyFetch<SpotifyPlaylistObject>(
     accessToken,
-    `/users/${spotifyUserId}/playlists`,
+    "/me/playlists",
     {
       method: "POST",
       body: JSON.stringify({
         name: PLAYLIST_NAME,
         public: false,
-        description:
-          "Mix quotidien généré automatiquement — remplaçant du Daily Drive Spotify.",
+        description: PLAYLIST_DESCRIPTION,
       }),
     },
   );
+
+  await uploadCoverImage(accessToken, created.id);
 
   return created.id;
 };
@@ -123,7 +140,20 @@ export const spotifyProvider: MusicProvider = {
 
   createOrUpdatePlaylist: async (accessToken, spotifyUserId, tracks) => {
     const playlistId = await findOrCreatePlaylistId(accessToken, spotifyUserId);
-    await spotifyFetch(accessToken, `/playlists/${playlistId}/tracks`, {
+
+    // Créer une playlist ne la fait plus apparaître automatiquement dans la
+    // bibliothèque du propriétaire (migration Spotify de février 2026) — il
+    // faut explicitement la "sauvegarder", comme n'importe quel utilisateur.
+    // /me/library (nouvel endpoint unifié documenté) renvoie 400 quel que
+    // soit le format du body — on retombe sur /followers, marqué déprécié
+    // mais fonctionnel. "public" doit être répété à chaque appel : omis, il
+    // repasse la playlist en publique par défaut.
+    await spotifyFetch(accessToken, `/playlists/${playlistId}/followers`, {
+      method: "PUT",
+      body: JSON.stringify({ public: false }),
+    });
+
+    await spotifyFetch(accessToken, `/playlists/${playlistId}/items`, {
       method: "PUT",
       body: JSON.stringify({ uris: tracks.map((track) => track.uri) }),
     });

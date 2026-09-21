@@ -7,7 +7,7 @@ export const extractDominantGenres = (
   const genreCounts = new Map<string, number>();
 
   for (const artist of artists) {
-    for (const genre of artist.genres) {
+    for (const genre of artist.genres ?? []) {
       genreCounts.set(genre, (genreCounts.get(genre) ?? 0) + 1);
     }
   }

@@ -11,7 +11,7 @@ import {
 
 const openInBrowser = (url: string): void => {
   if (process.platform === "win32") {
-    execFile("cmd", ["/c", "start", "", url]);
+    execFile("cmd", ["/c", "start", "", url.replace(/&/g, "^&")]);
   } else if (process.platform === "darwin") {
     execFile("open", [url]);
   } else {

@@ -3,7 +3,7 @@
 ## Phase 0 — Setup (avant dev)
 
 - [x] Créer une app sur le Spotify Developer Dashboard (obtenir `client_id` / `client_secret`) — nécessitait le Premium du compte développeur (cf. [BDR-003](../.claude/memory/decisions/BDR-003.md)), débloqué le 2026-09-20
-- [x] Choisir les scopes OAuth nécessaires (`user-top-read`, `playlist-modify-private`, `user-read-recently-played`) — implémentés dans `oauth.service.ts`
+- [x] Choisir les scopes OAuth nécessaires (`user-top-read`, `playlist-modify-private`, `playlist-read-private`, `user-read-recently-played`, `ugc-image-upload`) — implémentés dans `oauth.service.ts`
 - [x] Initialiser le repo Node/TypeScript (pnpm, structure de dossiers)
 - [x] Choisir la DB — **Supabase Postgres dès la Phase 1** (SQLite/JSON local écartés, cf. [BDR-002](../.claude/memory/decisions/BDR-002.md)). Projet `mon-daily-paris` en région `eu-west-3` (Paris) — l'ancien projet `mon-daily` (Ireland, `eu-west-1`) est mis en pause, vide, à supprimer manuellement si besoin (pas d'outil pour le faire depuis Claude Code)
 - [x] Serveur MCP Supabase ajouté au projet (`.mcp.json`, scope projet, `project_ref` figé sur `mon-daily-paris`) pour faciliter les manipulations DB depuis Claude Code
@@ -19,7 +19,7 @@
 - [x] Construire la logique de recherche par genre (`/search?q=genre:"x"`) — `src/core/discovery-engine.ts`
 - [x] Dédupliquer / mixer top tracks connus + découvertes — `src/generate.ts`
 - [x] Créer/mettre à jour une playlist Spotify via l'API (`playlists/{id}/tracks`) — `src/providers/spotify.provider.ts`
-- [ ] Lancer le script manuellement (`pnpm run login` puis `pnpm run generate <user_id>`) — code prêt, `.env.local` complet, **premier run pas encore fait**
+- [x] Lancer le script manuellement (`pnpm run login` puis `pnpm run generate <user_id>`) — premier run réussi le 2026-09-21, playlist "Mon Daily" créée avec 25 titres
 
 **Livrable** : tu lances une commande, ta playlist Spotify se remplit avec de la musique cohérente avec tes goûts.
 

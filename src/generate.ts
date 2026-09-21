@@ -7,6 +7,26 @@ import type { Track } from "./types/index.js";
 const TOP_TRACKS_IN_MIX = 25;
 const DISCOVERED_TRACKS_IN_MIX = 15;
 
+// Spotify liste parfois le même morceau deux fois sous des ids différents
+// (ex. "Titre" et "Titre (Music Video)") — on dédoublonne aussi sur
+// nom+artiste après avoir retiré ce suffixe, pas juste sur l'id.
+const normalizeTrackName = (name: string): string =>
+  name
+    .replace(/\s*\(music video\)\s*$/i, "")
+    .trim()
+    .toLowerCase();
+
+const dedupeTracks = (tracks: Track[]): Track[] => {
+  const seen = new Set<string>();
+  return tracks.filter((track) => {
+    const nameKey = `${normalizeTrackName(track.name)}::${track.artistNames[0]?.trim().toLowerCase() ?? ""}`;
+    if (seen.has(track.id) || seen.has(nameKey)) return false;
+    seen.add(track.id);
+    seen.add(nameKey);
+    return true;
+  });
+};
+
 const main = async (): Promise<void> => {
   const userId = process.argv[2];
   if (!userId) {
@@ -43,10 +63,11 @@ const main = async (): Promise<void> => {
     knownTrackIds,
   );
 
-  const mix: Track[] = [
-    ...topTracks.slice(0, TOP_TRACKS_IN_MIX),
+  const uniqueTopTracks = dedupeTracks(topTracks);
+  const mix: Track[] = dedupeTracks([
+    ...uniqueTopTracks.slice(0, TOP_TRACKS_IN_MIX),
     ...discovered.slice(0, DISCOVERED_TRACKS_IN_MIX),
-  ];
+  ]);
 
   await spotifyProvider.createOrUpdatePlaylist(tokens.accessToken, userId, mix);
 
