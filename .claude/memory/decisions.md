@@ -14,3 +14,4 @@ register: decisions
 | [BDR-006](decisions/BDR-006.md) | 2026-09-20 | Bascule du projet Supabase de Dublin vers Paris                         | #supabase #region #paris #migration #mon-daily                 | actif  |
 | [BDR-007](decisions/BDR-007.md) | 2026-09-20 | Ajout du serveur MCP Supabase project-scoped à mon-daily                | #supabase #mcp #tooling #claude-code #mon-daily                | actif  |
 | [BDR-008](decisions/BDR-008.md) | 2026-09-20 | Liste des médias étendue à 28 shows ; préférences/modération repoussées | #spotify #podcasts #moderation #preferences #mon-daily         | actif  |
+| [BDR-009](decisions/BDR-009.md) | 2026-09-21 | Repli sur `/followers` (déprécié) plutôt que `/me/library` (cassé)      | #spotify #api #library #playlist #deprecated-endpoint          | actif  |

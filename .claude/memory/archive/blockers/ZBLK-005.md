@@ -1,11 +1,11 @@
 ---
-id: BLK-005
+id: ZBLK-005
 type: blocker
 date: 2026-09-21
 tags: [spotify, shows-api, batch-endpoint, http-403, client-credentials]
 ---
 
-# BLK-005 — Batch `GET /shows?ids=` renvoie 403, `GET /shows/{id}` single fonctionne
+# ZBLK-005 — Batch `GET /shows?ids=` renvoie 403, `GET /shows/{id}` single fonctionne
 
 | Friction                                                                                                                                                                                     | Cause réelle                                                                                                                                                                                                                                         | Solution                                                                                                                                        | Statut |
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -13,5 +13,5 @@ tags: [spotify, shows-api, batch-endpoint, http-403, client-credentials]
 
 ## Références
 
-- [LRN-008](../learnings/LRN-008.md) — pattern extrait de ce blocage
-- [BDR-008](../decisions/BDR-008.md) — décision pendant laquelle ce blocage a été rencontré
+- [LRN-008](../../learnings/LRN-008.md) — pattern extrait de ce blocage
+- [BDR-008](../../decisions/BDR-008.md) — décision pendant laquelle ce blocage a été rencontré
