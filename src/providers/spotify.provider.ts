@@ -13,16 +13,11 @@ const COVER_IMAGE_PATH = fileURLToPath(
 );
 const REFRESH_MARGIN_MS = 60_000;
 
-interface SpotifyArtistObject {
-  id: string;
-  name: string;
-  genres: string[];
-}
-
 interface SpotifyTrackObject {
   id: string;
   name: string;
   uri: string;
+  duration_ms: number;
   artists: { name: string }[];
 }
 
@@ -64,6 +59,7 @@ const toTrack = (track: SpotifyTrackObject): Track => ({
   name: track.name,
   artistNames: track.artists.map((artist) => artist.name),
   uri: track.uri,
+  durationMs: track.duration_ms,
 });
 
 const uploadCoverImage = async (
@@ -116,26 +112,6 @@ export const spotifyProvider: MusicProvider = {
       "/me/top/tracks?time_range=short_term&limit=50",
     );
     return data.items.map(toTrack);
-  },
-
-  getTopArtists: async (accessToken) => {
-    const data = await spotifyFetch<SpotifyPagedResponse<SpotifyArtistObject>>(
-      accessToken,
-      "/me/top/artists?time_range=short_term&limit=50",
-    );
-    return data.items.map((artist) => ({
-      id: artist.id,
-      name: artist.name,
-      genres: artist.genres,
-    }));
-  },
-
-  searchByGenre: async (accessToken, genre, limit = 20) => {
-    const query = encodeURIComponent(`genre:"${genre}"`);
-    const data = await spotifyFetch<{
-      tracks: SpotifyPagedResponse<SpotifyTrackObject>;
-    }>(accessToken, `/search?q=${query}&type=track&limit=${limit}`);
-    return data.tracks.items.map(toTrack);
   },
 
   createOrUpdatePlaylist: async (accessToken, spotifyUserId, tracks) => {

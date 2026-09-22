@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { env } from "../config/env.js";
 import type { OAuthTokens } from "../types/index.js";
-import type { Storage } from "./storage.interface.js";
+import type { PlaylistHistoryEntry, Storage } from "./storage.interface.js";
 
 const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY);
 
@@ -10,6 +10,25 @@ interface OAuthTokensRow {
   refresh_token: string;
   expires_at: string;
 }
+
+// `userId` (param public) est l'id externe Spotify ; l'historique est
+// rattaché à l'identité interne `users.id` (cf. BDR-010). Le login/generate
+// crée déjà la ligne oauth_tokens avant d'atteindre ce point.
+const resolveInternalUserId = async (userId: string): Promise<string> => {
+  const { data, error } = await supabase
+    .from("oauth_tokens")
+    .select("user_id")
+    .eq("platform", "spotify")
+    .eq("platform_user_id", userId)
+    .single<{ user_id: string }>();
+
+  if (error || !data)
+    throw new Error(
+      `Aucun utilisateur pour "${userId}" — lance d'abord pnpm run login.`,
+    );
+
+  return data.user_id;
+};
 
 export const supabaseStorage: Storage = {
   // `userId` est l'id externe de la plateforme (ex. Spotify user id).
@@ -75,5 +94,35 @@ export const supabaseStorage: Storage = {
       throw new Error(
         `Supabase saveTokens (oauth_tokens): ${tokensError.message}`,
       );
+  },
+
+  // Sert uniquement à la rotation des podcasts "découverte" (cf. generate.ts)
+  // — pas à l'anti-répétition musicale, qui est désormais voulue.
+  getRecentShowIds: async (userId, days) => {
+    const internalUserId = await resolveInternalUserId(userId);
+    const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
+
+    const { data, error } = await supabase
+      .from("playlist_history")
+      .select("show_ids")
+      .eq("user_id", internalUserId)
+      .gte("generated_at", since.toISOString())
+      .returns<{ show_ids: string[] }[]>();
+
+    if (error) throw new Error(`Supabase getRecentShowIds: ${error.message}`);
+
+    return data.flatMap((row) => row.show_ids);
+  },
+
+  saveHistory: async (userId, entry: PlaylistHistoryEntry) => {
+    const internalUserId = await resolveInternalUserId(userId);
+
+    const { error } = await supabase.from("playlist_history").insert({
+      user_id: internalUserId,
+      track_ids: entry.trackIds,
+      show_ids: entry.showIds,
+    });
+
+    if (error) throw new Error(`Supabase saveHistory: ${error.message}`);
   },
 };

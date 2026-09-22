@@ -3,12 +3,7 @@ export interface Track {
   name: string;
   artistNames: string[];
   uri: string;
-}
-
-export interface Artist {
-  id: string;
-  name: string;
-  genres: string[];
+  durationMs: number;
 }
 
 export interface OAuthTokens {
