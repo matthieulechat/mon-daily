@@ -1,11 +1,11 @@
 ---
-id: BLK-011
+id: ZBLK-011
 type: blocker
 date: 2026-09-22
 tags: [spotify, api-restriction, playlists, mon-daily]
 ---
 
-# BLK-011 — Playlists éditoriales Spotify tentées puis retirées
+# ZBLK-011 — Playlists éditoriales Spotify tentées puis retirées
 
 | Friction                                                                                                                                                           | Cause réelle                                                                                                                                  | Solution                                                                                                                           | Statut |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -13,5 +13,5 @@ tags: [spotify, api-restriction, playlists, mon-daily]
 
 ## Références
 
-- [LRN-015](../learnings/LRN-015.md) — pattern extrait de ce blocage
-- [BDR-011](../decisions/BDR-011.md) — décision musicale concernée
+- [LRN-015](../../learnings/LRN-015.md) — pattern extrait de ce blocage
+- [BDR-011](../../decisions/BDR-011.md) — décision musicale concernée

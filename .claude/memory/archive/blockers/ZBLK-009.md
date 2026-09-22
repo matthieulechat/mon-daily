@@ -1,11 +1,11 @@
 ---
-id: BLK-009
+id: ZBLK-009
 type: blocker
 date: 2026-09-22
 tags: [spotify, podcast, random-selection, mon-daily]
 ---
 
-# BLK-009 — Pool de tirage au sort sous-estimé (show vs épisode)
+# ZBLK-009 — Pool de tirage au sort sous-estimé (show vs épisode)
 
 | Friction                                                                                                               | Cause réelle                                                                                            | Solution                                                                                                                                                                  | Statut |
 | ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -13,5 +13,5 @@ tags: [spotify, podcast, random-selection, mon-daily]
 
 ## Références
 
-- [LRN-014](../learnings/LRN-014.md) — pattern extrait de ce blocage
-- [BDR-012](../decisions/BDR-012.md) — décision de sélection podcast concernée
+- [LRN-014](../../learnings/LRN-014.md) — pattern extrait de ce blocage
+- [BDR-012](../../decisions/BDR-012.md) — décision de sélection podcast concernée

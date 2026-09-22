@@ -1,11 +1,11 @@
 ---
-id: BLK-010
+id: ZBLK-010
 type: blocker
 date: 2026-09-22
 tags: [spotify, bug, podcast, debugging, mon-daily]
 ---
 
-# BLK-010 — Bug silencieux "aucun épisode" sur Gaspard G
+# ZBLK-010 — Bug silencieux "aucun épisode" sur Gaspard G
 
 | Friction                                                                                                                | Cause réelle                                                                                                              | Solution                                                                                                                                                                                                                                                      | Statut |
 | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
@@ -13,4 +13,4 @@ tags: [spotify, bug, podcast, debugging, mon-daily]
 
 ## Références
 
-- [LRN-016](../learnings/LRN-016.md) — pattern extrait de ce bug
+- [LRN-016](../../learnings/LRN-016.md) — pattern extrait de ce bug

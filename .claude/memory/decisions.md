@@ -18,3 +18,4 @@ register: decisions
 | [BDR-010](decisions/BDR-010.md) | 2026-09-22 | `users` identité pure, `platform`/`platform_user_id` sur `oauth_tokens` | #supabase #database-schema #identity #oauth #multi-provider #mon-daily        | actif  |
 | [BDR-011](decisions/BDR-011.md) | 2026-09-22 | Mix musique : répétition volontaire, découvertes retirées               | #spotify #playlist-generation #music-mix #discovery #mon-daily                | actif  |
 | [BDR-012](decisions/BDR-012.md) | 2026-09-22 | Podcasts : catégorisation actu/thématique + gabarit fixe 4+4            | #spotify #podcast #playlist-generation #random-selection #rotation #mon-daily | actif  |
+| [BDR-013](decisions/BDR-013.md) | 2026-09-23 | Actu = journaux du jour uniquement ; liste étendue à 55 shows           | #spotify #podcast #categorization #manual-review #mon-daily                   | actif  |

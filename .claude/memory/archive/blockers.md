@@ -14,3 +14,6 @@ register: archive_blockers
 | [ZBLK-006](blockers/ZBLK-006.md) | 2026-09-21 | Chasse au 403 générique avant la découverte de la migration Spotify février 2026           | #spotify #api-migration #debugging #http-403 #deprecated-endpoints   | résolu |
 | [ZBLK-007](blockers/ZBLK-007.md) | 2026-09-21 | SVG en `<img>` avec police Google Fonts échoue silencieusement dans le Claude Browser pane | #claude-browser #svg #fonts #canvas #sandboxing                      | résolu |
 | [ZBLK-008](blockers/ZBLK-008.md) | 2026-09-22 | Migration Supabase refusée 2x par le classifier auto mode (DROP puis ALTER)                | #claude-code #auto-mode #classifier #supabase #migration #permission | résolu |
+| [ZBLK-009](blockers/ZBLK-009.md) | 2026-09-22 | Pool de tirage au sort sous-estimé (show vs épisode) | #spotify #podcast #random-selection #mon-daily  | résolu |
+| [ZBLK-010](blockers/ZBLK-010.md) | 2026-09-22 | Bug silencieux "aucun épisode" sur Gaspard G         | #spotify #bug #podcast #debugging #mon-daily    | résolu |
+| [ZBLK-011](blockers/ZBLK-011.md) | 2026-09-22 | Playlists éditoriales Spotify tentées puis retirées  | #spotify #api-restriction #playlists #mon-daily | résolu |
