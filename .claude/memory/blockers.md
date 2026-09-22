@@ -4,7 +4,8 @@ register: blockers
 
 ## Index
 
-| ID                             | Date       | Friction                                                                                   | Tags                                                               | Statut |
-| ------------------------------ | ---------- | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ | ------ |
-| [BLK-006](blockers/BLK-006.md) | 2026-09-21 | Chasse au 403 générique avant la découverte de la migration Spotify février 2026           | #spotify #api-migration #debugging #http-403 #deprecated-endpoints | résolu |
-| [BLK-007](blockers/BLK-007.md) | 2026-09-21 | SVG en `<img>` avec police Google Fonts échoue silencieusement dans le Claude Browser pane | #claude-browser #svg #fonts #canvas #sandboxing                    | résolu |
+| ID                             | Date       | Friction                                             | Tags                                            | Statut |
+| ------------------------------ | ---------- | ---------------------------------------------------- | ----------------------------------------------- | ------ |
+| [BLK-009](blockers/BLK-009.md) | 2026-09-22 | Pool de tirage au sort sous-estimé (show vs épisode) | #spotify #podcast #random-selection #mon-daily  | résolu |
+| [BLK-010](blockers/BLK-010.md) | 2026-09-22 | Bug silencieux "aucun épisode" sur Gaspard G         | #spotify #bug #podcast #debugging #mon-daily    | résolu |
+| [BLK-011](blockers/BLK-011.md) | 2026-09-22 | Playlists éditoriales Spotify tentées puis retirées  | #spotify #api-restriction #playlists #mon-daily | résolu |

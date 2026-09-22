@@ -17,3 +17,8 @@ register: learnings
 | [LRN-009](learnings/LRN-009.md) | 2026-09-21 | Migration Spotify "février 2026" a renommé/cassé des endpoints utilisés     | #spotify #api-migration #deprecated-endpoints #playlists #documentation     |
 | [LRN-010](learnings/LRN-010.md) | 2026-09-21 | Spotify top tracks peut lister le même morceau 2x sous 2 IDs                | #spotify #top-tracks #duplicates #music-video #dedupe                       |
 | [LRN-011](learnings/LRN-011.md) | 2026-09-21 | `public:false` à la création peut être ignoré par Spotify (réglage compte)  | #spotify #playlist #privacy #public-flag #account-default                   |
+| [LRN-012](learnings/LRN-012.md) | 2026-09-22 | Colonne dupliquée = souvent une identité interne/externe pas encore séparée | #database-design #schema #identity-modeling #oauth #code-review             |
+| [LRN-013](learnings/LRN-013.md) | 2026-09-22 | Classifier auto mode bloque un DDL Supabase même après accord en chat       | #claude-code #auto-mode #classifier #supabase #migration #ddl               |
+| [LRN-014](learnings/LRN-014.md) | 2026-09-22 | Pool de tirage au sort à compter au niveau atomique, pas de l'agrégat       | #random-selection #sampling #data-modeling #granularity                     |
+| [LRN-015](learnings/LRN-015.md) | 2026-09-22 | Spotify ne renvoie plus le contenu d'une playlist non possédée (fév 2026)   | #spotify #api-restriction #playlists #deprecated-endpoint                   |
+| [LRN-016](learnings/LRN-016.md) | 2026-09-22 | Item d'un tableau paginé Spotify peut être `null` à une position arbitraire | #spotify #api-quirk #null-handling #pagination                              |
