@@ -4,9 +4,9 @@
 
 Pour valider le concept rapidement, on découpe en deux étapes :
 
-| Étape | Objectif | Stockage |
-|---|---|---|
-| **Étape A — Script local** | Script Node/TS lancé **manuellement**, pas d'infra, pas de Supabase | Fichier **JSON local** (`data/store.json`) |
+| Étape                            | Objectif                                                                   | Stockage                                        |
+| -------------------------------- | -------------------------------------------------------------------------- | ----------------------------------------------- |
+| **Étape A — Script local**       | Script Node/TS lancé **manuellement**, pas d'infra, pas de Supabase        | Fichier **JSON local** (`data/store.json`)      |
 | **Étape B — Migration Supabase** | Automatisation complète (cron quotidien, plusieurs utilisateurs possibles) | **Postgres (Supabase)** + Vault pour les tokens |
 
 Le code est pensé dès le départ pour que le passage de A à B ne demande de toucher **que la couche de stockage** (pas la logique métier).
@@ -16,6 +16,7 @@ Le code est pensé dès le départ pour que le passage de A à B ne demande de t
 ## Étape A — Script local (MVP rapide)
 
 ### Stack
+
 - **Nom du projet / package npm** : `mon-daily`
 - **Runtime** : Node.js + TypeScript
 - **Package manager** : pnpm
@@ -132,39 +133,43 @@ interface Storage {
 
 Une fois l'Étape A validée manuellement, on bascule :
 
-| Composant Étape A | Devient (Étape B) |
-|---|---|
-| `data/store.json` | Tables Postgres (`users`, `oauth_tokens`, `playlist_history`) |
-| Tokens en clair dans le JSON local | Tokens dans **Supabase Vault** (chiffrés) |
+| Composant Étape A                    | Devient (Étape B)                                                 |
+| ------------------------------------ | ----------------------------------------------------------------- |
+| `data/store.json`                    | Tables Postgres (`users`, `oauth_tokens`, `playlist_history`)     |
+| Tokens en clair dans le JSON local   | Tokens dans **Supabase Vault** (chiffrés)                         |
 | Lancement manuel `pnpm run generate` | **Edge Function** Supabase déclenchée par **pg_cron** chaque jour |
-| `json-storage.ts` | `supabase-storage.ts` (même interface `Storage`) |
+| `json-storage.ts`                    | `supabase-storage.ts` (même interface `Storage`)                  |
 
 ### Modèle de données Postgres (Étape B)
 
+`users` est une identité pure (juste un uuid) : `platform` et `platform_user_id` vivent sur `oauth_tokens`, pas sur `users`, pour qu'un même utilisateur de l'app puisse avoir plusieurs comptes provider (Spotify + Deezer) sans doublon d'identité.
+
 ```sql
 CREATE TABLE users (
-  id TEXT PRIMARY KEY,
-  platform TEXT NOT NULL,              -- 'spotify' | 'deezer' | 'apple_music'
-  platform_user_id TEXT NOT NULL,
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   created_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE oauth_tokens (
-  user_id TEXT PRIMARY KEY REFERENCES users(id),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  platform TEXT NOT NULL DEFAULT 'spotify',  -- 'spotify' | 'deezer' | 'apple_music'
+  platform_user_id TEXT NOT NULL,            -- id de l'utilisateur tel que connu par cette plateforme
   access_token TEXT NOT NULL,           -- via Supabase Vault
   refresh_token TEXT NOT NULL,          -- via Supabase Vault
-  expires_at TIMESTAMP NOT NULL
+  expires_at TIMESTAMP NOT NULL,
+  UNIQUE (platform, platform_user_id)
 );
 
 CREATE TABLE playlist_history (
   id SERIAL PRIMARY KEY,
-  user_id TEXT REFERENCES users(id),
+  user_id UUID REFERENCES users(id),
   generated_at TIMESTAMP DEFAULT NOW(),
   track_ids JSONB NOT NULL              -- pour éviter les répétitions
 );
 
 CREATE TABLE user_preferences (
-  user_id TEXT PRIMARY KEY REFERENCES users(id),
+  user_id UUID PRIMARY KEY REFERENCES users(id),
   music_podcast_ratio TEXT DEFAULT '4:1',
   podcast_sources JSONB DEFAULT '[]'
 );
@@ -203,6 +208,7 @@ interface MusicProvider {
 Chaque plateforme (`SpotifyProvider`, `DeezerProvider`, `AppleMusicProvider`) implémente cette interface — le `mixer` ne connaît jamais la plateforme sous-jacente.
 
 ## Sécurité — points d'attention
+
 - **Étape A** : `data/store.json` dans `.gitignore` dès le premier commit (contient des tokens en clair, acceptable en usage strictement local/perso).
 - **Étape B** : tokens obligatoirement dans Supabase Vault, jamais en clair en base.
 - **Scopes OAuth minimaux** : `user-top-read`, `playlist-modify-private`, `user-read-recently-played`.
@@ -210,11 +216,13 @@ Chaque plateforme (`SpotifyProvider`, `DeezerProvider`, `AppleMusicProvider`) im
 - Prévoir un cas d'échec propre si un utilisateur révoque l'accès.
 
 ## Contrainte Spotify — plafond utilisateurs (Development Mode)
+
 - L'app Spotify reste en **Development Mode** tant qu'aucune démarche d'extension n'est faite → **5 comptes utilisateurs autorisés maximum** (toi inclus), à ajouter manuellement en allowlist dans le Developer Dashboard.
 - Seul le compte développeur (celui qui a créé l'app) doit être Premium ; les comptes utilisateurs ajoutés peuvent rester en Free.
 - La table `users` (Étape B, Supabase) doit donc rester dimensionnée pour un petit nombre d'utilisateurs (5 max côté Spotify) — pas de logique de scale à prévoir tant que ce plafond n'est pas levé.
 
 ## Points d'extension futurs
+
 - `discovery-engine.ts` : endroit où brancher une source de recommandation plus fine si besoin, sans toucher au reste du pipeline.
 - `rss-fetcher.ts` : conçu pour accepter une liste de flux configurable par utilisateur (Phase 5).
 - `storage.interface.ts` : garantit que la migration A → B ne touche qu'une seule couche.

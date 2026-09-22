@@ -12,11 +12,15 @@ interface OAuthTokensRow {
 }
 
 export const supabaseStorage: Storage = {
+  // `userId` est l'id externe de la plateforme (ex. Spotify user id).
+  // `oauth_tokens` porte le (platform, platform_user_id) : un même `users.id`
+  // peut avoir plusieurs lignes `oauth_tokens` (une par provider connecté).
   getTokens: async (userId) => {
     const { data, error } = await supabase
       .from("oauth_tokens")
       .select("access_token, refresh_token, expires_at")
-      .eq("user_id", userId)
+      .eq("platform", "spotify")
+      .eq("platform_user_id", userId)
       .maybeSingle<OAuthTokensRow>();
 
     if (error) throw new Error(`Supabase getTokens: ${error.message}`);
@@ -30,24 +34,41 @@ export const supabaseStorage: Storage = {
   },
 
   saveTokens: async (userId, tokens) => {
-    const { error: userError } = await supabase
-      .from("users")
-      .upsert(
-        { id: userId, platform: "spotify", platform_user_id: userId },
-        { onConflict: "id" },
-      );
+    const { data: existing, error: findError } = await supabase
+      .from("oauth_tokens")
+      .select("user_id")
+      .eq("platform", "spotify")
+      .eq("platform_user_id", userId)
+      .maybeSingle<{ user_id: string }>();
 
-    if (userError)
-      throw new Error(`Supabase saveTokens (users): ${userError.message}`);
+    if (findError)
+      throw new Error(`Supabase saveTokens (lookup): ${findError.message}`);
+
+    let ownerId = existing?.user_id;
+
+    if (!ownerId) {
+      const { data: user, error: userError } = await supabase
+        .from("users")
+        .insert({})
+        .select("id")
+        .single();
+
+      if (userError)
+        throw new Error(`Supabase saveTokens (users): ${userError.message}`);
+
+      ownerId = user.id;
+    }
 
     const { error: tokensError } = await supabase.from("oauth_tokens").upsert(
       {
-        user_id: userId,
+        user_id: ownerId,
+        platform: "spotify",
+        platform_user_id: userId,
         access_token: tokens.accessToken,
         refresh_token: tokens.refreshToken,
         expires_at: tokens.expiresAt,
       },
-      { onConflict: "user_id" },
+      { onConflict: "platform,platform_user_id" },
     );
 
     if (tokensError)
