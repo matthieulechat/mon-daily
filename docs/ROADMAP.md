@@ -27,45 +27,72 @@
 
 **Objectif : le script génère un vrai mix musique + actu, toujours lancé manuellement.**
 
-- [x] Récupérer le dernier épisode d'un show Spotify natif via `GET /shows/{id}/episodes?market=FR&limit=1`, pas de parser RSS (liste étendue le 2026-09-20 à partir des 3 pilotes de [BDR-005](../.claude/memory/decisions/BDR-005.md), cf. [BDR-008](../.claude/memory/decisions/BDR-008.md)) — implémenté en `src/core/podcast-source.ts` ; par souci d'appels API, on ne récupère que les shows sélectionnés pour le mix du jour (cf. item mix ci-dessous), pas les 28 à chaque run :
+- [x] Récupérer le dernier épisode d'un show Spotify natif via `GET /shows/{id}/episodes?market=FR&limit=1`, pas de parser RSS (liste étendue le 2026-09-20 à partir des 3 pilotes de [BDR-005](../.claude/memory/decisions/BDR-005.md), cf. [BDR-008](../.claude/memory/decisions/BDR-008.md)) — implémenté en `src/core/podcast-source.ts` ; par souci d'appels API, on ne récupère que les shows sélectionnés pour le mix du jour (cf. item mix ci-dessous), pas les 55 à chaque run :
 
-  | Média              | Show                                    | Show ID                  | Format                                        |
-  | ------------------ | --------------------------------------- | ------------------------ | --------------------------------------------- |
-  | Le Monde           | L'Heure du Monde                        | `2ceI3IzPwHJywfQTAtrQSI` | Actu quotidienne courte                       |
-  | France Info        | Les informés de franceinfo              | `4wyNV1lUV1Wm2wqN91mEx6` | Débat hebdo, format long                      |
-  | France Info        | 8h30 franceinfo                         | `6RHQXwIlOrjdZ86forQKlw` | Actu quotidienne courte                       |
-  | AFP                | Sur le fil                              | `1QSQSKhOnNKkm6jr4afJHg` | Actu quotidienne courte                       |
-  | AFP                | Le Fil Culture G                        | `73jHIG8pyTbbRnhVUwRXnZ` | Culture générale quotidienne, format court    |
-  | Le Monde           | L'ordre du monde                        | `62iffPHZ8yR5yvRZN9C2f4` | Géopolitique, hebdo, format long              |
-  | —                  | Maintenant, vous savez                  | `2syIwMfdIPTD6VgkOY6FGa` | Culture générale, format court                |
-  | —                  | HugoDécrypte - Actus et interviews      | `6y1PloEyNsCNJH9vHias4T` | Actu, plusieurs épisodes/jour, durée variable |
-  | —                  | La semaine européenne                   | `0pj85Csk4cPVRulubA1sel` | Actu UE, hebdo                                |
-  | —                  | Ça dit quoi ?                           | `4wMWrabr79pA104WEAkcH3` | Format court                                  |
-  | —                  | Maintenant Vous Savez - Culture         | `6rnrqx5EXCQUriDzp9Y0sw` | Culture générale, format court                |
-  | —                  | La question info                        | `3YCFNohB2PpHNY41qNsc5Q` | Actu quotidienne courte                       |
-  | —                  | Maintenant Vous Savez Santé             | `5DUxdQ9CFJza8jpjGpO3Q2` | Santé, format court                           |
-  | France Télévisions | C dans l'air                            | `1teuRpy91067CoPOPfArRE` | Débat quotidien, format long (~1h)            |
-  | Le Parisien        | Code source                             | `4J2KJU7Lcv0e1wH3728Fse` | Actu quotidienne courte                       |
-  | —                  | Journal de 08h00                        | `108ja5N6Lhjl7M8TjTYcNa` | Actu quotidienne courte                       |
-  | —                  | Gaspard G                               | `5zhGjnzRr4On2lWMIgFQPm` | Interviews, humour                            |
-  | Binge Audio        | Les Couilles sur la table               | `3xk078ZrBB5X75zQzHEHRN` | Société/sexualité, hebdo                      |
-  | —                  | L'œil de Philippe Caverivière           | `5iZAQiKv5QamDAzT2jOn1f` | Humour, chronique courte                      |
-  | Arte               | Le Dessous des Cartes                   | `0mGLRxbnUfEtBmgpE9bRXT` | Géopolitique, hebdo                           |
-  | France Culture     | Géopolitique                            | `7trRb7PXoTNX9kbEKZI5uY` | Géopolitique quotidien                        |
-  | —                  | Le Crayon                               | `20rMwrrfflhMee6dxnxE57` | Actu / dessin de presse                       |
-  | Europe 1           | Le journal d'Europe 1                   | `1AUM0tB6DZBShd4nyzZHHE` | Actu quotidienne courte                       |
-  | —                  | Journal Monde                           | `6y3v3GWUBwANr9hK9m1frF` | Actu internationale                           |
-  | L'Équipe           | Undercut, le podcast F1 de L'Équipe     | `17gHyBzJ8BC7i8O9DgJUal` | Sport                                         |
-  | L'Équipe           | Big 5, le podcast foot de L'Équipe      | `4CjHsp28z1bL2ji5j6PCGX` | Sport                                         |
-  | L'Équipe           | Crunch, le podcast rugby de L'Équipe    | `5SqKygFl8gfylpIDtfqVe2` | Sport                                         |
-  | L'Équipe           | Ultra Run, le podcast trail de L'Équipe | `1a9RSfnhxLiwOZJL0mU3ww` | Sport                                         |
+  | Média              | Show                                                   | Show ID                  | Format                                             |
+  | ------------------ | ------------------------------------------------------ | ------------------------ | -------------------------------------------------- |
+  | Le Monde           | L'Heure du Monde                                       | `2ceI3IzPwHJywfQTAtrQSI` | Actu quotidienne courte                            |
+  | France Info        | Les informés de franceinfo                             | `4wyNV1lUV1Wm2wqN91mEx6` | Débat hebdo, format long                           |
+  | France Info        | 8h30 franceinfo                                        | `6RHQXwIlOrjdZ86forQKlw` | Actu quotidienne courte                            |
+  | AFP                | Sur le fil                                             | `1QSQSKhOnNKkm6jr4afJHg` | Actu quotidienne courte                            |
+  | AFP                | Le Fil Culture G                                       | `73jHIG8pyTbbRnhVUwRXnZ` | Culture générale quotidienne, format court         |
+  | Le Monde           | L'ordre du monde                                       | `62iffPHZ8yR5yvRZN9C2f4` | Géopolitique, hebdo, format long                   |
+  | —                  | Maintenant, vous savez                                 | `2syIwMfdIPTD6VgkOY6FGa` | Culture générale, format court                     |
+  | —                  | HugoDécrypte - Actus et interviews                     | `6y1PloEyNsCNJH9vHias4T` | Actu, plusieurs épisodes/jour, durée variable      |
+  | —                  | La semaine européenne                                  | `0pj85Csk4cPVRulubA1sel` | Actu UE, hebdo                                     |
+  | —                  | Ça dit quoi ?                                          | `4wMWrabr79pA104WEAkcH3` | Format court                                       |
+  | —                  | Maintenant Vous Savez - Culture                        | `6rnrqx5EXCQUriDzp9Y0sw` | Culture générale, format court                     |
+  | —                  | La question info                                       | `3YCFNohB2PpHNY41qNsc5Q` | Actu quotidienne courte                            |
+  | —                  | Maintenant Vous Savez Santé                            | `5DUxdQ9CFJza8jpjGpO3Q2` | Santé, format court                                |
+  | France Télévisions | C dans l'air                                           | `1teuRpy91067CoPOPfArRE` | Débat quotidien, format long (~1h)                 |
+  | Le Parisien        | Code source                                            | `4J2KJU7Lcv0e1wH3728Fse` | Actu quotidienne courte                            |
+  | —                  | Journal de 08h00                                       | `108ja5N6Lhjl7M8TjTYcNa` | Actu quotidienne courte                            |
+  | —                  | Gaspard G                                              | `5zhGjnzRr4On2lWMIgFQPm` | Interviews, humour                                 |
+  | Binge Audio        | Les Couilles sur la table                              | `3xk078ZrBB5X75zQzHEHRN` | Société/sexualité, hebdo                           |
+  | —                  | L'œil de Philippe Caverivière                          | `5iZAQiKv5QamDAzT2jOn1f` | Humour, chronique courte                           |
+  | Arte               | Le Dessous des Cartes                                  | `0mGLRxbnUfEtBmgpE9bRXT` | Géopolitique, hebdo                                |
+  | France Culture     | Géopolitique                                           | `7trRb7PXoTNX9kbEKZI5uY` | Géopolitique quotidien                             |
+  | —                  | Le Crayon                                              | `20rMwrrfflhMee6dxnxE57` | Actu / dessin de presse                            |
+  | Europe 1           | Le journal d'Europe 1                                  | `1AUM0tB6DZBShd4nyzZHHE` | Actu quotidienne courte                            |
+  | —                  | Journal Monde                                          | `6y3v3GWUBwANr9hK9m1frF` | Actu internationale                                |
+  | L'Équipe           | Undercut, le podcast F1 de L'Équipe                    | `17gHyBzJ8BC7i8O9DgJUal` | Sport                                              |
+  | L'Équipe           | Big 5, le podcast foot de L'Équipe                     | `4CjHsp28z1bL2ji5j6PCGX` | Sport                                              |
+  | L'Équipe           | Crunch, le podcast rugby de L'Équipe                   | `5SqKygFl8gfylpIDtfqVe2` | Sport                                              |
+  | L'Équipe           | Ultra Run, le podcast trail de L'Équipe                | `1a9RSfnhxLiwOZJL0mU3ww` | Sport                                              |
+  | —                  | La Matinée Est Tienne, par Samuel Etienne              | `1YlJfmqBsfLHI9QZksdSbR` | Actu quotidienne (ajout 2026-09-22)                |
+  | —                  | Journal de 07h00                                       | `58PM4YR8kDyH7lU5yVbgjT` | Actu quotidienne courte (ajout 2026-09-22)         |
+  | Libération         | Libération Podcast                                     | `4l7WZcg5qBOdo76lL9ZtEj` | Thématique (ajout 2026-09-22)                      |
+  | —                  | Le Phil d'Actu - Philosophie et Actualité              | `6d9U2NiY1792t8gNE9Eptm` | Thématique (ajout 2026-09-22)                      |
+  | —                  | Le Titre à la une                                      | `0WjH88Utuz9qOS9FzUp1xu` | Thématique (ajout 2026-09-22)                      |
+  | —                  | Saga                                                   | `4MF0XYJpnZQ2za6CCJ61Q5` | Thématique (ajout 2026-09-22)                      |
+  | —                  | Décryptage                                             | `271pQcFjR0jlqgthMUZdKG` | Thématique (ajout 2026-09-22)                      |
+  | —                  | L'Entretien géopolitique                               | `4nWaNsD1fMzJRbxTQKEmnP` | Thématique (ajout 2026-09-22)                      |
+  | —                  | La Story                                               | `3OiGhrRIdqhorrpPhlfiFt` | Thématique (ajout 2026-09-22)                      |
+  | —                  | En Immersion                                           | `2SWtkazFRAdcOxFN3hUvSL` | Thématique (ajout 2026-09-22)                      |
+  | France Inter       | Journal de 07h30                                       | `31c051Jvz9MkmkK1dCBoHQ` | Actu quotidienne courte (ajout 2026-09-23)         |
+  | France Inter       | Le journal de 6h                                       | `0q3CZ4Gn4BbRjfzhfWNgwt` | Actu quotidienne courte (ajout 2026-09-23)         |
+  | France Culture     | Les journaux de France Culture                         | `0pversl5NYX9qOs4WD7sfN` | Actu quotidienne (ajout 2026-09-23)                |
+  | RFI                | Journal en français facile                             | `0AVkxaaQWUC6QAn38x5OmR` | Actu internationale quotidienne (ajout 2026-09-23) |
+  | Le Figaro          | L'édito du Figaro                                      | `0F3VqxhfFyKB8MxnddgpSg` | Édito quotidien (ajout 2026-09-23)                 |
+  | Le Figaro          | La Question du jour                                    | `6E5NW1rh303Jx28QEw18K0` | Débat quotidien court (ajout 2026-09-23)           |
+  | France Culture     | Les Enjeux internationaux                              | `4d8b4VDri5fMz1a2U4p0tF` | Géopolitique quotidienne (ajout 2026-09-23)        |
+  | France Culture     | L'actu internationale par France Culture               | `4zkO1BrMVLpN8YFT4fub9h` | Géopolitique (ajout 2026-09-23)                    |
+  | RFI                | Géopolitique (RFI)                                     | `6p28Rq8jqWzBlkNuOl1bae` | Géopolitique, week-end (ajout 2026-09-23)          |
+  | Le Figaro          | Le Club Le Figaro International                        | `3oRAgecaFNTxmSEea00V7m` | Géopolitique, hebdo (ajout 2026-09-23)             |
+  | France Inter       | Le Grand reportage de France Inter                     | `7BayWqjvFaZDTY1P8h1jN6` | Reportage (ajout 2026-09-23)                       |
+  | RFI                | Grand reportage (RFI)                                  | `1EJVUzPQJAM9b3Qp7gyaPm` | Reportage international (ajout 2026-09-23)         |
+  | France Inter       | Interception                                           | `6lHI4xTEvCB0PAwahBiwGO` | Reportage société, sujets durs (ajout 2026-09-23)  |
+  | France Inter       | Affaires sensibles                                     | `2mgIj1Y64XTLJT2Ax9rYEx` | Récit historique, sujets durs (ajout 2026-09-23)   |
+  | Binge Audio        | Programme B                                            | `3b5FHUYRoCb6D8LjnGMK09` | Décryptage société/tech (ajout 2026-09-23)         |
+  | Louie Media        | Passages, le podcast d'histoires vraies de Louie Media | `5u5HcL7HaColC7ULKhA4zZ` | Histoires vraies, sujets durs (ajout 2026-09-23)   |
+  | Le Figaro          | Les Récits du Figaro                                   | `6yurCuUVoJL5rheKRHzMvM` | Récit historique (ajout 2026-09-23)                |
 
   ⚠️ Plusieurs shows (Sur le fil, Le Fil Culture G, Maintenant Vous Savez Santé, Code source, Le Crayon) sont marqués `explicit: true` par Spotify — ce flag ne couvre pas les sujets sensibles visés par la modération prévue plus bas (guerre, sexualité, violence), à ne pas utiliser comme substitut.
 
 - [x] **Bloquant avant le mixer** — Tester manuellement qu'un épisode ajouté à une playlist perso (bouton "Ajouter à la playlist" sur la page d'un épisode dans l'app Spotify) apparaît et **joue bien depuis la playlist elle-même** (pas seulement en lecture directe du podcast) — risque documenté dans [LRN-006](../.claude/memory/learnings/LRN-006.md) (bug API Spotify connu depuis 2020, jamais corrigé). Testé OK par Baptiste le 2026-09-22.
 - [x] Ajouter la logique de mix musique/podcast (gabarit fixe : 2 actus d'affilée en ouverture, puis alternance actu/thématique toutes les 4 musiques jusqu'à 4 actus + 4 thématiques ; au-delà, musique seule jusqu'à la coupe 4h) — `src/generate.ts`, `src/core/podcast-source.ts`. Décisions du 2026-09-22, cf. [docs/PLAYLIST_GENERATION.md](PLAYLIST_GENERATION.md) :
   - Musique : top tracks seuls, répétition voulue. Deux pistes d'enrichissement essayées puis retirées (code supprimé, récupérable via git) : découverte par genre, et playlists éditoriales Spotify hits/découvertes — **bloquées côté API** (404, migration Spotify de février 2026 sur les playlists non possédées), reportées en Phase 6
-  - Podcasts : catégorisation manuelle `actu`/`thematique` dans `podcast-shows.ts` (pas de signal de popularité exposé par l'API Spotify, ni sur les shows ni dans l'historique d'écoute), tirage au sort (pas un ordre fixe), plafonné à **4 actus + 4 thématiques/jour**. Actu tirée parmi les 13 fraîches (< 3 jours) ; thématique tirée parmi les 15 hors des 14 derniers jours utilisés. Fallback croisé symétrique si un pool est trop court. Fraîcheur commune aux 2 catégories, abaissée à `EPISODE_MAX_AGE_DAYS = 3` le 2026-09-22 (7 jours laissait passer du contenu périmé) — **tensions connues acceptées telles quelles** : pénalise les thématiques hebdomadaires (fraîcheur), et un pool de 15 s'épuise en ~4 jours à raison de 4/jour avec exclusion 14 jours (rotation) — cf. doc pour le détail
+  - Podcasts : catégorisation manuelle `actu`/`thematique` dans `podcast-shows.ts` (pas de signal de popularité exposé par l'API Spotify, ni sur les shows ni dans l'historique d'écoute), tirage au sort (pas un ordre fixe), plafonné à **4 actus + 4 thématiques/jour**. Actu tirée parmi les 11 shows actu (épisodes frais (< 3 jours) ; < 3 jours) ; thématique tirée parmi les 44 shows thématiques hors des 14 derniers jours utilisés (compteurs après tri manuel + ajouts des 2026-09-22 et 2026-09-23). Fallback croisé symétrique si un pool est trop court. Fraîcheur commune aux 2 catégories, abaissée à `EPISODE_MAX_AGE_DAYS = 3` le 2026-09-22 (7 jours laissait passer du contenu périmé) — **tensions connues acceptées telles quelles** : pénalise les thématiques hebdomadaires (fraîcheur), et un pool de 15 s'épuise en ~4 jours à raison de 4/jour avec exclusion 14 jours (rotation) — cf. doc pour le détail
   - Playlist plafonnée à **4h** de durée cumulée (coupe en fin de pipeline, les titres prioritaires survivent)
   - **Fix** : `getLatestEpisode` ne regardait que l'index 0 de la réponse Spotify et ratait les épisodes valides quand Spotify renvoie `null` à cet index précis (repéré sur "Gaspard G") — cherche maintenant le premier élément non-`null` parmi les 5 récupérés
 - [x] Enregistrer l'historique des playlists — table Supabase `playlist_history` (pas `data/store.json`, cf. [BDR-002](../.claude/memory/decisions/BDR-002.md) : storage Supabase dès la Phase 1). Sert à la rotation du podcast découverte (seuls les podcasts réellement inclus après la coupe 4h sont enregistrés) ; `track_ids` gardé en écriture seule pour un futur historique visible (Phase 6)
