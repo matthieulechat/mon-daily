@@ -11,11 +11,10 @@ const MAX_PLAYLIST_DURATION_MS = 4 * 60 * 60 * 1000;
 const JINGLE_DURATION_MS = 15_000;
 
 // "actu" et "thematique" sont chacune plafonnées à 4/jour, tirées au sort
-// parmi tous les ÉPISODES éligibles (< 3 jours, cf. podcast-source.ts) des
+// parmi tous les ÉPISODES éligibles (actu ≤ 2 jours, thématique ≤ 3 jours, cf. podcast-source.ts) des
 // shows de la catégorie — un show peut contribuer plusieurs épisodes, le
-// pool n'est pas limité au nombre de shows. La thématique exclut en plus
-// les shows utilisés dans les THEMATIC_ROTATION_LOOKBACK_DAYS derniers
-// jours (rotation). Catégorisation dans podcast-shows.ts — pas de signal de
+// pool n'est pas limité au nombre de shows. Catégorisation dans
+// podcast-shows.ts — pas de signal de
 // popularité exploitable côté API Spotify (ni sur les shows, ni dans
 // l'historique d'écoute), donc le tirage au sort remplace un vrai
 // classement "plus écouté". Une fois les 2×4 podcasts placés, le reste de
@@ -24,7 +23,6 @@ const ACTU_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "actu");
 const THEMATIC_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "thematique");
 const ACTU_SLOTS_MAX = 4;
 const THEMATIC_SLOTS_MAX = 4;
-const THEMATIC_ROTATION_LOOKBACK_DAYS = 14;
 
 // Spotify liste parfois le même morceau deux fois sous des ids différents
 // (ex. "Titre" et "Titre (Music Video)") — on dédoublonne aussi sur
@@ -182,17 +180,9 @@ const main = async (): Promise<void> => {
   const musicMix = dedupeTracks(topTracks);
 
   console.log("Récupération des podcasts...");
-  const recentThematicShowIds = await supabaseStorage.getRecentShowIds(
-    userId,
-    THEMATIC_ROTATION_LOOKBACK_DAYS,
-  );
-  const thematicRotationPool = THEMATIC_SHOWS.filter(
-    (show) => !recentThematicShowIds.includes(show.id),
-  );
-
   const [eligibleActu, eligibleThematic] = await Promise.all([
     fetchEligibleEpisodes(tokens.accessToken, ACTU_SHOWS),
-    fetchEligibleEpisodes(tokens.accessToken, thematicRotationPool),
+    fetchEligibleEpisodes(tokens.accessToken, THEMATIC_SHOWS),
   ]);
   console.log(
     `Pool éligible : ${eligibleActu.length} épisodes actu, ${eligibleThematic.length} épisodes thématiques.`,
@@ -232,9 +222,8 @@ const main = async (): Promise<void> => {
 
   await spotifyProvider.createOrUpdatePlaylist(tokens.accessToken, userId, mix);
 
-  // Seuls les podcasts réellement inclus après la coupe 4h comptent pour la
-  // rotation — un pick tronqué n'a jamais été écouté, il ne doit pas être
-  // marqué "utilisé".
+  // Seuls les podcasts réellement inclus après la coupe 4h sont enregistrés
+  // — un pick tronqué n'a jamais été écouté.
   const mixTrackIds = new Set(mix.map((track) => track.id));
   const includedPicks = [...actuPicks, ...thematicPicks].filter((pick) =>
     mixTrackIds.has(pick.track.id),

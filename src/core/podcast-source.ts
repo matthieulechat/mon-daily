@@ -2,7 +2,12 @@ import type { PodcastShow } from "../config/podcast-shows.js";
 import type { Track } from "../types/index.js";
 
 const API_BASE = "https://api.spotify.com/v1";
-const EPISODE_MAX_AGE_DAYS = 3;
+// Fraîcheur max d'un épisode selon la catégorie du show : les actus périment
+// vite, les thématiques (moins liées à l'actualité) tolèrent quelques jours.
+const EPISODE_MAX_AGE_DAYS: Record<PodcastShow["category"], number> = {
+  actu: 2,
+  thematique: 3,
+};
 const EPISODES_FETCH_LIMIT = 10;
 
 interface SpotifyEpisodeObject {
@@ -16,11 +21,9 @@ interface SpotifyEpisodeObject {
 // `release_date` peut être tronquée ("YYYY" ou "YYYY-MM") sur de rares
 // épisodes mal renseignés — un Date invalide est alors traité comme frais
 // plutôt que d'exclure une source à tort.
-const isTooOld = (releaseDate: string): boolean => {
+const isTooOld = (releaseDate: string, maxAgeDays: number): boolean => {
   const ageMs = Date.now() - new Date(releaseDate).getTime();
-  return (
-    !Number.isNaN(ageMs) && ageMs > EPISODE_MAX_AGE_DAYS * 24 * 60 * 60 * 1000
-  );
+  return !Number.isNaN(ageMs) && ageMs > maxAgeDays * 24 * 60 * 60 * 1000;
 };
 
 interface SpotifyPagedResponse<T> {
@@ -81,7 +84,8 @@ export const getEligibleEpisodes = async (
     }
 
     const eligible = episodes.filter(
-      (episode) => !isTooOld(episode.release_date),
+      (episode) =>
+        !isTooOld(episode.release_date, EPISODE_MAX_AGE_DAYS[show.category]),
     );
     if (eligible.length === 0) {
       console.warn(
