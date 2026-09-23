@@ -79,7 +79,7 @@ const fetchEligibleEpisodes = async (
   return results.flat();
 };
 
-// Gabarit fixe (donné par Baptiste le 2026-09-22) : 2 actus d'affilée en
+// Gabarit fixe (donné par Matthieu le 2026-09-22) : 2 actus d'affilée en
 // ouverture (avant toute musique), puis 4 musiques entre chaque podcast en
 // alternant actu/thématique, jusqu'à 4 actus + 4 thématiques placées.
 // Au-delà, plus aucun podcast — la musique continue seule jusqu'à la coupe

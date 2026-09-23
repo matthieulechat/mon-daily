@@ -57,7 +57,7 @@ Si le classement `actu`/`thematique` d'un show te semble faux (quelques cas limi
 
 **⚠️ Tension connue (fraîcheur)** : la règle des 3 jours s'applique aussi aux thématiques hebdomadaires ("Le Dessous des Cartes", "Les Couilles sur la table", les podcasts sport de L'Équipe...) — un show qui publie une fois par semaine n'est "frais" que ~3 jours sur 7, donc souvent exclu même quand son contenu n'a rien de périmé. Constaté en test : 6 des 15 thématiques exclues le même jour pour cette raison, comblées par le fallback croisé vers l'actu. Pas corrigé pour l'instant (pas demandé).
 
-**⚠️ Tension connue (rotation)** : avec 15 shows thématiques et une exclusion de 14 jours, piocher 4/jour épuise le pool en ~4 jours — au-delà, plus rien n'est éligible jusqu'à ce que la fenêtre de 14 jours commence à "libérer" les plus anciens. Le fallback croisé comble alors avec de l'actu (déjà observé en test). Accepté tel quel par Baptiste le 2026-09-22.
+**⚠️ Tension connue (rotation)** : avec 15 shows thématiques et une exclusion de 14 jours, piocher 4/jour épuise le pool en ~4 jours — au-delà, plus rien n'est éligible jusqu'à ce que la fenêtre de 14 jours commence à "libérer" les plus anciens. Le fallback croisé comble alors avec de l'actu (déjà observé en test). Accepté tel quel par Matthieu le 2026-09-22.
 
 ## Pourquoi un show peut être absent sans erreur visible
 
@@ -71,7 +71,7 @@ Le cas 3 a eu un vrai bug corrigé le 2026-09-22 : Spotify peut renvoyer `null` 
 
 ## Le gabarit du mix
 
-Fixe (donné par Baptiste le 2026-09-22) : 2 actus d'affilée en ouverture (avant toute musique), puis 4 musiques entre chaque podcast en alternant actu/thématique, jusqu'à 4 actus + 4 thématiques placées. **Au-delà, plus aucun podcast** — la musique continue seule jusqu'à la coupe 4h.
+Fixe (donné par Matthieu le 2026-09-22) : 2 actus d'affilée en ouverture (avant toute musique), puis 4 musiques entre chaque podcast en alternant actu/thématique, jusqu'à 4 actus + 4 thématiques placées. **Au-delà, plus aucun podcast** — la musique continue seule jusqu'à la coupe 4h.
 
 | Position | Contenu                                           |
 | -------- | ------------------------------------------------- |
@@ -108,7 +108,7 @@ Un slot "podcast" sans pick disponible ce jour-là (pool épuisé même après l
 
 ## ⚠️ Limitations connues (playlists éditoriales Spotify)
 
-Baptiste voulait enrichir le mix musique avec 2 playlists éditoriales Spotify ("Hot Hits France" `37i9dQZF1DWVuV87wUBNwc`, une playlist découverte `37i9dQZEVXcEf1WT9Cq9sA`). **Essayé le 2026-09-22, puis retiré** : les deux renvoient 404 sur `GET /playlists/{id}`, y compris pour les métadonnées seules. Confirmé via la doc Spotify à jour (migration de février 2026, `references/changes/february-2026`) : _"playlist responses for non-user playlists will now only return metadata rather than the full contents"_ — une playlist qu'on ne possède pas (même suivie, même officielle) n'est plus exploitable via l'API. Même schéma que la dépréciation de `/recommendations` ([LRN-001](../.claude/memory/learnings/LRN-001.md)).
+Matthieu voulait enrichir le mix musique avec 2 playlists éditoriales Spotify ("Hot Hits France" `37i9dQZF1DWVuV87wUBNwc`, une playlist découverte `37i9dQZEVXcEf1WT9Cq9sA`). **Essayé le 2026-09-22, puis retiré** : les deux renvoient 404 sur `GET /playlists/{id}`, y compris pour les métadonnées seules. Confirmé via la doc Spotify à jour (migration de février 2026, `references/changes/february-2026`) : _"playlist responses for non-user playlists will now only return metadata rather than the full contents"_ — une playlist qu'on ne possède pas (même suivie, même officielle) n'est plus exploitable via l'API. Même schéma que la dépréciation de `/recommendations` ([LRN-001](../.claude/memory/learnings/LRN-001.md)).
 
 Aucun contournement officiel identifié (pas de "charts" public dans le Web API). **Reporté en Phase 6** (ROADMAP) — le code correspondant a été supprimé plutôt que laissé mort, récupérable via git si une piste apparaît.
 
