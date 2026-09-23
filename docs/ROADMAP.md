@@ -117,6 +117,8 @@
 
 **Objectif : basculer le stockage local vers Supabase et automatiser la génération quotidienne.**
 
+Limites, coût (gratuit) et points de vigilance : cf. [docs/AUTOMATION.md](AUTOMATION.md).
+
 - [ ] Créer le projet Supabase (plan gratuit) + les tables (`users`, `oauth_tokens`, `user_preferences`)
 - [ ] Implémenter `supabase-storage.ts` (même interface `Storage` que `json-storage.ts`)
 - [ ] Migrer les tokens vers Supabase Vault
