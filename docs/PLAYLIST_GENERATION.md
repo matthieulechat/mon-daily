@@ -16,7 +16,7 @@ flowchart TD
     E --> F[13 shows « actu »<br/>fraîcheur moins de 3 jours]
     F --> G[Tirage au sort de 4 max]
 
-    E --> H[15 shows « thématique »<br/>hors 14 derniers jours utilisés<br/>fraîcheur moins de 3 jours]
+    E --> H[15 shows « thématique »<br/>fraîcheur moins de 3 jours]
     H --> I[Tirage au sort de 4 max]
 
     G --> J{Pool insuffisant<br/>d'un côté ?}
@@ -30,7 +30,6 @@ flowchart TD
     N -->|oui, dès le titre en trop| O[Coupe — le reste est sacrifié]
     N -->|non| P[Playlist Spotify créée/mise à jour]
     O --> P
-    P --> Q[Historique enregistré<br/>seulement les podcasts réellement inclus]
 ```
 
 ## Sélection des podcasts
@@ -41,23 +40,20 @@ Il n'existe **aucun signal de popularité exploitable côté API Spotify** : l'o
 
 1. Les 13 shows `"actu"` sont tous tentés (`/shows/{id}/episodes`) — pas d'arrêt anticipé, il faut connaître l'ensemble des éligibles avant de tirer au sort.
 2. Un show est éligible si son dernier épisode existe et a **moins de 3 jours** (`EPISODE_MAX_AGE_DAYS`).
-3. **Tirage au sort de 4** parmi les éligibles (pas les 4 premiers de la liste). Pas de rotation : le contenu change tous les jours de toute façon, un même show peut revenir le lendemain.
+3. **Tirage au sort de 4** parmi les éligibles (pas les 4 premiers de la liste). Pas d'historique ni de rotation : avec un grand nombre de shows, le risque de retomber sur le même deux jours de suite est faible, et le contenu change tous les jours de toute façon.
 
 ### Thématique (15 shows, 4 max/jour)
 
-1. Le pool de départ exclut les shows utilisés en podcast dans les **14 derniers jours** (`THEMATIC_ROTATION_LOOKBACK_DAYS`, via `playlist_history.show_ids`) — c'est la rotation, pour ne pas retomber sur les mêmes.
-2. Sur ce pool restreint, même règle de fraîcheur (< 3 jours), puis **tirage au sort de 4** parmi les éligibles.
+Même règle de fraîcheur (< 3 jours), puis **tirage au sort de 4** parmi les éligibles. Pas d'historique ni de rotation non plus.
 
 ### Fallback croisé (symétrique)
 
 - **Pas assez d'actus fraîches** (moins de 4 éligibles) → les places manquantes sont comblées par des thématiques tirées au sort mais non retenues.
-- **Pas assez de thématiques éligibles** (moins de 4 dans la fenêtre de rotation, ou fraîcheur) → les places manquantes sont comblées par des actus tirées au sort mais non retenues.
+- **Pas assez de thématiques éligibles** (moins de 4 après le filtre de fraîcheur) → les places manquantes sont comblées par des actus tirées au sort mais non retenues.
 
 Si le classement `actu`/`thematique` d'un show te semble faux (quelques cas limites tranchés à la main, ex. "Géopolitique" de France Culture est quotidien mais classé thématique par nature du contenu), corrige directement le champ `category` dans `podcast-shows.ts` — c'est la seule source de vérité.
 
 **⚠️ Tension connue (fraîcheur)** : la règle des 3 jours s'applique aussi aux thématiques hebdomadaires ("Le Dessous des Cartes", "Les Couilles sur la table", les podcasts sport de L'Équipe...) — un show qui publie une fois par semaine n'est "frais" que ~3 jours sur 7, donc souvent exclu même quand son contenu n'a rien de périmé. Constaté en test : 6 des 15 thématiques exclues le même jour pour cette raison, comblées par le fallback croisé vers l'actu. Pas corrigé pour l'instant (pas demandé).
-
-**⚠️ Tension connue (rotation)** : avec 15 shows thématiques et une exclusion de 14 jours, piocher 4/jour épuise le pool en ~4 jours — au-delà, plus rien n'est éligible jusqu'à ce que la fenêtre de 14 jours commence à "libérer" les plus anciens. Le fallback croisé comble alors avec de l'actu (déjà observé en test). Accepté tel quel par Matthieu le 2026-09-22.
 
 ## Pourquoi un show peut être absent sans erreur visible
 
@@ -95,16 +91,15 @@ Un slot "podcast" sans pick disponible ce jour-là (pool épuisé même après l
 
 ## Détail par étape
 
-| #   | Étape                 | Fichier                                  | Logique                                                                                                                                                                    |
-| --- | --------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1   | Auth                  | `storage/supabase-storage.ts`            | Token récupéré par `platform_user_id` (Spotify), rafraîchi si expiré (marge 60s)                                                                                           |
-| 2   | Mix musique           | `generate.ts`                            | Les top tracks Spotify (`time_range=short_term`, jusqu'à 50), dédupliqués — répétition voulue, pas de découverte (cf. limitations plus bas)                                |
-| 3   | Sélection podcasts    | `generate.ts` + `core/podcast-source.ts` | Voir sections dédiées ci-dessus                                                                                                                                            |
-| 4   | Assemblage            | `generate.ts` (`buildMix`)               | Suit `MIX_TEMPLATE` (ci-dessus) ; le reste de la musique non consommée suit en continu                                                                                     |
-| 5   | Jingle                | `config/jingles.ts`                      | 1 des 7 jingles officiels "C'est {jour}", calculé sur le fuseau `Europe/Paris`                                                                                             |
-| 6   | **Coupe durée**       | `generate.ts`                            | La playlist assemblée est tronquée dès que le titre suivant ferait dépasser **4h** — les titres en tête survivent, ceux de fin sont sacrifiés en premier                   |
-| 7   | Publication           | `providers/spotify.provider.ts`          | Playlist "Mon Daily" trouvée ou créée (+ pochette), forcée en privée, titres remplacés                                                                                     |
-| 8   | Historique sauvegardé | `storage/supabase-storage.ts`            | `playlist_history.show_ids` : seulement les podcasts **réellement inclus après la coupe** (un pick tronqué n'a jamais été écouté, il ne doit pas compter pour la rotation) |
+| #   | Étape              | Fichier                                  | Logique                                                                                                                                                  |
+| --- | ------------------ | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | Auth               | `storage/supabase-storage.ts`            | Token récupéré par `platform_user_id` (Spotify), rafraîchi si expiré (marge 60s)                                                                         |
+| 2   | Mix musique        | `generate.ts`                            | Les top tracks Spotify (`time_range=short_term`, jusqu'à 50), dédupliqués — répétition voulue, pas de découverte (cf. limitations plus bas)              |
+| 3   | Sélection podcasts | `generate.ts` + `core/podcast-source.ts` | Voir sections dédiées ci-dessus                                                                                                                          |
+| 4   | Assemblage         | `generate.ts` (`buildMix`)               | Suit `MIX_TEMPLATE` (ci-dessus) ; le reste de la musique non consommée suit en continu                                                                   |
+| 5   | Jingle             | `config/jingles.ts`                      | 1 des 7 jingles officiels "C'est {jour}", calculé sur le fuseau `Europe/Paris`                                                                           |
+| 6   | **Coupe durée**    | `generate.ts`                            | La playlist assemblée est tronquée dès que le titre suivant ferait dépasser **4h** — les titres en tête survivent, ceux de fin sont sacrifiés en premier |
+| 7   | Publication        | `providers/spotify.provider.ts`          | Playlist "Mon Daily" trouvée ou créée (+ pochette), forcée en privée, titres remplacés                                                                   |
 
 ## ⚠️ Limitations connues (playlists éditoriales Spotify)
 
@@ -115,7 +110,7 @@ Aucun contournement officiel identifié (pas de "charts" public dans le Web API)
 ## Décisions actées le 2026-09-22
 
 - **Musique — répétition voulue** : les musiques les plus écoutées reviennent tous les jours. Deux pistes d'enrichissement essayées et retirées : découverte par genre et playlists éditoriales Spotify (bloquées côté API, cf. ci-dessus).
-- **Podcasts — 4 actus + 4 thématiques, tirage au sort, fallback croisé** : gabarit fixe (cf. ci-dessus), plus aucun podcast au-delà (musique seule jusqu'à 4h). Rotation thématique sur 14 jours, acceptée telle quelle malgré la tension de pool évoquée plus haut.
+- **Podcasts — 4 actus + 4 thématiques, tirage au sort, fallback croisé** : gabarit fixe (cf. ci-dessus), plus aucun podcast au-delà (musique seule jusqu'à 4h). Pas d'historique des mix (retiré le 2026-09-23) : pool assez large pour que la répétition d'un jour à l'autre reste rare.
 - **Fraîcheur** : seuil à 3 jours (`EPISODE_MAX_AGE_DAYS`), commun aux 2 catégories — cf. tension connue ci-dessus pour les thématiques hebdomadaires.
 - **Playlist plafonnée à 4h** : coupe par durée cumulée en fin de pipeline, pas de limite fixe sur le nombre de titres.
 - **Fix** : `getLatestEpisode` cherchait un épisode uniquement à l'index 0 de la réponse Spotify, ratant les cas où Spotify renvoie `null` pour cet index précis alors qu'un épisode valide existe plus loin dans la liste — cherche maintenant le premier élément non-`null` parmi les 5 récupérés.

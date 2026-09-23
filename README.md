@@ -32,13 +32,13 @@
 
 ## 💻 Technical Stack
 
-| Category           | Technologies                                                                                                                                              |
-| :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Language**       | ![TypeScript](https://shieldcn.dev/badge/TypeScript-5-blue.svg)                                                                                           |
-| **Runtime**        | ![Node.js](https://shieldcn.dev/badge/Node.js-ESM-339933.svg) ![pnpm](https://shieldcn.dev/badge/pnpm-package%20manager-F69220.svg) `tsx`                 |
-| **Music provider** | ![Spotify Web API](https://shieldcn.dev/badge/Spotify-Web%20API-1DB954.svg) OAuth 2.0 authorization code + PKCE                                           |
-| **Storage**        | ![Supabase](https://shieldcn.dev/badge/Supabase-Postgres-3ECF8E.svg) OAuth tokens and playlist history, RLS enabled, accessed with the `service_role` key |
-| **Validation**     | ![Zod](https://shieldcn.dev/badge/Zod-3-3E67B1.svg) environment variables checked at startup                                                              |
+| Category           | Technologies                                                                                                                              |
+| :----------------- | :---------------------------------------------------------------------------------------------------------------------------------------- |
+| **Language**       | ![TypeScript](https://shieldcn.dev/badge/TypeScript-5-blue.svg)                                                                           |
+| **Runtime**        | ![Node.js](https://shieldcn.dev/badge/Node.js-ESM-339933.svg) ![pnpm](https://shieldcn.dev/badge/pnpm-package%20manager-F69220.svg) `tsx` |
+| **Music provider** | ![Spotify Web API](https://shieldcn.dev/badge/Spotify-Web%20API-1DB954.svg) OAuth 2.0 authorization code + PKCE                           |
+| **Storage**        | ![Supabase](https://shieldcn.dev/badge/Supabase-Postgres-3ECF8E.svg) OAuth tokens, RLS enabled, accessed with the `service_role` key      |
+| **Validation**     | ![Zod](https://shieldcn.dev/badge/Zod-3-3E67B1.svg) environment variables checked at startup                                              |
 
 ## 📦 Installation & Getting Started
 

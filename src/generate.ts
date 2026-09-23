@@ -222,17 +222,12 @@ const main = async (): Promise<void> => {
 
   await spotifyProvider.createOrUpdatePlaylist(tokens.accessToken, userId, mix);
 
-  // Seuls les podcasts réellement inclus après la coupe 4h sont enregistrés
-  // — un pick tronqué n'a jamais été écouté.
+  // Podcasts réellement inclus après la coupe 4h (un pick tronqué n'est pas
+  // dans la playlist).
   const mixTrackIds = new Set(mix.map((track) => track.id));
   const includedPicks = [...actuPicks, ...thematicPicks].filter((pick) =>
     mixTrackIds.has(pick.track.id),
   );
-
-  await supabaseStorage.saveHistory(userId, {
-    trackIds: musicMix.map((track) => track.id),
-    showIds: includedPicks.map((pick) => pick.showId),
-  });
 
   const totalMinutes = Math.round(
     mix.reduce((sum, track) => sum + track.durationMs, 0) / 60_000,

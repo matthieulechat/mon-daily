@@ -55,7 +55,7 @@ mon-daily/
 │   └── generate.ts                   # script lancé manuellement (point d'entrée)
 │
 ├── data/
-│   └── store.json                    # tokens + historique (local, jamais commité)
+│   └── store.json                    # tokens (local, jamais commité)
 │
 ├── .env                               # secrets (client_id, client_secret Spotify)
 ├── package.json
@@ -68,8 +68,6 @@ mon-daily/
 interface Storage {
   getTokens(userId: string): Promise<OAuthTokens | null>;
   saveTokens(userId: string, tokens: OAuthTokens): Promise<void>;
-  getPlaylistHistory(userId: string): Promise<string[]>;
-  appendPlaylistHistory(userId: string, trackIds: string[]): Promise<void>;
 }
 ```
 
@@ -102,9 +100,6 @@ interface Storage {
         │
         ▼
 [spotify.provider: createOrUpdatePlaylist]
-        │
-        ▼
-[storage.appendPlaylistHistory] (évite les répétitions le lendemain)
 ```
 
 ### Format `data/store.json`
@@ -118,10 +113,7 @@ interface Storage {
         "access_token": "...",
         "refresh_token": "...",
         "expires_at": "2026-09-08T06:00:00Z"
-      },
-      "playlist_history": [
-        { "date": "2026-09-06", "track_ids": ["...", "..."] }
-      ]
+      }
     }
   }
 }
@@ -135,7 +127,7 @@ Une fois l'Étape A validée manuellement, on bascule :
 
 | Composant Étape A                    | Devient (Étape B)                                                 |
 | ------------------------------------ | ----------------------------------------------------------------- |
-| `data/store.json`                    | Tables Postgres (`users`, `oauth_tokens`, `playlist_history`)     |
+| `data/store.json`                    | Tables Postgres (`users`, `oauth_tokens`)                         |
 | Tokens en clair dans le JSON local   | Tokens dans **Supabase Vault** (chiffrés)                         |
 | Lancement manuel `pnpm run generate` | **Edge Function** Supabase déclenchée par **pg_cron** chaque jour |
 | `json-storage.ts`                    | `supabase-storage.ts` (même interface `Storage`)                  |
@@ -159,13 +151,6 @@ CREATE TABLE oauth_tokens (
   refresh_token TEXT NOT NULL,          -- via Supabase Vault
   expires_at TIMESTAMP NOT NULL,
   UNIQUE (platform, platform_user_id)
-);
-
-CREATE TABLE playlist_history (
-  id SERIAL PRIMARY KEY,
-  user_id UUID REFERENCES users(id),
-  generated_at TIMESTAMP DEFAULT NOW(),
-  track_ids JSONB NOT NULL              -- pour éviter les répétitions
 );
 
 CREATE TABLE user_preferences (

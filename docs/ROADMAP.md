@@ -95,7 +95,7 @@
   - Podcasts : catégorisation manuelle `actu`/`thematique` dans `podcast-shows.ts` (pas de signal de popularité exposé par l'API Spotify, ni sur les shows ni dans l'historique d'écoute), tirage au sort (pas un ordre fixe), plafonné à **4 actus + 4 thématiques/jour**. Actu tirée parmi les 11 shows actu (épisodes frais (< 3 jours) ; < 3 jours) ; thématique tirée parmi les 44 shows thématiques hors des 14 derniers jours utilisés (compteurs après tri manuel + ajouts des 2026-09-22 et 2026-09-23). Fallback croisé symétrique si un pool est trop court. Fraîcheur commune aux 2 catégories, abaissée à `EPISODE_MAX_AGE_DAYS = 3` le 2026-09-22 (7 jours laissait passer du contenu périmé) — **tensions connues acceptées telles quelles** : pénalise les thématiques hebdomadaires (fraîcheur), et un pool de 15 s'épuise en ~4 jours à raison de 4/jour avec exclusion 14 jours (rotation) — cf. doc pour le détail
   - Playlist plafonnée à **4h** de durée cumulée (coupe en fin de pipeline, les titres prioritaires survivent)
   - **Fix** : `getLatestEpisode` ne regardait que l'index 0 de la réponse Spotify et ratait les épisodes valides quand Spotify renvoie `null` à cet index précis (repéré sur "Gaspard G") — cherche maintenant le premier élément non-`null` parmi les 5 récupérés
-- [x] Enregistrer l'historique des playlists — table Supabase `playlist_history` (pas `data/store.json`, cf. [BDR-002](../.claude/memory/decisions/BDR-002.md) : storage Supabase dès la Phase 1). Sert à la rotation du podcast découverte (seuls les podcasts réellement inclus après la coupe 4h sont enregistrés) ; `track_ids` gardé en écriture seule pour un futur historique visible (Phase 6)
+- [x] ~~Enregistrer l'historique des playlists~~ — fait puis **retiré le 2026-09-23** (table `playlist_history` supprimée) : avec un grand nombre de podcasts, le risque de retomber sur le même deux jours de suite est faible, l'historique n'apportait plus rien
 - [x] Logging + gestion d'erreurs (échec API, token expiré...) — un show en erreur/sans contenu/trop ancien est loggé et ignoré, ne fait pas échouer toute la génération
 - [x] Préfixer la playlist du jour par le jingle "C'est {jour}" de l'album officiel Spotify [Mon Daily](https://open.spotify.com/intl-fr/album/7F6q2YyEzP7ugqZhxfwouD) (2021) — `src/config/jingles.ts`, calculé sur `Europe/Paris` (pas `getDay()` brut) :
 
@@ -117,7 +117,7 @@
 
 **Objectif : basculer le stockage local vers Supabase et automatiser la génération quotidienne.**
 
-- [ ] Créer le projet Supabase (plan gratuit) + les tables (`users`, `oauth_tokens`, `playlist_history`, `user_preferences`)
+- [ ] Créer le projet Supabase (plan gratuit) + les tables (`users`, `oauth_tokens`, `user_preferences`)
 - [ ] Implémenter `supabase-storage.ts` (même interface `Storage` que `json-storage.ts`)
 - [ ] Migrer les tokens vers Supabase Vault
 - [ ] Porter la logique de génération (`generate.ts`) en Edge Function
@@ -151,7 +151,6 @@
 ## Phase 6 — Améliorations (optionnel, post-V1)
 
 - [ ] Interface utilisateur simple (réglages : ratio musique/actu, sources d'actu)
-- [ ] Historique des playlists générées (éviter répétitions)
 - [ ] Notifications (playlist prête, échec de génération)
 - [ ] Multi-utilisateurs si le projet s'ouvre à d'autres personnes
 - [ ] **(pas prioritaire, gardé en tête)** Filtrage des podcasts par préférence utilisateur : durée max de l'épisode (certains shows font ~1h, ex. C dans l'air, Les informés, L'ordre du monde) et fréquence de publication (certains shows publient plusieurs épisodes/jour, ex. HugoDécrypte) — cf. tableau Phase 2 pour le point de départ éditorial (colonne Format)

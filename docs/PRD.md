@@ -43,7 +43,6 @@ Permettre à un utilisateur de retrouver une expérience équivalente au Daily D
 - Choix des sources d'actu (médias) — liste étendue à 28 shows Spotify le 2026-09-20, puis 38 le 2026-09-22 et 55 le 2026-09-23, cf. [ROADMAP.md](ROADMAP.md#phase-2--podcasts-fr--mix-toujours-en-local).
 - Filtrage des podcasts par préférence utilisateur : durée max de l'épisode et fréquence de publication du show (pas prioritaire pour l'instant, gardé en tête).
 - Modération de contenu par mots-clés sur le titre de l'épisode, activable/désactivable par l'utilisateur, sujets retenus : guerre/conflits armés, sexualité, violence/faits divers (pas prioritaire pour l'instant, gardé en tête).
-- Historique des playlists générées (éviter les doublons d'un jour sur l'autre).
 
 ### Hors scope V1
 
