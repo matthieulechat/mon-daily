@@ -25,3 +25,4 @@ register: learnings
 | [LRN-017](learnings/LRN-017.md) | 2026-09-23 | Spotify : l'oEmbed d'un show renvoie le dernier épisode                     | #spotify #oembed #show-metadata #scraping #og-title                            |
 | [LRN-018](learnings/LRN-018.md) | 2026-09-23 | Page HTML jetable pour trier à la main une liste de données                 | #manual-review #html #localstorage #human-in-the-loop #classification #tooling |
 | [LRN-019](learnings/LRN-019.md) | 2026-09-23 | Contenu généré en JS invisible hors projet dans le Browser pane             | #claude-browser #html #static-rendering #preview #javascript                   |
+| [LRN-020](learnings/LRN-020.md) | 2026-09-23 | `release_date` Spotify au jour près : « N jours » = N-1 effectif | #spotify #release-date #freshness #timezone #date-precision |

@@ -17,3 +17,5 @@ register: archive_blockers
 | [ZBLK-009](blockers/ZBLK-009.md) | 2026-09-22 | Pool de tirage au sort sous-estimé (show vs épisode) | #spotify #podcast #random-selection #mon-daily  | résolu |
 | [ZBLK-010](blockers/ZBLK-010.md) | 2026-09-22 | Bug silencieux "aucun épisode" sur Gaspard G         | #spotify #bug #podcast #debugging #mon-daily    | résolu |
 | [ZBLK-011](blockers/ZBLK-011.md) | 2026-09-22 | Playlists éditoriales Spotify tentées puis retirées  | #spotify #api-restriction #playlists #mon-daily | résolu |
+| [ZBLK-012](blockers/ZBLK-012.md) | 2026-09-23 | Page de review sans liens visibles                   | #html #claude-browser #static-rendering #mon-daily | résolu |
+| [ZBLK-013](blockers/ZBLK-013.md) | 2026-09-23 | Renommage d'auteur incomplet : 3 passes nécessaires | #rename #grep #search #git-remote #mon-daily | résolu |

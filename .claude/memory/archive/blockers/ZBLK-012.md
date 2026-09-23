@@ -1,11 +1,11 @@
 ---
-id: BLK-012
+id: ZBLK-012
 type: blocker
 date: 2026-09-23
 tags: [html, claude-browser, static-rendering, mon-daily]
 ---
 
-# BLK-012 — Page de review sans liens visibles
+# ZBLK-012 — Page de review sans liens visibles
 
 | Friction                                                       | Cause réelle                                                                                                             | Solution                                                                                                                                         | Statut |
 | -------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------ |
@@ -13,4 +13,4 @@ tags: [html, claude-browser, static-rendering, mon-daily]
 
 ## Références
 
-- [LRN-019](../learnings/LRN-019.md) — pattern extrait
+- [LRN-019](../../learnings/LRN-019.md) — pattern extrait

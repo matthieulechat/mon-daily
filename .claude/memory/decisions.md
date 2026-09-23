@@ -19,3 +19,6 @@ register: decisions
 | [BDR-011](decisions/BDR-011.md) | 2026-09-22 | Mix musique : répétition volontaire, découvertes retirées               | #spotify #playlist-generation #music-mix #discovery #mon-daily                | actif  |
 | [BDR-012](decisions/BDR-012.md) | 2026-09-22 | Podcasts : catégorisation actu/thématique + gabarit fixe 4+4            | #spotify #podcast #playlist-generation #random-selection #rotation #mon-daily | actif  |
 | [BDR-013](decisions/BDR-013.md) | 2026-09-23 | Actu = journaux du jour uniquement ; liste étendue à 55 shows           | #spotify #podcast #categorization #manual-review #mon-daily                   | actif  |
+| [BDR-014](decisions/BDR-014.md) | 2026-09-23 | Auteur du projet : Matthieu LECHAT (plus Baptiste)                      | #mon-daily #attribution #readme #docs #naming                                 | actif  |
+| [BDR-015](decisions/BDR-015.md) | 2026-09-23 | Fraîcheur podcast par catégorie ; rotation thématique retirée           | #spotify #podcast #freshness #rotation #playlist-generation #mon-daily        | actif  |
+| [BDR-016](decisions/BDR-016.md) | 2026-09-23 | Historique des mix supprimé, pool de podcasts assez large               | #supabase #playlist-history #rotation #simplification #podcast #mon-daily     | actif  |
