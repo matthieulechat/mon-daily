@@ -22,3 +22,9 @@ register: decisions
 | [BDR-014](decisions/BDR-014.md) | 2026-09-23 | Auteur du projet : Matthieu LECHAT (plus Baptiste)                      | #mon-daily #attribution #readme #docs #naming                                 | actif  |
 | [BDR-015](decisions/BDR-015.md) | 2026-09-23 | Fraîcheur podcast par catégorie ; rotation thématique retirée           | #spotify #podcast #freshness #rotation #playlist-generation #mon-daily        | actif  |
 | [BDR-016](decisions/BDR-016.md) | 2026-09-23 | Historique des mix supprimé, pool de podcasts assez large               | #supabase #playlist-history #rotation #simplification #podcast #mon-daily     | actif  |
+| [BDR-017](decisions/BDR-017.md) | 2026-09-28 | Météo extraite d'Europe 1 par titre ; ouverture actu+météo              | #spotify #podcast #categorization #weather #playlist-generation #mon-daily    | actif  |
+| [BDR-018](decisions/BDR-018.md) | 2026-09-28 | Samuel Etienne : ne garder que "L'actu du jour en bref"                 | #spotify #podcast #categorization #title-filter #inclusion-filter #mon-daily  | actif  |
+| [BDR-019](decisions/BDR-019.md) | 2026-09-28 | HugoDécrypte : actu/thématique croisant titre et description            | #spotify #podcast #categorization #hugodecrypte #multi-signal #mon-daily      | actif  |
+| [BDR-020](decisions/BDR-020.md) | 2026-09-28 | Edge Function + pg_cron retenu plutôt que cron self-hosté               | #supabase #edge-functions #pg-cron #automation #self-hosted #mon-daily        | actif  |
+| [BDR-021](decisions/BDR-021.md) | 2026-09-28 | Automatisation appliquée aux 2 comptes Spotify existants                | #supabase #oauth-tokens #multi-account #automation #mon-daily                 | actif  |
+| [BDR-022](decisions/BDR-022.md) | 2026-09-28 | Vault sécurise l'appel pg_cron, pas les tokens OAuth                    | #supabase #vault #secrets #oauth #scope-clarification #mon-daily              | actif  |
