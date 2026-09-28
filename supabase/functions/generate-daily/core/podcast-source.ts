@@ -1,6 +1,6 @@
-import type { PodcastCategory, PodcastShow } from "../config/podcast-shows.js";
-import { fetchSpotifyWithRetry } from "../providers/spotify-http.js";
-import type { Track } from "../types/index.js";
+import type { PodcastCategory, PodcastShow } from "../config/podcast-shows.ts";
+import { fetchSpotifyWithRetry } from "../providers/spotify-http.ts";
+import type { Track } from "../types/index.ts";
 
 const API_BASE = "https://api.spotify.com/v1";
 // Fraîcheur max d'un épisode selon sa catégorie effective : les actus

@@ -119,12 +119,12 @@
 
 Limites, coût (gratuit) et points de vigilance : cf. [docs/AUTOMATION.md](AUTOMATION.md).
 
-- [ ] Créer le projet Supabase (plan gratuit) + les tables (`users`, `oauth_tokens`, `user_preferences`)
-- [ ] Implémenter `supabase-storage.ts` (même interface `Storage` que `json-storage.ts`)
-- [ ] Migrer les tokens vers Supabase Vault
-- [ ] Porter la logique de génération (`generate.ts`) en Edge Function
-- [ ] Programmer le déclenchement quotidien via `pg_cron` + `pg_net`
-- [ ] Gérer le refresh automatique du token OAuth expiré (sans intervention manuelle)
+- [x] Créer le projet Supabase (plan gratuit) + les tables (`users`, `oauth_tokens`) — fait dès la Phase 0/1, cf. [BDR-002](../.claude/memory/decisions/BDR-002.md) (pas de table `user_preferences`, jamais devenue nécessaire)
+- [x] Implémenter `supabase-storage.ts` (même interface `Storage`) — fait dès la Phase 1
+- [x] ~~Migrer les tokens vers Supabase Vault~~ — **écart assumé** : Vault stocke la clé `service_role` utilisée par `pg_cron` pour authentifier l'appel HTTP (`generate_daily_key`), pas les tokens OAuth eux-mêmes, qui restent dans `oauth_tokens` (déjà protégée par RLS, accès uniquement `service_role`)
+- [x] Porter la logique de génération (`generate.ts`) en Edge Function — `supabase/functions/generate-daily/`, boucle sur tous les comptes Spotify connectés (`oauth_tokens` où `platform = 'spotify'`), un compte en échec n'empêche pas les autres. Portage Deno : imports internes `.js` → `.ts` (Deno ne fait pas la résolution `.js`→`.ts` de `tsc`/NodeNext, contrairement à l'hypothèse initiale de [docs/AUTOMATION.md](AUTOMATION.md)), specifiers npm réécrits en `npm:paquet@version`, `config/env.ts` dupliqué en version `Deno.env.get()` (reste du code réutilisé tel quel)
+- [x] Programmer le déclenchement quotidien via `pg_cron` + `pg_net` — job `generate-daily`, `0 5 * * *` UTC (6h/7h Paris selon la saison)
+- [x] Gérer le refresh automatique du token OAuth expiré (sans intervention manuelle) — déjà géré par `refreshTokenIfNeeded` (repris tel quel dans l'Edge Function), validé en conditions réelles au premier appel curl
 
 **Livrable** : le "Daily Drive maison" tourne seul, chaque jour, sans que tu aies à lancer quoi que ce soit.
 

@@ -1,9 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
-import { refreshAccessToken } from "../auth/oauth.service.js";
-import type { Track } from "../types/index.js";
-import type { MusicProvider } from "./provider.interface.js";
-import { fetchSpotifyWithRetry } from "./spotify-http.js";
+import { refreshAccessToken } from "../auth/oauth.service.ts";
+import type { Track } from "../types/index.ts";
+import type { MusicProvider } from "./provider.interface.ts";
+import { fetchSpotifyWithRetry } from "./spotify-http.ts";
 
 const API_BASE = "https://api.spotify.com/v1";
 const PLAYLIST_NAME = "Mon Daily";

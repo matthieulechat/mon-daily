@@ -9,6 +9,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Automatisation quotidienne : la génération de la playlist tourne désormais seule, sans intervention manuelle, via une Edge Function Supabase (`supabase/functions/generate-daily`) déclenchée chaque jour à 5h UTC (6h/7h Paris selon la saison) par `pg_cron`/`pg_net`, boucle sur tous les comptes Spotify connectés (un compte en échec n'empêche pas les autres)
+- Retry automatique (backoff + `Retry-After`) sur les appels Spotify en 429 (`src/providers/spotify-http.ts`) — Spotify limite par app, pas par compte, et `fetchEligibleEpisodes` tire des dizaines de requêtes en rafale par run
 - Icône de l'application (identité visuelle "Bulletin Groove" : disque vinyle, label jaune, icône radio centrée)
 - Première génération fonctionnelle de la playlist quotidienne "Mon Daily" (`pnpm run login` + `pnpm run generate`) : sélection des top titres, pochette et description personnalisées, playlist privée sauvegardée dans la bibliothèque
 - Mix musique/actu dans la playlist générée : jingle "C'est {jour}" en intro, le mix ouvre sur une actu puis la météo du jour (extraite du Journal d'Europe 1) puis alterne avec des podcasts thématiques toutes les 4 musiques (3 actus + 1 météo + 4 thématiques par jour, tirés au sort), toujours les musiques les plus écoutées, playlist plafonnée à 4h (un épisode d'actu de plus de 2 jours, de météo de plus d'1 jour, ou un épisode thématique de plus de 3 jours est ignoré)
