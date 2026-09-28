@@ -15,19 +15,50 @@ const EPISODES_FETCH_LIMIT = 10;
 // météo commencent toujours par ce préfixe, seul moyen de les distinguer
 // (pas de champ dédié côté API Spotify).
 const METEO_TITLE_PREFIX = "la météo de";
+// HugoDécrypte mixe 3 formats dans le même flux : actu du jour, actu pop
+// culture et interviews/rediffs (le reste). Le titre seul n'est pas fiable
+// (certaines actus du jour n'ont pas de date en suffixe) donc on croise
+// titre ET description (Spotify tronque parfois le début de la description
+// sur les épisodes Pop, d'où le OR plutôt qu'un seul signal) — dès qu'un des
+// deux signaux matche, l'épisode compte comme actu.
+const HUGODECRYPTE_SHOW_ID = "6y1PloEyNsCNJH9vHias4T";
+const ACTU_DU_JOUR_DATE_SUFFIX = /\(\d{2}\/\d{2}\)$/;
+const ACTU_DU_JOUR_DESC = "résumé de l’actualité du jour";
+const ACTU_POP_TITLE_PREFIX = "(pop)";
+const ACTU_POP_DESC = "résumé de l’actualité culturelle";
+
+const matchesTitleFilter = (show: PodcastShow, episodeName: string): boolean =>
+  !show.titleIncludes ||
+  episodeName.toLowerCase().includes(show.titleIncludes.toLowerCase());
 
 const detectEpisodeCategory = (
   show: PodcastShow,
-  episodeName: string,
-): PodcastCategory =>
-  show.category === "actu" &&
-  episodeName.trim().toLowerCase().startsWith(METEO_TITLE_PREFIX)
-    ? "meteo"
-    : show.category;
+  episode: SpotifyEpisodeObject,
+): PodcastCategory => {
+  const title = episode.name.trim().toLowerCase();
+
+  if (show.category === "actu" && title.startsWith(METEO_TITLE_PREFIX)) {
+    return "meteo";
+  }
+
+  if (show.id === HUGODECRYPTE_SHOW_ID) {
+    const description = episode.description.toLowerCase();
+    const isActuDuJour =
+      ACTU_DU_JOUR_DATE_SUFFIX.test(title) ||
+      description.includes(ACTU_DU_JOUR_DESC);
+    const isActuPop =
+      title.startsWith(ACTU_POP_TITLE_PREFIX) ||
+      description.includes(ACTU_POP_DESC);
+    return isActuDuJour || isActuPop ? "actu" : "thematique";
+  }
+
+  return show.category;
+};
 
 interface SpotifyEpisodeObject {
   id: string;
   name: string;
+  description: string;
   uri: string;
   duration_ms: number;
   release_date: string;
@@ -92,9 +123,9 @@ export const getEligibleEpisodes = async (
     // Spotify peut renvoyer `null` pour un épisode précis (restriction par
     // épisode, indépendante de la restriction par show) — on les retire
     // avant tout, peu importe leur position dans la liste.
-    const episodes = data.items.filter(
-      (item): item is SpotifyEpisodeObject => item !== null,
-    );
+    const episodes = data.items
+      .filter((item): item is SpotifyEpisodeObject => item !== null)
+      .filter((episode) => matchesTitleFilter(show, episode.name));
 
     if (episodes.length === 0) {
       console.warn(
@@ -106,7 +137,7 @@ export const getEligibleEpisodes = async (
     const eligible = episodes
       .map((episode) => ({
         episode,
-        category: detectEpisodeCategory(show, episode.name),
+        category: detectEpisodeCategory(show, episode),
       }))
       .filter(
         ({ episode, category }) =>

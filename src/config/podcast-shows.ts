@@ -4,6 +4,9 @@ export interface PodcastShow {
   id: string;
   name: string;
   category: PodcastCategory;
+  // Sous-chaîne (insensible à la casse) qu'un titre d'épisode doit contenir
+  // pour rester éligible — pour un show qui mélange plusieurs formats.
+  titleIncludes?: string;
 }
 
 // Liste figée le 2026-09-20 (cf. docs/ROADMAP.md Phase 2, BDR-005/BDR-008).
@@ -73,6 +76,9 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     id: "1YlJfmqBsfLHI9QZksdSbR",
     name: "La Matinée Est Tienne, par Samuel Etienne",
     category: "actu",
+    // Flux mixte (chroniques, interviews...) — seul le format quotidien
+    // "L'actu du jour en bref" est retenu.
+    titleIncludes: "actu du jour en bref",
   },
   { id: "58PM4YR8kDyH7lU5yVbgjT", name: "Journal de 07h00", category: "actu" },
   { id: "31c051Jvz9MkmkK1dCBoHQ", name: "Journal de 07h30", category: "actu" },

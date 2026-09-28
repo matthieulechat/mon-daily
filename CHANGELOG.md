@@ -17,6 +17,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 
 - Classement actu/thématique revu à la main : seuls les journaux et flashs du jour comptent comme "actu" (les émissions de débat/décryptage comme C dans l'air, Code source ou L'Heure du Monde passent en thématique)
+- "La Matinée Est Tienne, par Samuel Etienne" : seuls les épisodes "L'actu du jour en bref" alimentent le mix, le reste du flux (chroniques, interviews) est écarté
+- HugoDécrypte : les "actu du jour" et "actu Pop" comptent comme actu, les interviews/rediffs passent en thématique (détecté sur le titre et la description de chaque épisode)
 
 ### Fixed
 
