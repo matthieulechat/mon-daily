@@ -1,4 +1,4 @@
-export type PodcastCategory = "actu" | "thematique";
+export type PodcastCategory = "actu" | "meteo" | "thematique";
 
 export interface PodcastShow {
   id: string;
@@ -16,6 +16,9 @@ export interface PodcastShow {
 // Revu à la main le 2026-09-22 (via docs/podcast-review.html) : 8 shows
 // d'analyse/débat passés de "actu" à "thematique" — seuls les journaux et
 // flashs du jour restent en "actu".
+// "meteo" n'apparaît jamais ici : "Le journal d'Europe 1" mixe actu et
+// météo dans le même flux, donc la catégorie effective est déduite par
+// épisode (titre) dans podcast-source.ts, pas fixée par show.
 export const PODCAST_SHOWS: PodcastShow[] = [
   {
     id: "2ceI3IzPwHJywfQTAtrQSI",

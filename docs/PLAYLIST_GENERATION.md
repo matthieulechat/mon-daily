@@ -13,10 +13,12 @@ flowchart TD
 
     D --> E[Mix musique dédupliqué]
 
-    E --> F[13 shows « actu »<br/>fraîcheur moins de 3 jours]
-    F --> G[Tirage au sort de 4 max]
+    E --> F[Shows « actu »<br/>fraîcheur moins de 2 jours]
+    F --> G[Tirage au sort de 3 max]
+    F --> F2[Épisodes météo<br/>par titre, fraîcheur 1 jour]
+    F2 --> G2[Tirage au sort de 1 max]
 
-    E --> H[15 shows « thématique »<br/>fraîcheur moins de 3 jours]
+    E --> H[Shows « thématique »<br/>fraîcheur moins de 3 jours]
     H --> I[Tirage au sort de 4 max]
 
     G --> J{Pool insuffisant<br/>d'un côté ?}
@@ -24,6 +26,7 @@ flowchart TD
     J -->|oui| K[Fallback croisé<br/>actu <-> thématique]
     J -->|non| L[Gabarit fixe<br/>cf. tableau ci-dessous]
     K --> L
+    G2 --> L
 
     L --> M[Jingle du jour en tête<br/>Europe/Paris]
     M --> N{Cumul plus de 4h ?}
@@ -34,24 +37,28 @@ flowchart TD
 
 ## Sélection des podcasts
 
-Il n'existe **aucun signal de popularité exploitable côté API Spotify** : l'objet `Show` n'a pas de champ `popularity` (contrairement aux morceaux), et `/me/player/recently-played` ne remonte pas les épisodes écoutés. Impossible de calculer un vrai classement "les plus écoutés" — la sélection repose donc sur une **catégorisation manuelle** (`category` dans `src/config/podcast-shows.ts`) et un **tirage au sort**, plafonné à 4 de chaque côté.
+Il n'existe **aucun signal de popularité exploitable côté API Spotify** : l'objet `Show` n'a pas de champ `popularity` (contrairement aux morceaux), et `/me/player/recently-played` ne remonte pas les épisodes écoutés. Impossible de calculer un vrai classement "les plus écoutés" — la sélection repose donc sur une **catégorisation manuelle** (`category` dans `src/config/podcast-shows.ts`, plus une détection par titre pour la météo) et un **tirage au sort**, plafonné par catégorie.
 
-### Actu (13 shows, 4 max/jour)
+### Actu (3 max/jour)
 
-1. Les 13 shows `"actu"` sont tous tentés (`/shows/{id}/episodes`) — pas d'arrêt anticipé, il faut connaître l'ensemble des éligibles avant de tirer au sort.
-2. Un show est éligible si son dernier épisode existe et a **moins de 3 jours** (`EPISODE_MAX_AGE_DAYS`).
-3. **Tirage au sort de 4** parmi les éligibles (pas les 4 premiers de la liste). Pas d'historique ni de rotation : avec un grand nombre de shows, le risque de retomber sur le même deux jours de suite est faible, et le contenu change tous les jours de toute façon.
+1. Les shows `"actu"` sont tous tentés (`/shows/{id}/episodes`) — pas d'arrêt anticipé, il faut connaître l'ensemble des éligibles avant de tirer au sort.
+2. Un show est éligible si son dernier épisode existe et a **moins de 2 jours** (`EPISODE_MAX_AGE_DAYS`).
+3. **Tirage au sort de 3** parmi les éligibles (pas les 3 premiers de la liste). Pas d'historique ni de rotation : avec un grand nombre de shows, le risque de retomber sur le même deux jours de suite est faible, et le contenu change tous les jours de toute façon.
 
 ### Thématique (15 shows, 4 max/jour)
 
 Même règle de fraîcheur (< 3 jours), puis **tirage au sort de 4** parmi les éligibles. Pas d'historique ni de rotation non plus.
 
-### Fallback croisé (symétrique)
+### Météo (1 max/jour, extraite du journal d'Europe 1)
 
-- **Pas assez d'actus fraîches** (moins de 4 éligibles) → les places manquantes sont comblées par des thématiques tirées au sort mais non retenues.
+Pas de show dédié : "Le journal d'Europe 1" (catégorisé `actu`) mixe actu et météo dans le même flux. Chaque titre d'épisode dont Spotify commence par `"La météo de ...h... du .../.../..."` est reclassé `meteo` **par épisode**, pas par show (`detectEpisodeCategory` dans `podcast-source.ts`) — fraîcheur **1 jour**, la météo n'a de sens que le jour même. Le reste des épisodes du même show reste `actu`. **Tirage au sort de 1** parmi les éligibles, sans fallback : pool vide → le slot météo du gabarit est simplement sauté.
+
+### Fallback croisé (symétrique, actu ↔ thématique uniquement)
+
+- **Pas assez d'actus fraîches** (moins de 3 éligibles) → les places manquantes sont comblées par des thématiques tirées au sort mais non retenues.
 - **Pas assez de thématiques éligibles** (moins de 4 après le filtre de fraîcheur) → les places manquantes sont comblées par des actus tirées au sort mais non retenues.
 
-Si le classement `actu`/`thematique` d'un show te semble faux (quelques cas limites tranchés à la main, ex. "Géopolitique" de France Culture est quotidien mais classé thématique par nature du contenu), corrige directement le champ `category` dans `podcast-shows.ts` — c'est la seule source de vérité.
+Si le classement `actu`/`thematique` d'un show te semble faux (quelques cas limites tranchés à la main, ex. "Géopolitique" de France Culture est quotidien mais classé thématique par nature du contenu), corrige directement le champ `category` dans `podcast-shows.ts` — c'est la seule source de vérité. Le préfixe météo (`METEO_TITLE_PREFIX` dans `podcast-source.ts`) est l'autre source de vérité, pour les seuls shows `actu`.
 
 **⚠️ Tension connue (fraîcheur)** : la règle des 3 jours s'applique aussi aux thématiques hebdomadaires ("Le Dessous des Cartes", "Les Couilles sur la table", les podcasts sport de L'Équipe...) — un show qui publie une fois par semaine n'est "frais" que ~3 jours sur 7, donc souvent exclu même quand son contenu n'a rien de périmé. Constaté en test : 6 des 15 thématiques exclues le même jour pour cette raison, comblées par le fallback croisé vers l'actu. Pas corrigé pour l'instant (pas demandé).
 
@@ -67,12 +74,13 @@ Le cas 3 a eu un vrai bug corrigé le 2026-09-22 : Spotify peut renvoyer `null` 
 
 ## Le gabarit du mix
 
-Fixe (donné par Matthieu le 2026-09-22) : 2 actus d'affilée en ouverture (avant toute musique), puis 4 musiques entre chaque podcast en alternant actu/thématique, jusqu'à 4 actus + 4 thématiques placées. **Au-delà, plus aucun podcast** — la musique continue seule jusqu'à la coupe 4h.
+Fixe (donné par Matthieu le 2026-09-22, ouverture actu+météo le 2026-09-28) : 1 actu puis la météo du jour en ouverture (avant toute musique), puis 4 musiques entre chaque podcast en alternant actu/thématique, jusqu'à 3 actus + 1 météo + 4 thématiques placées. **Au-delà, plus aucun podcast** — la musique continue seule jusqu'à la coupe 4h.
 
 | Position | Contenu                                           |
 | -------- | ------------------------------------------------- |
 | —        | Jingle du jour                                    |
-| 1-2      | 2 × actu                                          |
+| 1        | 1 × actu                                          |
+| 2        | 1 × météo                                         |
 | 3-4      | 2 × musique                                       |
 | 5        | 1 × thématique                                    |
 | 6-9      | 4 × musique                                       |

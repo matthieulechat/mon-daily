@@ -1,5 +1,9 @@
 import { todaysJingleUri } from "./config/jingles.js";
-import { PODCAST_SHOWS, type PodcastShow } from "./config/podcast-shows.js";
+import {
+  PODCAST_SHOWS,
+  type PodcastCategory,
+  type PodcastShow,
+} from "./config/podcast-shows.js";
 import { getEligibleEpisodes } from "./core/podcast-source.js";
 import { spotifyProvider } from "./providers/spotify.provider.js";
 import { supabaseStorage } from "./storage/supabase-storage.js";
@@ -10,18 +14,20 @@ const MAX_PLAYLIST_DURATION_MS = 4 * 60 * 60 * 1000;
 // durée exacte, négligeable sur un budget de 4h.
 const JINGLE_DURATION_MS = 15_000;
 
-// "actu" et "thematique" sont chacune plafonnées à 4/jour, tirées au sort
-// parmi tous les ÉPISODES éligibles (actu ≤ 2 jours, thématique ≤ 3 jours, cf. podcast-source.ts) des
-// shows de la catégorie — un show peut contribuer plusieurs épisodes, le
-// pool n'est pas limité au nombre de shows. Catégorisation dans
-// podcast-shows.ts — pas de signal de
-// popularité exploitable côté API Spotify (ni sur les shows, ni dans
-// l'historique d'écoute), donc le tirage au sort remplace un vrai
-// classement "plus écouté". Une fois les 2×4 podcasts placés, le reste de
-// la playlist (jusqu'à 4h) est de la musique en continu.
+// "actu" et "thematique" sont catégorisées par show (podcast-shows.ts) et
+// tirées au sort parmi tous les ÉPISODES éligibles (actu ≤ 2 jours,
+// thématique ≤ 3 jours, cf. podcast-source.ts) — un show peut contribuer
+// plusieurs épisodes, le pool n'est pas limité au nombre de shows. Pas de
+// signal de popularité exploitable côté API Spotify, donc le tirage au
+// sort remplace un vrai classement "plus écouté".
+// "meteo" n'a pas de show dédié : ce sont les épisodes du "journal
+// d'Europe 1" (catégorisé "actu") dont le titre matche le préfixe météo
+// (cf. podcast-source.ts) — le pool est donc tiré du même fetch que l'actu,
+// puis séparé par catégorie effective ci-dessous.
 const ACTU_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "actu");
 const THEMATIC_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "thematique");
-const ACTU_SLOTS_MAX = 4;
+const ACTU_SLOTS_MAX = 3;
+const METEO_SLOTS_MAX = 1;
 const THEMATIC_SLOTS_MAX = 4;
 
 // Spotify liste parfois le même morceau deux fois sous des ids différents
@@ -56,6 +62,7 @@ const shuffle = <T>(items: T[]): T[] => {
 interface PodcastPick {
   showId: string;
   track: Track;
+  category: PodcastCategory;
 }
 
 // Tente TOUS les shows donnés (pas d'arrêt anticipé) pour connaître
@@ -71,24 +78,29 @@ const fetchEligibleEpisodes = async (
   const results = await Promise.all(
     shows.map(async (show) => {
       const episodes = await getEligibleEpisodes(accessToken, show);
-      return episodes.map((track) => ({ showId: show.id, track }));
+      return episodes.map(({ track, category }) => ({
+        showId: show.id,
+        track,
+        category,
+      }));
     }),
   );
   return results.flat();
 };
 
-// Gabarit fixe (donné par Matthieu le 2026-09-22) : 2 actus d'affilée en
-// ouverture (avant toute musique), puis 4 musiques entre chaque podcast en
-// alternant actu/thématique, jusqu'à 4 actus + 4 thématiques placées.
+// Gabarit fixe (donné par Matthieu le 2026-09-22, ouverture actu+météo
+// ajoutée le 2026-09-28) : 1 actu puis la météo du jour en ouverture (avant
+// toute musique), puis 4 musiques entre chaque podcast en alternant
+// actu/thématique, jusqu'à 3 actus + 1 météo + 4 thématiques placées.
 // Au-delà, plus aucun podcast — la musique continue seule jusqu'à la coupe
 // 4h.
 type MixSlot =
   | { kind: "music"; count: number }
-  | { kind: "podcast"; source: "actu" | "thematic" };
+  | { kind: "podcast"; source: "actu" | "meteo" | "thematic" };
 
 const MIX_TEMPLATE: MixSlot[] = [
   { kind: "podcast", source: "actu" },
-  { kind: "podcast", source: "actu" },
+  { kind: "podcast", source: "meteo" },
   { kind: "music", count: 2 },
   { kind: "podcast", source: "thematic" },
   { kind: "music", count: 4 },
@@ -109,11 +121,13 @@ const MIX_TEMPLATE: MixSlot[] = [
 const buildMix = (
   music: Track[],
   actuPicks: PodcastPick[],
+  meteoPicks: PodcastPick[],
   thematicPicks: PodcastPick[],
 ): Track[] => {
   const result: Track[] = [];
   let musicIndex = 0;
   let actuIndex = 0;
+  let meteoIndex = 0;
   let thematicIndex = 0;
 
   for (const slot of MIX_TEMPLATE) {
@@ -124,6 +138,9 @@ const buildMix = (
     } else if (slot.source === "actu") {
       if (actuIndex < actuPicks.length)
         result.push(actuPicks[actuIndex++]!.track);
+    } else if (slot.source === "meteo") {
+      if (meteoIndex < meteoPicks.length)
+        result.push(meteoPicks[meteoIndex++]!.track);
     } else if (thematicIndex < thematicPicks.length) {
       result.push(thematicPicks[thematicIndex++]!.track);
     }
@@ -180,20 +197,28 @@ const main = async (): Promise<void> => {
   const musicMix = dedupeTracks(topTracks);
 
   console.log("Récupération des podcasts...");
-  const [eligibleActu, eligibleThematic] = await Promise.all([
+  const [actuPoolPicks, eligibleThematic] = await Promise.all([
     fetchEligibleEpisodes(tokens.accessToken, ACTU_SHOWS),
     fetchEligibleEpisodes(tokens.accessToken, THEMATIC_SHOWS),
   ]);
+  // Le pool "actu" fetché (catégorisation par show) contient aussi la
+  // météo (catégorisation par titre d'épisode, cf. podcast-source.ts) —
+  // séparation ici, avant tirage au sort.
+  const eligibleActu = actuPoolPicks.filter((p) => p.category === "actu");
+  const eligibleMeteo = actuPoolPicks.filter((p) => p.category === "meteo");
   console.log(
-    `Pool éligible : ${eligibleActu.length} épisodes actu, ${eligibleThematic.length} épisodes thématiques.`,
+    `Pool éligible : ${eligibleActu.length} épisodes actu, ${eligibleMeteo.length} épisodes météo, ${eligibleThematic.length} épisodes thématiques.`,
   );
 
-  // Tirage au sort dans chaque pool éligible, plafonné à 4 de chaque côté.
-  // Fallback croisé symétrique si un pool ne suffit pas (voir
+  // Tirage au sort dans chaque pool éligible. Fallback croisé symétrique
+  // actu/thématique si un pool ne suffit pas (voir
   // docs/PLAYLIST_GENERATION.md pour le détail) : les actus manquantes sont
-  // comblées par des thématiques non tirées, et vice versa.
+  // comblées par des thématiques non tirées, et vice versa. La météo n'a
+  // qu'un seul slot et pas de fallback — absente, le slot est simplement
+  // sauté (comportement déjà géré par buildMix).
   const actuQueue = shuffle(eligibleActu);
   const thematicQueue = shuffle(eligibleThematic);
+  const meteoPicks = shuffle(eligibleMeteo).splice(0, METEO_SLOTS_MAX);
 
   const actuPicks = actuQueue.splice(0, ACTU_SLOTS_MAX);
   const actuShortfall = ACTU_SLOTS_MAX - actuPicks.length;
@@ -215,7 +240,7 @@ const main = async (): Promise<void> => {
       uri: todaysJingleUri(),
       durationMs: JINGLE_DURATION_MS,
     },
-    ...buildMix(musicMix, actuPicks, thematicPicks),
+    ...buildMix(musicMix, actuPicks, meteoPicks, thematicPicks),
   ];
 
   const mix = truncateToDuration(fullMix, MAX_PLAYLIST_DURATION_MS);
@@ -225,8 +250,8 @@ const main = async (): Promise<void> => {
   // Podcasts réellement inclus après la coupe 4h (un pick tronqué n'est pas
   // dans la playlist).
   const mixTrackIds = new Set(mix.map((track) => track.id));
-  const includedPicks = [...actuPicks, ...thematicPicks].filter((pick) =>
-    mixTrackIds.has(pick.track.id),
+  const includedPicks = [...actuPicks, ...meteoPicks, ...thematicPicks].filter(
+    (pick) => mixTrackIds.has(pick.track.id),
   );
 
   const totalMinutes = Math.round(
