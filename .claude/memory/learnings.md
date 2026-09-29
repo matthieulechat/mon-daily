@@ -29,3 +29,6 @@ register: learnings
 | [LRN-021](learnings/LRN-021.md) | 2026-09-28 | Container mixte : classifier chaque item par motif de titre                 | #data-modeling #categorization #content-classification #string-matching #multi-category |
 | [LRN-022](learnings/LRN-022.md) | 2026-09-28 | Client Credentials Spotify suffit pour un show public                       | #spotify #api #client-credentials #oauth #public-endpoint                               |
 | [LRN-023](learnings/LRN-023.md) | 2026-09-28 | Un seul champ ne suffit pas si chacun peut individuellement faillir         | #data-modeling #categorization #multi-signal #string-matching #api-truncation           |
+| [LRN-024](learnings/LRN-024.md) | 2026-09-29 | Spotify ne donne pas l'heure : la lire dans le titre | #spotify #release-date #title-parsing #timezone #intl |
+| [LRN-025](learnings/LRN-025.md) | 2026-09-29 | Rejouer le net.http_post du cron pour tester une Edge Function | #supabase #pg-cron #pg-net #vault #edge-functions #testing |
+| [LRN-026](learnings/LRN-026.md) | 2026-09-29 | Vérifier le format de titre de chaque nouveau show | #spotify #podcast #title-parsing #oembed #regex |

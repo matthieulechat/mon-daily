@@ -20,3 +20,6 @@ register: archive_blockers
 | [ZBLK-012](blockers/ZBLK-012.md) | 2026-09-23 | Page de review sans liens visibles                                                         | #html #claude-browser #static-rendering #mon-daily                   | résolu |
 | [ZBLK-013](blockers/ZBLK-013.md) | 2026-09-23 | Renommage d'auteur incomplet : 3 passes nécessaires                                        | #rename #grep #search #git-remote #mon-daily                         | résolu |
 | [ZBLK-014](blockers/ZBLK-014.md) | 2026-09-28 | Filtre HugoDécrypte par titre seul incomplet                                               | #spotify #podcast #categorization #hugodecrypte #title-filter        | résolu |
+| [ZBLK-015](blockers/ZBLK-015.md) | 2026-09-28 | Déploiement Edge Function échoue "Module not found .js" | #deno #supabase #edge-functions #module-resolution #deployment                 | résolu |
+| [ZBLK-016](blockers/ZBLK-016.md) | 2026-09-28 | curl avec JWT en clair bloqué par le classifier         | #claude-code #auto-mode #classifier #credential-materialization #bash #testing | résolu |
+| [ZBLK-017](blockers/ZBLK-017.md) | 2026-09-28 | 429 Spotify pendant les tests d'automatisation          | #spotify #rate-limit #429 #testing #automation #mon-daily                      | résolu |

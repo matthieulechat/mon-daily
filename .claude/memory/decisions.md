@@ -28,3 +28,5 @@ register: decisions
 | [BDR-020](decisions/BDR-020.md) | 2026-09-28 | Edge Function + pg_cron retenu plutôt que cron self-hosté               | #supabase #edge-functions #pg-cron #automation #self-hosted #mon-daily        | actif  |
 | [BDR-021](decisions/BDR-021.md) | 2026-09-28 | Automatisation appliquée aux 2 comptes Spotify existants                | #supabase #oauth-tokens #multi-account #automation #mon-daily                 | actif  |
 | [BDR-022](decisions/BDR-022.md) | 2026-09-28 | Vault sécurise l'appel pg_cron, pas les tokens OAuth                    | #supabase #vault #secrets #oauth #scope-clarification #mon-daily              | actif  |
+| [BDR-023](decisions/BDR-023.md) | 2026-09-29 | Podcasts multi-éditions : garder l'épisode le plus proche de l'heure | #spotify #podcast #freshness #title-parsing #timezone #latestonly #mon-daily | actif |
+| [BDR-024](decisions/BDR-024.md) | 2026-09-29 | Journaux horaires : filtre inter-shows via closestGroup | #spotify #podcast #freshness #closest-group #cross-show #mon-daily | actif |
