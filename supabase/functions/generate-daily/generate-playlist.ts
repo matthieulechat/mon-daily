@@ -4,7 +4,7 @@ import {
   type PodcastCategory,
   type PodcastShow,
 } from "./config/podcast-shows.ts";
-import { getEligibleEpisodes } from "./core/podcast-source.ts";
+import { getEligibleEpisodes, keepClosestByGroup } from "./core/podcast-source.ts";
 import { spotifyProvider } from "./providers/spotify.provider.ts";
 import { supabaseStorage } from "./storage/supabase-storage.ts";
 import type { Track } from "./types/index.ts";

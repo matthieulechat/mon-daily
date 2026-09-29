@@ -4,7 +4,7 @@ import {
   type PodcastCategory,
   type PodcastShow,
 } from "./config/podcast-shows.js";
-import { getEligibleEpisodes } from "./core/podcast-source.js";
+import { getEligibleEpisodes, keepClosestByGroup } from "./core/podcast-source.js";
 import { spotifyProvider } from "./providers/spotify.provider.js";
 import { supabaseStorage } from "./storage/supabase-storage.js";
 import type { Track } from "./types/index.js";
@@ -85,7 +85,7 @@ const fetchEligibleEpisodes = async (
       }));
     }),
   );
-  return results.flat();
+  return keepClosestByGroup(results.flat(), shows);
 };
 
 // Gabarit fixe (donné par Matthieu le 2026-09-22, ouverture actu+météo

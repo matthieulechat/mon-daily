@@ -15,6 +15,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Première génération fonctionnelle de la playlist quotidienne "Mon Daily" (`pnpm run login` + `pnpm run generate`) : sélection des top titres, pochette et description personnalisées, playlist privée sauvegardée dans la bibliothèque
 - Mix musique/actu dans la playlist générée : jingle "C'est {jour}" en intro, le mix ouvre sur une actu puis la météo du jour (extraite du Journal d'Europe 1) puis alterne avec des podcasts thématiques toutes les 4 musiques (3 actus + 1 météo + 4 thématiques par jour, tirés au sort), toujours les musiques les plus écoutées, playlist plafonnée à 4h (un épisode d'actu de plus de 2 jours, de météo de plus d'1 jour, ou un épisode thématique de plus de 3 jours est ignoré)
 - Sources podcast étendues à 55 shows (journaux France Inter/France Culture/RFI, géopolitique, grands reportages, récits…)
+- Nouveaux journaux France Inter (6h, 6h30, 13h, 18h, 19h) en actu et « Les interviews d'Inter » en thématique
 
 ### Changed
 
@@ -23,6 +24,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - HugoDécrypte : les "actu du jour" et "actu Pop" comptent comme actu, les interviews/rediffs passent en thématique (détecté sur le titre et la description de chaque épisode)
 
 - "Le journal d'Europe 1" et "Journal Monde" (publiés plusieurs fois par jour) : seul l'épisode le plus proche de l'heure actuelle est retenu (heure lue dans le titre), séparément pour l'actu et la météo
+- Journaux « de XXhXX » de France Inter/France Culture (6h à 19h) : parmi tous ces shows, seul le journal le plus proche de l'heure de génération est retenu, pour avoir une actu fraîche (les shows restent dans la liste, ils sont seulement filtrés)
 
 ### Fixed
 

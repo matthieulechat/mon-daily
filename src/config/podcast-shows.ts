@@ -11,7 +11,13 @@ export interface PodcastShow {
   // ne garde que l'épisode le plus récent par catégorie effective, donc le
   // plus proche de l'heure de génération.
   latestOnly?: boolean;
+  // Shows de même groupe (ex. "Le journal de 07h00", "de 18h00"...) : parmi
+  // tous leurs épisodes, seul le plus proche de l'heure de génération est
+  // gardé (les autres shows restent dans la liste, ils sont juste filtrés).
+  closestGroup?: string;
 }
+
+const JOURNAL_HORAIRE = "journal-horaire";
 
 // Liste figée le 2026-09-20 (cf. docs/ROADMAP.md Phase 2, BDR-005/BDR-008).
 // `category` catégorisée le 2026-09-22 sur la base de la colonne "Format" du
@@ -68,6 +74,7 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     id: "108ja5N6Lhjl7M8TjTYcNa",
     name: "Journal de 08h00",
     category: "actu",
+    closestGroup: JOURNAL_HORAIRE,
   },
   { id: "20rMwrrfflhMee6dxnxE57", name: "Le Crayon", category: "thematique" },
   {
@@ -85,9 +92,13 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     // "L'actu du jour en bref" est retenu.
     titleIncludes: "actu du jour en bref",
   },
-  { id: "58PM4YR8kDyH7lU5yVbgjT", name: "Journal de 07h00", category: "actu" },
-  { id: "31c051Jvz9MkmkK1dCBoHQ", name: "Journal de 07h30", category: "actu" },
-  { id: "0q3CZ4Gn4BbRjfzhfWNgwt", name: "Le journal de 6h", category: "actu" },
+  { id: "58PM4YR8kDyH7lU5yVbgjT", name: "Journal de 07h00", category: "actu", closestGroup: JOURNAL_HORAIRE },
+  { id: "31c051Jvz9MkmkK1dCBoHQ", name: "Journal de 07h30", category: "actu", closestGroup: JOURNAL_HORAIRE },
+  { id: "0q3CZ4Gn4BbRjfzhfWNgwt", name: "Le journal de 6h", category: "actu", closestGroup: JOURNAL_HORAIRE },
+  { id: "6jxzu0YQMy6DP6PKsg3Ub4", name: "Le journal de 6h30", category: "actu", closestGroup: JOURNAL_HORAIRE },
+  { id: "6PZ0sczZaenEXeMtFjIYjK", name: "Le journal de 18h", category: "actu", closestGroup: JOURNAL_HORAIRE },
+  { id: "1waeTs7fCaeh4yGJIBKeSJ", name: "Le journal de 19h", category: "actu", closestGroup: JOURNAL_HORAIRE },
+  { id: "2pFNO7RV5JVFbFMQlfgc6i", name: "Le journal de 13h", category: "actu", closestGroup: JOURNAL_HORAIRE },
   {
     id: "0pversl5NYX9qOs4WD7sfN",
     name: "Les journaux de France Culture",
@@ -257,6 +268,11 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   {
     id: "6yurCuUVoJL5rheKRHzMvM",
     name: "Les Récits du Figaro",
+    category: "thematique",
+  },
+  {
+    id: "3G9rZxNBUCPltjP1zLWC5h",
+    name: "Les interviews d'Inter",
     category: "thematique",
   },
 ];
