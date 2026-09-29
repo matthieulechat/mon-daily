@@ -73,6 +73,65 @@ const isTooOld = (releaseDate: string, maxAgeDays: number): boolean => {
   return !Number.isNaN(ageMs) && ageMs > maxAgeDays * 24 * 60 * 60 * 1000;
 };
 
+// Titres des shows `latestOnly` (deux formats) :
+// - Paris : "Le journal de 12h30 du 29/09/2026", "La météo de 8h du 29/09/2026"
+// - GMT   : "Journal 29/09/2026 03h00 GMT", "Tranche d'information 29/09 05h00 GMT"
+const TITLE_PARIS = /(\d{1,2})h(\d{2})?\s+du\s+(\d{2})\/(\d{2})\/(\d{4})/i;
+const TITLE_GMT = /(\d{2})\/(\d{2})(?:\/(\d{4}))?\s+(\d{1,2})h(\d{2})?\s+GMT/i;
+
+// Heure murale de Paris d'un instant, en ms "UTC" (comparable entre elles).
+const parisWallMs = (date: Date): number => {
+  const p: Record<string, string> = Object.fromEntries(
+    new Intl.DateTimeFormat("en-GB", {
+      timeZone: "Europe/Paris",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hourCycle: "h23",
+    })
+      .formatToParts(date)
+      .map(({ type, value }) => [type, value]),
+  );
+  return Date.UTC(+p.year!, +p.month! - 1, +p.day!, +p.hour!, +p.minute!);
+};
+
+// Heure du titre en heure murale de Paris, ou null si absente.
+const titleDateMs = (title: string): number | null => {
+  const paris = TITLE_PARIS.exec(title);
+  if (paris) {
+    return Date.UTC(+paris[5]!, +paris[4]! - 1, +paris[3]!, +paris[1]!, +(paris[2] ?? 0));
+  }
+  const gmt = TITLE_GMT.exec(title);
+  if (gmt) {
+    const year = gmt[3] ? +gmt[3] : new Date().getUTCFullYear();
+    return parisWallMs(
+      new Date(Date.UTC(year, +gmt[2]! - 1, +gmt[1]!, +gmt[4]!, +(gmt[5] ?? 0))),
+    );
+  }
+  return null;
+};
+
+// Par catégorie effective, garde l'épisode dont l'heure (lue dans le titre) est
+// la plus proche de l'heure actuelle. Sans heure dans le titre, on retombe sur
+// l'ordre de l'API (plus récent d'abord).
+// ponytail: "heure actuelle" en dur, à rendre configurable avec la page de
+// personnalisation utilisateur.
+const keepClosestToNow = <T extends { episode: SpotifyEpisodeObject; category: PodcastCategory }>(
+  items: T[],
+): T[] => {
+  const now = parisWallMs(new Date());
+  const best = new Map<PodcastCategory, { item: T; gap: number }>();
+  for (const item of items) {
+    const at = titleDateMs(item.episode.name);
+    const gap = at === null ? Infinity : Math.abs(now - at);
+    const cur = best.get(item.category);
+    if (!cur || gap < cur.gap) best.set(item.category, { item, gap });
+  }
+  return [...best.values()].map(({ item }) => item);
+};
+
 interface SpotifyPagedResponse<T> {
   items: T[];
 }
@@ -151,7 +210,9 @@ export const getEligibleEpisodes = async (
       return [];
     }
 
-    return eligible.map(({ episode, category }) => ({
+    const kept = show.latestOnly ? keepClosestToNow(eligible) : eligible;
+
+    return kept.map(({ episode, category }) => ({
       track: toEpisodeTrack(show, episode),
       category,
     }));

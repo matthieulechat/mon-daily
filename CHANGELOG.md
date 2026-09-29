@@ -22,6 +22,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - "La Matinée Est Tienne, par Samuel Etienne" : seuls les épisodes "L'actu du jour en bref" alimentent le mix, le reste du flux (chroniques, interviews) est écarté
 - HugoDécrypte : les "actu du jour" et "actu Pop" comptent comme actu, les interviews/rediffs passent en thématique (détecté sur le titre et la description de chaque épisode)
 
+- "Le journal d'Europe 1" et "Journal Monde" (publiés plusieurs fois par jour) : seul l'épisode le plus proche de l'heure actuelle est retenu (heure lue dans le titre), séparément pour l'actu et la météo
+
 ### Fixed
 
 - Doublons de titres dans le mix généré (ex. "Titre" et "Titre (Music Video)" comptés comme deux titres différents)

@@ -7,6 +7,10 @@ export interface PodcastShow {
   // Sous-chaîne (insensible à la casse) qu'un titre d'épisode doit contenir
   // pour rester éligible — pour un show qui mélange plusieurs formats.
   titleIncludes?: string;
+  // Show publié plusieurs fois par jour (journaux à heures différentes) : on
+  // ne garde que l'épisode le plus récent par catégorie effective, donc le
+  // plus proche de l'heure de génération.
+  latestOnly?: boolean;
 }
 
 // Liste figée le 2026-09-20 (cf. docs/ROADMAP.md Phase 2, BDR-005/BDR-008).
@@ -70,8 +74,9 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     id: "1AUM0tB6DZBShd4nyzZHHE",
     name: "Le journal d'Europe 1",
     category: "actu",
+    latestOnly: true,
   },
-  { id: "6y3v3GWUBwANr9hK9m1frF", name: "Journal Monde", category: "actu" },
+  { id: "6y3v3GWUBwANr9hK9m1frF", name: "Journal Monde", category: "actu", latestOnly: true },
   {
     id: "1YlJfmqBsfLHI9QZksdSbR",
     name: "La Matinée Est Tienne, par Samuel Etienne",
