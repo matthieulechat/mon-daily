@@ -216,3 +216,12 @@ Baptiste trouvait que les musiques se répétaient trop : l'ordre des top tracks
 - [LRN-029](learnings/LRN-029.md) — Prévisualiser un tirage aléatoire en lecture seule sur données réelles
 
 Suite de la session : la copie Edge Function (`supabase/functions/generate-daily/`) a été resynchronisée avec `src/` (commit `35c3301`) puis redéployée via MCP en version 5. Run manuel en rejouant le `net.http_post` du cron ([LRN-025](learnings/LRN-025.md)) : 2 comptes OK (53 et 49 titres, ~239 et ~237 min), le cron de 5h UTC utilise donc désormais le mix pondéré avec plafond par artiste ([BDR-027](decisions/BDR-027.md)). Le début identique des deux playlists est normal : jingle du jour et météo unique éligible sont communs, seul le premier actu est tiré au hasard.
+
+---
+
+Deux « Journal » ne remontaient pas comme attendu. Le 7h de France Culture passait devant le 8h45 : le show n'était dans aucun `closestGroup` et son titre « JOURNAL DE 7H, du … » (virgule) n'était pas lu par le regex ([BDR-028](decisions/BDR-028.md)). Le 09h00 GMT de Journal Monde, lui, n'était simplement pas encore publié à la génération ([LRN-031](learnings/LRN-031.md)). Correctif commit `5e6e792` poussé (src + copie Edge Function), test `node:test` avec horloge simulée ajouté ([LRN-033](learnings/LRN-033.md)) et Edge Function redéployée en version 6 via MCP, le CLI n'étant pas connecté ([LRN-032](learnings/LRN-032.md)).
+
+**Entrées clés :**
+
+- [BDR-028](decisions/BDR-028.md) — France Culture dans `closestGroup` ; regex tolère la virgule
+- [LRN-031](learnings/LRN-031.md) — Épisode « manquant » : vérifier d'abord s'il est publié

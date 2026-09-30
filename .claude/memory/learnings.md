@@ -36,3 +36,6 @@ register: learnings
 | [LRN-028](learnings/LRN-028.md) | 2026-09-30 | `python` Bash Windows = alias Store ; `tsc && OK` valide l'ancien code | #windows #bash #python #store-alias #verification #tooling |
 | [LRN-029](learnings/LRN-029.md) | 2026-09-30 | Prévisualiser un tirage aléatoire en lecture seule sur données réelles | #sampling #preview #read-only #data-analysis #spotify #mon-daily |
 | [LRN-030](learnings/LRN-030.md) | 2026-09-30 | Fenêtres top tracks : fort recoupement après dédoublonnage | #spotify #top-tracks #dedupe #pool-size #time-range #mon-daily |
+| [LRN-031](learnings/LRN-031.md) | 2026-09-30 | Épisode « manquant » : vérifier d'abord s'il est publié | #spotify #podcast #publication-delay #debugging #freshness #mon-daily |
+| [LRN-032](learnings/LRN-032.md) | 2026-09-30 | Edge Function : CLI sans login, déployer via MCP (13 fichiers) | #supabase #edge-functions #deployment #mcp #cli #mon-daily |
+| [LRN-033](learnings/LRN-033.md) | 2026-09-30 | Tester du code dépendant de l'heure : `node:test` `mock.timers` | #node-test #mock-timers #tsx #date #testing #pnpm #mon-daily |

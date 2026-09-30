@@ -33,3 +33,4 @@ register: decisions
 | [BDR-025](decisions/BDR-025.md) | 2026-09-30 | Mix sans plafond par catégorie : boucle jusqu'à la coupe 4 h | #spotify #playlist-generation #mix #podcast #fallback #duration-cap #mon-daily | actif |
 | [BDR-026](decisions/BDR-026.md) | 2026-09-30 | Exception de fraîcheur par show (`maxAgeDays`) | #spotify #podcast #freshness #max-age #weekly-show #mon-daily | actif |
 | [BDR-027](decisions/BDR-027.md) | 2026-09-30 | Mix musique pondéré 3 fenêtres + plafond par artiste | #spotify #music-mix #weighted-sampling #artist-cap #shuffle #mon-daily | actif |
+| [BDR-028](decisions/BDR-028.md) | 2026-09-30 | France Culture dans `closestGroup` ; regex tolère la virgule | #spotify #podcast #freshness #closest-group #title-parsing #regex #mon-daily | actif |
