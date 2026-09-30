@@ -16,6 +16,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Mix musique/actu dans la playlist générée : jingle "C'est {jour}" en intro, le mix ouvre sur une actu puis la météo du jour (extraite du Journal d'Europe 1) puis alterne avec des podcasts thématiques toutes les 4 musiques (3 actus + 1 météo + 4 thématiques par jour, tirés au sort), toujours les musiques les plus écoutées, playlist plafonnée à 4h (un épisode d'actu de plus de 2 jours, de météo de plus d'1 jour, ou un épisode thématique de plus de 3 jours est ignoré)
 - Sources podcast étendues à 55 shows (journaux France Inter/France Culture/RFI, géopolitique, grands reportages, récits…)
 - Nouveaux journaux France Inter (6h, 6h30, 13h, 18h, 19h) en actu et « Les interviews d'Inter » en thématique
+- Trois nouveaux podcasts thématiques : « L'Invité de 8h20 : le grand entretien », « Le Grand portrait » et « Les enquêtes d'Yvan Casta »
 
 ### Changed
 

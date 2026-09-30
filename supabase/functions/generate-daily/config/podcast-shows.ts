@@ -275,4 +275,15 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     name: "Les interviews d'Inter",
     category: "thematique",
   },
+  {
+    id: "2KZgJ6CxdTXzrEDR7Sdlq6",
+    name: "L'Invité de 8h20 : le grand entretien",
+    category: "thematique",
+  },
+  { id: "3mI1FSqvVAfA2UXAQTDeWx", name: "Le Grand portrait", category: "thematique" },
+  {
+    id: "6uvxJSBUQxaKkrJ7zux3OJ",
+    name: "Les enquêtes d'Yvan Casta",
+    category: "thematique",
+  },
 ];
