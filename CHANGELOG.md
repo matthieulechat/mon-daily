@@ -34,3 +34,4 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - « La semaine européenne » (hebdomadaire) était presque toujours ignorée car son dernier épisode dépassait 2 jours : sa fraîcheur maximale passe à 7 jours
 - Doublons de titres dans le mix généré (ex. "Titre" et "Titre (Music Video)" comptés comme deux titres différents)
 - Un podcast pouvait être ignoré à tort ("aucun épisode disponible") quand Spotify renvoyait un épisode inexploitable en première position alors qu'un épisode valide existait juste après
+- « Les journaux de France Culture » : un journal ancien (ex. 7h) pouvait passer devant le plus récent (ex. 8h45), car ce show n'était pas filtré par heure et son titre « JOURNAL DE 7H, du … » (avec virgule) n'était pas reconnu

@@ -107,6 +107,7 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     id: "0pversl5NYX9qOs4WD7sfN",
     name: "Les journaux de France Culture",
     category: "actu",
+    closestGroup: JOURNAL_HORAIRE,
   },
   {
     id: "0AVkxaaQWUC6QAn38x5OmR",

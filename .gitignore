@@ -5,3 +5,4 @@ dist
 # Obsidian vault
 **/.obsidian/
 .claude/memory/dashboard.md
+supabase/.temp/

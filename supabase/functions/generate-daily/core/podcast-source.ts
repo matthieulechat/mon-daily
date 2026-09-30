@@ -99,7 +99,7 @@ const parisWallMs = (date: Date): number => {
 
 // - FR    : "Le journal de 08h00 du mardi 29 septembre 2026" (jour de semaine
 //           optionnel, titre parfois précédé d'un résumé : "... : le journal de 18h00 du ...")
-const TITLE_FR_LONG = /(\d{1,2})h(\d{2})?\s+du\s+(?:\p{L}+\s+)?(\d{1,2})(?:er)?\s+(\p{L}+)(?:\s+(\d{4}))?/iu;
+const TITLE_FR_LONG = /(\d{1,2})h(\d{2})?,?\s+du\s+(?:\p{L}+\s+)?(\d{1,2})(?:er)?\s+(\p{L}+)(?:\s+(\d{4}))?/iu;
 const FR_MONTHS = [
   "janvier", "février", "mars", "avril", "mai", "juin",
   "juillet", "août", "septembre", "octobre", "novembre", "décembre",
