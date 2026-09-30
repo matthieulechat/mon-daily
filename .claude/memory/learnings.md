@@ -32,3 +32,7 @@ register: learnings
 | [LRN-024](learnings/LRN-024.md) | 2026-09-29 | Spotify ne donne pas l'heure : la lire dans le titre | #spotify #release-date #title-parsing #timezone #intl |
 | [LRN-025](learnings/LRN-025.md) | 2026-09-29 | Rejouer le net.http_post du cron pour tester une Edge Function | #supabase #pg-cron #pg-net #vault #edge-functions #testing |
 | [LRN-026](learnings/LRN-026.md) | 2026-09-29 | Vérifier le format de titre de chaque nouveau show | #spotify #podcast #title-parsing #oembed #regex |
+| [LRN-027](learnings/LRN-027.md) | 2026-09-30 | Copie Edge Function à répliquer et redéployer à chaque modif | #supabase #edge-functions #duplication #deployment #sync #mon-daily |
+| [LRN-028](learnings/LRN-028.md) | 2026-09-30 | `python` Bash Windows = alias Store ; `tsc && OK` valide l'ancien code | #windows #bash #python #store-alias #verification #tooling |
+| [LRN-029](learnings/LRN-029.md) | 2026-09-30 | Prévisualiser un tirage aléatoire en lecture seule sur données réelles | #sampling #preview #read-only #data-analysis #spotify #mon-daily |
+| [LRN-030](learnings/LRN-030.md) | 2026-09-30 | Fenêtres top tracks : fort recoupement après dédoublonnage | #spotify #top-tracks #dedupe #pool-size #time-range #mon-daily |

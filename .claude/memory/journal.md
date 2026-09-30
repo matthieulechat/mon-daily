@@ -190,3 +190,27 @@ Ajout de 6 journaux France Inter (6h30, 13h, 18h, 19h en actu, plus « Les inter
 
 - [BDR-024](decisions/BDR-024.md) — Journaux horaires : filtre inter-shows via closestGroup
 - [LRN-025](learnings/LRN-025.md) — Rejouer le net.http_post du cron pour tester une Edge Function
+
+## 2026-09-30
+
+Ajout de trois podcasts en thématique dans `PODCAST_SHOWS` (src + copie Edge Function) : « L'Invité de 8h20 : le grand entretien », « Le Grand portrait » et « Les enquêtes d'Yvan Casta ». « Décryptage » était déjà dans la liste. Commit `d6fdd5c` poussé ; l'Edge Function n'est pas redéployée, donc le cron quotidien ne les utilise pas encore.
+
+
+---
+
+Correctif de « La semaine européenne » (hebdo classée actu, épisode de plus de 2 jours donc quasi toujours ignoré) : champ optionnel `maxAgeDays` par show, 7 jours pour ce show. Baptiste a ensuite trouvé qu'il y avait parfois trop de musique en fin de daily : après discussion (options A à E), le ratio musique/podcasts a été abandonné au profit d'une boucle « thématique, 4 musiques, actu, 4 musiques » qui continue tant qu'il reste des épisodes éligibles, avec fallback croisé actu/thématique, météo limitée à 1 et coupe 4 h conservée. Plafond de 50 titres de `getTopTracks` (~2h55 de musique) noté dans la ROADMAP Phase 6 : à étoffer avec de la découverte musicale avant d'exposer une durée max plus longue. Commit `a359df2` poussé, mais seulement `src/` : la copie de l'Edge Function (`supabase/functions/generate-daily/`) garde les anciens plafonds et n'est ni synchronisée ni redéployée, le cron quotidien reste donc sur l'ancien comportement.
+
+**Entrées clés :**
+
+- [BDR-025](decisions/BDR-025.md) — Mix sans plafond par catégorie : boucle jusqu'à la coupe 4 h
+- [BDR-026](decisions/BDR-026.md) — Exception de fraîcheur par show (`maxAgeDays`)
+- [LRN-027](learnings/LRN-027.md) — Copie Edge Function à répliquer et redéployer à chaque modif
+
+---
+
+Baptiste trouvait que les musiques se répétaient trop : l'ordre des top tracks Spotify était identique chaque jour, et la coupe 4 h sacrifiait toujours les mêmes titres. Après discussion des options (shuffle, élargissement du pool, mélange pondéré, titres likés, historique anti-répétition écarté), retenu : pool sur 3 fenêtres à 60/25/15 %, shuffle quotidien, puis plafond de 5 titres par artiste avec complément, après un aperçu en lecture seule sur les 2 comptes qui montrait un artiste à 17 titres sur 51 ([BDR-027](decisions/BDR-027.md), qui remplace [BDR-011](decisions/BDR-011.md)). Méthode et chiffres de pools : [LRN-029](learnings/LRN-029.md), [LRN-030](learnings/LRN-030.md). Commit `c74fea3` poussé, mais seulement `src/` : la copie de l'Edge Function (`supabase/functions/generate-daily/`) n'est ni synchronisée ni redéployée, donc le cron quotidien n'utilise pas encore ce mix (cf. [LRN-027](learnings/LRN-027.md)). La correspondance des ids Spotify avec les personnes est gardée hors repo, à la demande de Baptiste.
+
+**Entrées clés :**
+
+- [BDR-027](decisions/BDR-027.md) — Mix musique pondéré 3 fenêtres + plafond par artiste
+- [LRN-029](learnings/LRN-029.md) — Prévisualiser un tirage aléatoire en lecture seule sur données réelles

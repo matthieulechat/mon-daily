@@ -16,7 +16,7 @@ register: decisions
 | [BDR-008](decisions/BDR-008.md) | 2026-09-20 | Liste des médias étendue à 28 shows ; préférences/modération repoussées | #spotify #podcasts #moderation #preferences #mon-daily                        | actif  |
 | [BDR-009](decisions/BDR-009.md) | 2026-09-21 | Repli sur `/followers` (déprécié) plutôt que `/me/library` (cassé)      | #spotify #api #library #playlist #deprecated-endpoint                         | actif  |
 | [BDR-010](decisions/BDR-010.md) | 2026-09-22 | `users` identité pure, `platform`/`platform_user_id` sur `oauth_tokens` | #supabase #database-schema #identity #oauth #multi-provider #mon-daily        | actif  |
-| [BDR-011](decisions/BDR-011.md) | 2026-09-22 | Mix musique : répétition volontaire, découvertes retirées               | #spotify #playlist-generation #music-mix #discovery #mon-daily                | actif  |
+| [BDR-011](decisions/BDR-011.md) | 2026-09-22 | Mix musique : répétition volontaire, découvertes retirées               | #spotify #playlist-generation #music-mix #discovery #mon-daily                | remplacé par [BDR-027](decisions/BDR-027.md) |
 | [BDR-012](decisions/BDR-012.md) | 2026-09-22 | Podcasts : catégorisation actu/thématique + gabarit fixe 4+4            | #spotify #podcast #playlist-generation #random-selection #rotation #mon-daily | actif  |
 | [BDR-013](decisions/BDR-013.md) | 2026-09-23 | Actu = journaux du jour uniquement ; liste étendue à 55 shows           | #spotify #podcast #categorization #manual-review #mon-daily                   | actif  |
 | [BDR-014](decisions/BDR-014.md) | 2026-09-23 | Auteur du projet : Matthieu LECHAT (plus Baptiste)                      | #mon-daily #attribution #readme #docs #naming                                 | actif  |
@@ -30,3 +30,6 @@ register: decisions
 | [BDR-022](decisions/BDR-022.md) | 2026-09-28 | Vault sécurise l'appel pg_cron, pas les tokens OAuth                    | #supabase #vault #secrets #oauth #scope-clarification #mon-daily              | actif  |
 | [BDR-023](decisions/BDR-023.md) | 2026-09-29 | Podcasts multi-éditions : garder l'épisode le plus proche de l'heure | #spotify #podcast #freshness #title-parsing #timezone #latestonly #mon-daily | actif |
 | [BDR-024](decisions/BDR-024.md) | 2026-09-29 | Journaux horaires : filtre inter-shows via closestGroup | #spotify #podcast #freshness #closest-group #cross-show #mon-daily | actif |
+| [BDR-025](decisions/BDR-025.md) | 2026-09-30 | Mix sans plafond par catégorie : boucle jusqu'à la coupe 4 h | #spotify #playlist-generation #mix #podcast #fallback #duration-cap #mon-daily | actif |
+| [BDR-026](decisions/BDR-026.md) | 2026-09-30 | Exception de fraîcheur par show (`maxAgeDays`) | #spotify #podcast #freshness #max-age #weekly-show #mon-daily | actif |
+| [BDR-027](decisions/BDR-027.md) | 2026-09-30 | Mix musique pondéré 3 fenêtres + plafond par artiste | #spotify #music-mix #weighted-sampling #artist-cap #shuffle #mon-daily | actif |
