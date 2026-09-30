@@ -214,3 +214,5 @@ Baptiste trouvait que les musiques se répétaient trop : l'ordre des top tracks
 
 - [BDR-027](decisions/BDR-027.md) — Mix musique pondéré 3 fenêtres + plafond par artiste
 - [LRN-029](learnings/LRN-029.md) — Prévisualiser un tirage aléatoire en lecture seule sur données réelles
+
+Suite de la session : la copie Edge Function (`supabase/functions/generate-daily/`) a été resynchronisée avec `src/` (commit `35c3301`) puis redéployée via MCP en version 5. Run manuel en rejouant le `net.http_post` du cron ([LRN-025](learnings/LRN-025.md)) : 2 comptes OK (53 et 49 titres, ~239 et ~237 min), le cron de 5h UTC utilise donc désormais le mix pondéré avec plafond par artiste ([BDR-027](decisions/BDR-027.md)). Le début identique des deux playlists est normal : jingle du jour et météo unique éligible sont communs, seul le premier actu est tiré au hasard.
