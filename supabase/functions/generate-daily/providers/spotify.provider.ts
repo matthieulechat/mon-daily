@@ -107,10 +107,10 @@ const findOrCreatePlaylistId = async (
 };
 
 export const spotifyProvider: MusicProvider = {
-  getTopTracks: async (accessToken) => {
+  getTopTracks: async (accessToken, range) => {
     const data = await spotifyFetch<SpotifyPagedResponse<SpotifyTrackObject>>(
       accessToken,
-      "/me/top/tracks?time_range=short_term&limit=50",
+      `/me/top/tracks?time_range=${range}&limit=50`,
     );
     return data.items.map(toTrack);
   },

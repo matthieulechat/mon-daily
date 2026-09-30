@@ -239,7 +239,10 @@ export const getEligibleEpisodes = async (
       }))
       .filter(
         ({ episode, category }) =>
-          !isTooOld(episode.release_date, EPISODE_MAX_AGE_DAYS[category]),
+          !isTooOld(
+            episode.release_date,
+            show.maxAgeDays ?? EPISODE_MAX_AGE_DAYS[category],
+          ),
       );
     if (eligible.length === 0) {
       console.warn(
