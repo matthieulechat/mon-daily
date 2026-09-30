@@ -26,9 +26,7 @@ const JINGLE_DURATION_MS = 15_000;
 // puis séparé par catégorie effective ci-dessous.
 const ACTU_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "actu");
 const THEMATIC_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "thematique");
-const ACTU_SLOTS_MAX = 3;
 const METEO_SLOTS_MAX = 1;
-const THEMATIC_SLOTS_MAX = 4;
 
 // Spotify liste parfois le même morceau deux fois sous des ids différents
 // (ex. "Titre" et "Titre (Music Video)") — on dédoublonne aussi sur
@@ -88,66 +86,59 @@ const fetchEligibleEpisodes = async (
   return keepClosestByGroup(results.flat(), shows);
 };
 
-// Gabarit fixe (donné par Matthieu le 2026-09-22, ouverture actu+météo
-// ajoutée le 2026-09-28) : 1 actu puis la météo du jour en ouverture (avant
-// toute musique), puis 4 musiques entre chaque podcast en alternant
-// actu/thématique, jusqu'à 3 actus + 1 météo + 4 thématiques placées.
-// Au-delà, plus aucun podcast — la musique continue seule jusqu'à la coupe
-// 4h.
-type MixSlot =
-  | { kind: "music"; count: number }
-  | { kind: "podcast"; source: "actu" | "meteo" | "thematic" };
+// Gabarit (donné par Matthieu le 2026-09-22, ouverture actu+météo ajoutée le
+// 2026-09-28) : 1 actu puis la météo du jour en ouverture (avant toute
+// musique), 2 musiques, puis la boucle "thématique, 4 musiques, actu, 4
+// musiques" répétée tant qu'il reste des podcasts éligibles. Plus de plafond
+// par catégorie : c'est la coupe 4h qui borne la playlist. Une catégorie
+// épuisée est remplacée par l'autre (fallback croisé), la météo reste limitée
+// à 1. Pool épuisé : la musique restante suit en continu.
+const OPENING_MUSIC_COUNT = 2;
+const MUSIC_BLOCK_COUNT = 4;
 
-const MIX_TEMPLATE: MixSlot[] = [
-  { kind: "podcast", source: "actu" },
-  { kind: "podcast", source: "meteo" },
-  { kind: "music", count: 2 },
-  { kind: "podcast", source: "thematic" },
-  { kind: "music", count: 4 },
-  { kind: "podcast", source: "actu" },
-  { kind: "music", count: 4 },
-  { kind: "podcast", source: "thematic" },
-  { kind: "music", count: 4 },
-  { kind: "podcast", source: "actu" },
-  { kind: "music", count: 4 },
-  { kind: "podcast", source: "thematic" },
-  { kind: "music", count: 4 },
-  { kind: "podcast", source: "thematic" },
-];
+interface MixQueues {
+  actu: PodcastPick[];
+  meteo: PodcastPick[];
+  thematic: PodcastPick[];
+}
 
-// Un slot "podcast" sans pick disponible ce jour-là est simplement sauté
-// (le gabarit continue, rien ne se décale). Le reste de la musique non
-// consommée par le gabarit suit en continu, sans plus aucun podcast.
+const takePick = (
+  primary: PodcastPick[],
+  secondary: PodcastPick[],
+): PodcastPick | undefined => primary.shift() ?? secondary.shift();
+
 const buildMix = (
   music: Track[],
-  actuPicks: PodcastPick[],
-  meteoPicks: PodcastPick[],
-  thematicPicks: PodcastPick[],
-): Track[] => {
-  const result: Track[] = [];
+  queues: MixQueues,
+): { tracks: Track[]; picks: PodcastPick[] } => {
+  const tracks: Track[] = [];
+  const picks: PodcastPick[] = [];
   let musicIndex = 0;
-  let actuIndex = 0;
-  let meteoIndex = 0;
-  let thematicIndex = 0;
 
-  for (const slot of MIX_TEMPLATE) {
-    if (slot.kind === "music") {
-      const end = Math.min(musicIndex + slot.count, music.length);
-      result.push(...music.slice(musicIndex, end));
-      musicIndex = end;
-    } else if (slot.source === "actu") {
-      if (actuIndex < actuPicks.length)
-        result.push(actuPicks[actuIndex++]!.track);
-    } else if (slot.source === "meteo") {
-      if (meteoIndex < meteoPicks.length)
-        result.push(meteoPicks[meteoIndex++]!.track);
-    } else if (thematicIndex < thematicPicks.length) {
-      result.push(thematicPicks[thematicIndex++]!.track);
-    }
+  const addMusic = (count: number): void => {
+    const end = Math.min(musicIndex + count, music.length);
+    tracks.push(...music.slice(musicIndex, end));
+    musicIndex = end;
+  };
+  const addPick = (pick: PodcastPick | undefined): void => {
+    if (!pick) return;
+    tracks.push(pick.track);
+    picks.push(pick);
+  };
+
+  addPick(takePick(queues.actu, queues.thematic));
+  addPick(queues.meteo.shift());
+  addMusic(OPENING_MUSIC_COUNT);
+
+  while (queues.actu.length > 0 || queues.thematic.length > 0) {
+    addPick(takePick(queues.thematic, queues.actu));
+    addMusic(MUSIC_BLOCK_COUNT);
+    addPick(takePick(queues.actu, queues.thematic));
+    addMusic(MUSIC_BLOCK_COUNT);
   }
 
-  result.push(...music.slice(musicIndex));
-  return result;
+  addMusic(music.length - musicIndex);
+  return { tracks, picks };
 };
 
 // Coupe la playlist dès que l'ajout du titre suivant dépasserait le budget —
@@ -210,28 +201,16 @@ const main = async (): Promise<void> => {
     `Pool éligible : ${eligibleActu.length} épisodes actu, ${eligibleMeteo.length} épisodes météo, ${eligibleThematic.length} épisodes thématiques.`,
   );
 
-  // Tirage au sort dans chaque pool éligible. Fallback croisé symétrique
-  // actu/thématique si un pool ne suffit pas (voir
-  // docs/PLAYLIST_GENERATION.md pour le détail) : les actus manquantes sont
-  // comblées par des thématiques non tirées, et vice versa. La météo n'a
-  // qu'un seul slot et pas de fallback — absente, le slot est simplement
-  // sauté (comportement déjà géré par buildMix).
-  const actuQueue = shuffle(eligibleActu);
-  const thematicQueue = shuffle(eligibleThematic);
-  const meteoPicks = shuffle(eligibleMeteo).splice(0, METEO_SLOTS_MAX);
+  // Tirage au sort dans chaque pool éligible, sans plafond : buildMix
+  // consomme les files dans l'ordre du gabarit (fallback croisé actu <->
+  // thématique, météo limitée à 1 sans fallback) et la coupe 4h borne le tout.
+  const queues: MixQueues = {
+    actu: shuffle(eligibleActu),
+    meteo: shuffle(eligibleMeteo).splice(0, METEO_SLOTS_MAX),
+    thematic: shuffle(eligibleThematic),
+  };
 
-  const actuPicks = actuQueue.splice(0, ACTU_SLOTS_MAX);
-  const actuShortfall = ACTU_SLOTS_MAX - actuPicks.length;
-  if (actuShortfall > 0) {
-    actuPicks.push(...thematicQueue.splice(0, actuShortfall));
-  }
-
-  const thematicPicks = thematicQueue.splice(0, THEMATIC_SLOTS_MAX);
-  const thematicShortfall = THEMATIC_SLOTS_MAX - thematicPicks.length;
-  if (thematicShortfall > 0) {
-    thematicPicks.push(...actuQueue.splice(0, thematicShortfall));
-  }
-
+  const { tracks: mixTracks, picks } = buildMix(musicMix, queues);
   const fullMix: Track[] = [
     {
       id: "jingle",
@@ -240,7 +219,7 @@ const main = async (): Promise<void> => {
       uri: todaysJingleUri(),
       durationMs: JINGLE_DURATION_MS,
     },
-    ...buildMix(musicMix, actuPicks, meteoPicks, thematicPicks),
+    ...mixTracks,
   ];
 
   const mix = truncateToDuration(fullMix, MAX_PLAYLIST_DURATION_MS);
@@ -250,9 +229,7 @@ const main = async (): Promise<void> => {
   // Podcasts réellement inclus après la coupe 4h (un pick tronqué n'est pas
   // dans la playlist).
   const mixTrackIds = new Set(mix.map((track) => track.id));
-  const includedPicks = [...actuPicks, ...meteoPicks, ...thematicPicks].filter(
-    (pick) => mixTrackIds.has(pick.track.id),
-  );
+  const includedPicks = picks.filter((pick) => mixTrackIds.has(pick.track.id));
 
   const totalMinutes = Math.round(
     mix.reduce((sum, track) => sum + track.durationMs, 0) / 60_000,

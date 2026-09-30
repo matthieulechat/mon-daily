@@ -23,11 +23,12 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Classement actu/thématique revu à la main : seuls les journaux et flashs du jour comptent comme "actu" (les émissions de débat/décryptage comme C dans l'air, Code source ou L'Heure du Monde passent en thématique)
 - "La Matinée Est Tienne, par Samuel Etienne" : seuls les épisodes "L'actu du jour en bref" alimentent le mix, le reste du flux (chroniques, interviews) est écarté
 - HugoDécrypte : les "actu du jour" et "actu Pop" comptent comme actu, les interviews/rediffs passent en thématique (détecté sur le titre et la description de chaque épisode)
-
+- Plus de plafond de 3 actus / 4 thématiques : le mix enchaîne actu et thématiques (avec 4 musiques entre chaque) tant qu'il reste des épisodes éligibles, jusqu'à la coupe à 4h ; si une catégorie est épuisée, l'autre prend le relais (la météo reste limitée à 1)
 - "Le journal d'Europe 1" et "Journal Monde" (publiés plusieurs fois par jour) : seul l'épisode le plus proche de l'heure actuelle est retenu (heure lue dans le titre), séparément pour l'actu et la météo
 - Journaux « de XXhXX » de France Inter/France Culture (6h à 19h) : parmi tous ces shows, seul le journal le plus proche de l'heure de génération est retenu, pour avoir une actu fraîche (les shows restent dans la liste, ils sont seulement filtrés)
 
 ### Fixed
 
+- « La semaine européenne » (hebdomadaire) était presque toujours ignorée car son dernier épisode dépassait 2 jours : sa fraîcheur maximale passe à 7 jours
 - Doublons de titres dans le mix généré (ex. "Titre" et "Titre (Music Video)" comptés comme deux titres différents)
 - Un podcast pouvait être ignoré à tort ("aucun épisode disponible") quand Spotify renvoyait un épisode inexploitable en première position alors qu'un épisode valide existait juste après

@@ -152,7 +152,8 @@ Limites, coût (gratuit) et points de vigilance : cf. [docs/AUTOMATION.md](AUTOM
 
 ## Phase 6 — Améliorations (optionnel, post-V1)
 
-- [ ] Interface utilisateur simple (réglages : ratio musique/actu, sources d'actu)
+- [ ] Interface utilisateur simple (réglages : durée max de la playlist, sources d'actu)
+- [ ] **Pool musique à étoffer avant d'exposer la durée max à l'utilisateur** — le mix boucle sur les podcasts tant que la coupe de durée n'est pas atteinte (le 2026-09-30, plus de plafond actu/thématique), mais `getTopTracks` ne renvoie que 50 titres (`/me/top/tracks?time_range=short_term&limit=50`, soit ~2h55 de musique, plafond de l'endpoint). À 4h ça suffit ; si l'utilisateur monte la durée (ex. 8h), la musique s'épuise et les podcasts s'enchaînent sans coupure musicale. Pistes : autre `time_range` (`medium_term`/`long_term`) ou plusieurs appels dédupliqués, et surtout la découverte musicale ci-dessous (recommandations d'écoute) pour étoffer le pool. À traiter en même temps que la page de personnalisation
 - [ ] Notifications (playlist prête, échec de génération)
 - [ ] Multi-utilisateurs si le projet s'ouvre à d'autres personnes
 - [ ] **(pas prioritaire, gardé en tête)** Filtrage des podcasts par préférence utilisateur : durée max de l'épisode (certains shows font ~1h, ex. C dans l'air, Les informés, L'ordre du monde) et fréquence de publication (certains shows publient plusieurs épisodes/jour, ex. HugoDécrypte) — cf. tableau Phase 2 pour le point de départ éditorial (colonne Format)

@@ -15,6 +15,9 @@ export interface PodcastShow {
   // tous leurs épisodes, seul le plus proche de l'heure de génération est
   // gardé (les autres shows restent dans la liste, ils sont juste filtrés).
   closestGroup?: string;
+  // Remplace la fraîcheur max de la catégorie — pour un show hebdomadaire
+  // classé "actu" dont le dernier épisode dépasse sinon toujours le seuil.
+  maxAgeDays?: number;
 }
 
 const JOURNAL_HORAIRE = "journal-horaire";
@@ -58,6 +61,7 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     id: "0pj85Csk4cPVRulubA1sel",
     name: "La semaine européenne",
     category: "actu",
+    maxAgeDays: 7,
   },
   {
     id: "3YCFNohB2PpHNY41qNsc5Q",
