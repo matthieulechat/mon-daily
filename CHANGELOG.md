@@ -27,6 +27,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - "Le journal d'Europe 1" et "Journal Monde" (publiés plusieurs fois par jour) : seul l'épisode le plus proche de l'heure actuelle est retenu (heure lue dans le titre), séparément pour l'actu et la météo
 - Journaux « de XXhXX » de France Inter/France Culture (6h à 19h) : parmi tous ces shows, seul le journal le plus proche de l'heure de génération est retenu, pour avoir une actu fraîche (les shows restent dans la liste, ils sont seulement filtrés)
 
+- Musiques plus variées d'un jour à l'autre : le mix puise désormais dans tes écoutes des 4 dernières semaines (60 %), des 6 derniers mois (25 %) et de l'année (15 %), dans un ordre mélangé chaque jour, avec 5 titres maximum par artiste (les places libérées sont comblées par d'autres artistes)
+
 ### Fixed
 
 - « La semaine européenne » (hebdomadaire) était presque toujours ignorée car son dernier épisode dépassait 2 jours : sa fraîcheur maximale passe à 7 jours

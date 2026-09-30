@@ -5,6 +5,7 @@ import {
   type PodcastShow,
 } from "./config/podcast-shows.js";
 import { getEligibleEpisodes, keepClosestByGroup } from "./core/podcast-source.js";
+import type { TopTracksRange } from "./providers/provider.interface.js";
 import { spotifyProvider } from "./providers/spotify.provider.js";
 import { supabaseStorage } from "./storage/supabase-storage.js";
 import type { Track } from "./types/index.js";
@@ -55,6 +56,58 @@ const shuffle = <T>(items: T[]): T[] => {
     [result[i], result[j]] = [result[j]!, result[i]!];
   }
   return result;
+};
+
+// Répartition des titres musique par fenêtre d'écoute (60 % récents, 25 %
+// habitudes des 6 derniers mois, 15 % classiques). Un titre présent dans
+// plusieurs fenêtres compte dans la plus récente. Plafond de titres par
+// artiste (1er artiste listé) appliqué AVANT le mélange final : les titres
+// écartés sont remplacés par d'autres artistes jusqu'à MUSIC_TARGET_COUNT,
+// dans la limite de ce que les pools contiennent.
+const MUSIC_TARGET_COUNT = 50;
+const MAX_TRACKS_PER_ARTIST = 5;
+const MUSIC_RANGES: { range: TopTracksRange; share: number }[] = [
+  { range: "short_term", share: 0.6 },
+  { range: "medium_term", share: 0.25 },
+  { range: "long_term", share: 0.15 },
+];
+
+const buildMusicMix = async (accessToken: string): Promise<Track[]> => {
+  const results = await Promise.all(
+    MUSIC_RANGES.map(({ range }) =>
+      spotifyProvider.getTopTracks(accessToken, range),
+    ),
+  );
+
+  const kept: Track[] = [];
+  const picked: Track[] = [];
+  const leftovers: Track[] = [];
+  MUSIC_RANGES.forEach(({ share }, i) => {
+    const unique = dedupeTracks([...kept, ...results[i]!]).slice(kept.length);
+    kept.push(...unique);
+    const shuffled = shuffle(unique);
+    const quota = Math.round(MUSIC_TARGET_COUNT * share);
+    picked.push(...shuffled.slice(0, quota));
+    leftovers.push(...shuffled.slice(quota));
+  });
+
+  const perArtist = new Map<string, number>();
+  const selected: Track[] = [];
+  const tryAdd = (track: Track): void => {
+    const artist = track.artistNames[0]?.trim().toLowerCase() ?? track.id;
+    const count = perArtist.get(artist) ?? 0;
+    if (count >= MAX_TRACKS_PER_ARTIST) return;
+    perArtist.set(artist, count + 1);
+    selected.push(track);
+  };
+
+  picked.forEach(tryAdd);
+  for (const track of shuffle(leftovers)) {
+    if (selected.length >= MUSIC_TARGET_COUNT) break;
+    tryAdd(track);
+  }
+
+  return shuffle(selected);
 };
 
 interface PodcastPick {
@@ -180,12 +233,12 @@ const main = async (): Promise<void> => {
     await supabaseStorage.saveTokens(userId, tokens);
   }
 
-  // Les musiques les plus écoutées, telles quelles, tous les jours — pas de
-  // découverte par genre ni de playlists éditoriales Spotify (les deux
-  // essayées puis retirées, cf. docs/PLAYLIST_GENERATION.md, revu en
-  // Phase 6).
-  const topTracks = await spotifyProvider.getTopTracks(tokens.accessToken);
-  const musicMix = dedupeTracks(topTracks);
+  // Les musiques les plus écoutées — pas de découverte par genre ni de
+  // playlists éditoriales Spotify (les deux essayées puis retirées, cf.
+  // docs/PLAYLIST_GENERATION.md, revu en Phase 6). Mélange pondéré sur 3
+  // fenêtres d'écoute, puis mélange final : sans ça, l'ordre Spotify est
+  // identique chaque jour et la coupe 4h sacrifie toujours les mêmes titres.
+  const musicMix = await buildMusicMix(tokens.accessToken);
 
   console.log("Récupération des podcasts...");
   const [actuPoolPicks, eligibleThematic] = await Promise.all([
