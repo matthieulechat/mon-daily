@@ -225,3 +225,17 @@ Deux « Journal » ne remontaient pas comme attendu. Le 7h de France Culture pas
 
 - [BDR-028](decisions/BDR-028.md) — France Culture dans `closestGroup` ; regex tolère la virgule
 - [LRN-031](learnings/LRN-031.md) — Épisode « manquant » : vérifier d'abord s'il est publié
+
+## 2026-10-01
+
+Les playlists ne se sont pas mises à jour au cron de 05:00 UTC : l'Edge Function a répondu 207, les 2 comptes en échec. Diagnostic par les logs Supabase et des appels Spotify en lecture seule : deux bugs enchaînés ([BLK-018](blockers/BLK-018.md)). Certain : `uploadCoverImage` lisait `public/playlist-cover.jpg`, absent de l'Edge Function ([LRN-035](learnings/LRN-035.md)). Non prouvé : `/me/playlists` n'avait pas renvoyé « Mon Daily » à 05:00 pour les 2 comptes (35 et 14 playlists, nom identique, première page, code de recherche inchangé depuis le 07/09), d'où une création en doublon vide qui a déclenché le premier bug ; les runs des 29 et 30/09 l'avaient retrouvée.
+
+Correction : colonne `oauth_tokens.playlist_id` (migration) avec les ids actuels, `createOrUpdatePlaylist` qui accepte et renvoie l'id ([BDR-029](decisions/BDR-029.md)), pochette embarquée en base64 avec contrôle SHA-256 au boot dans la copie Edge, `console.warn` listant les playlists reçues quand la recherche ne trouve rien. Les doublons ont été supprimés à la main (le classifieur du mode auto a refusé la suppression par l'API). Plusieurs fausses pistes ont coûté du temps : un pool d'actu tombé à 1 qui venait du rate limit Spotify et non de la sélection, masqué par mon propre `grep -v "ignoré"` ([LRN-034](learnings/LRN-034.md)) ; `pg_net` inutilisable pour rafraîchir un token (JSON uniquement), remplacé par des scripts jetables `.mts` ([LRN-037](learnings/LRN-037.md)).
+
+Trois déploiements MCP de l'Edge Function ont échoué au bundling (payload recopié incomplet, base64 de 58 Ko tronqué), sans toucher la v6 ([BLK-019](blockers/BLK-019.md)). Déploiement par le CLI après un `supabase login` : version 7, test réel en rejouant le cron (200, 2 comptes, `Pochette OK`, aucun 429) ([LRN-036](learnings/LRN-036.md)). Commit `a68ab2a` poussé. Restent ouverts : confirmer au cron du 02/10 05:00 ([BLK-018](blockers/BLK-018.md)) et la visibilité des playlists, lues `public: true` malgré `public: false` ([BLK-020](blockers/BLK-020.md)).
+
+**Entrées clés :**
+
+- [BDR-029](decisions/BDR-029.md) — Id de playlist stocké par compte, plus de recherche par nom
+- [BLK-018](blockers/BLK-018.md) — Cron du 01/10 : 2 comptes en échec, mix non mis à jour
+- [LRN-036](learnings/LRN-036.md) — `deploy_edge_function` MCP fragile sur gros fichiers : CLI

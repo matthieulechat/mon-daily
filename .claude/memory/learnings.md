@@ -39,3 +39,7 @@ register: learnings
 | [LRN-031](learnings/LRN-031.md) | 2026-09-30 | Épisode « manquant » : vérifier d'abord s'il est publié | #spotify #podcast #publication-delay #debugging #freshness #mon-daily |
 | [LRN-032](learnings/LRN-032.md) | 2026-09-30 | Edge Function : CLI sans login, déployer via MCP (13 fichiers) | #supabase #edge-functions #deployment #mcp #cli #mon-daily |
 | [LRN-033](learnings/LRN-033.md) | 2026-09-30 | Tester du code dépendant de l'heure : `node:test` `mock.timers` | #node-test #mock-timers #tsx #date #testing #pnpm #mon-daily |
+| [LRN-034](learnings/LRN-034.md) | 2026-10-01 | Runs de test répétés : 429 Spotify, pool d'actu dégradé | #spotify #rate-limit #retry-after #debugging #logs #podcast #mon-daily |
+| [LRN-035](learnings/LRN-035.md) | 2026-10-01 | Edge Function : un fichier lu sur disque n'est pas déployé | #supabase #edge-functions #readfile #assets #deployment #base64 #mon-daily |
+| [LRN-036](learnings/LRN-036.md) | 2026-10-01 | `deploy_edge_function` MCP fragile sur gros fichiers : CLI | #supabase #mcp #edge-functions #cli #deployment #payload #mon-daily |
+| [LRN-037](learnings/LRN-037.md) | 2026-10-01 | `tsx` hors projet sous Windows : `.mts` + imports `file:///` | #tsx #windows #esm #scratchpad #top-level-await #tooling #mon-daily |

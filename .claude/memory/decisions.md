@@ -34,3 +34,4 @@ register: decisions
 | [BDR-026](decisions/BDR-026.md) | 2026-09-30 | Exception de fraîcheur par show (`maxAgeDays`) | #spotify #podcast #freshness #max-age #weekly-show #mon-daily | actif |
 | [BDR-027](decisions/BDR-027.md) | 2026-09-30 | Mix musique pondéré 3 fenêtres + plafond par artiste | #spotify #music-mix #weighted-sampling #artist-cap #shuffle #mon-daily | actif |
 | [BDR-028](decisions/BDR-028.md) | 2026-09-30 | France Culture dans `closestGroup` ; regex tolère la virgule | #spotify #podcast #freshness #closest-group #title-parsing #regex #mon-daily | actif |
+| [BDR-029](decisions/BDR-029.md) | 2026-10-01 | Id de playlist stocké par compte, plus de recherche par nom | #spotify #playlist #oauth-tokens #duplicates #supabase #idempotence #mon-daily | actif |
