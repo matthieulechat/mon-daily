@@ -33,6 +33,28 @@ export const supabaseStorage: Storage = {
     };
   },
 
+  getPlaylistId: async (userId) => {
+    const { data, error } = await supabase
+      .from("oauth_tokens")
+      .select("playlist_id")
+      .eq("platform", "spotify")
+      .eq("platform_user_id", userId)
+      .maybeSingle<{ playlist_id: string | null }>();
+
+    if (error) throw new Error(`Supabase getPlaylistId: ${error.message}`);
+    return data?.playlist_id ?? null;
+  },
+
+  savePlaylistId: async (userId, playlistId) => {
+    const { error } = await supabase
+      .from("oauth_tokens")
+      .update({ playlist_id: playlistId })
+      .eq("platform", "spotify")
+      .eq("platform_user_id", userId);
+
+    if (error) throw new Error(`Supabase savePlaylistId: ${error.message}`);
+  },
+
   saveTokens: async (userId, tokens) => {
     const { data: existing, error: findError } = await supabase
       .from("oauth_tokens")

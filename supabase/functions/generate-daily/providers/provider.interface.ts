@@ -12,6 +12,7 @@ export interface MusicProvider {
     accessToken: string,
     userId: string,
     tracks: Track[],
-  ) => Promise<void>;
+    knownPlaylistId?: string,
+  ) => Promise<string>;
   refreshTokenIfNeeded: (tokens: OAuthTokens) => Promise<OAuthTokens>;
 }

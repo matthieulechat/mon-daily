@@ -1,6 +1,5 @@
-import { readFile } from "node:fs/promises";
-import { fileURLToPath } from "node:url";
 import { refreshAccessToken } from "../auth/oauth.service.ts";
+import { COVER_IMAGE_BASE64 } from "../config/cover-image.ts";
 import type { Track } from "../types/index.ts";
 import type { MusicProvider } from "./provider.interface.ts";
 import { fetchSpotifyWithRetry } from "./spotify-http.ts";
@@ -9,9 +8,6 @@ const API_BASE = "https://api.spotify.com/v1";
 const PLAYLIST_NAME = "Mon Daily";
 const PLAYLIST_DESCRIPTION =
   "Un nouveau mix chaque jour, pressé sur vinyle : face A tes sons, face B tes news.";
-const COVER_IMAGE_PATH = fileURLToPath(
-  new URL("../../public/playlist-cover.jpg", import.meta.url),
-);
 const REFRESH_MARGIN_MS = 60_000;
 
 interface SpotifyTrackObject {
@@ -67,11 +63,10 @@ const uploadCoverImage = async (
   accessToken: string,
   playlistId: string,
 ): Promise<void> => {
-  const base64Image = await readFile(COVER_IMAGE_PATH, { encoding: "base64" });
   await spotifyFetch(accessToken, `/playlists/${playlistId}/images`, {
     method: "PUT",
     headers: { "Content-Type": "image/jpeg" },
-    body: base64Image,
+    body: COVER_IMAGE_BASE64,
   });
 };
 
@@ -87,6 +82,13 @@ const findOrCreatePlaylistId = async (
     (playlist) => playlist.name === PLAYLIST_NAME,
   );
   if (found) return found.id;
+
+  // Diagnostic : une recherche ratée a déjà créé des playlists en doublon
+  // alors que "Mon Daily" existait — on garde la trace de ce que Spotify a
+  // réellement renvoyé.
+  console.warn(
+    `Playlist "${PLAYLIST_NAME}" introuvable parmi ${existing.items.length} playlists reçues : ${existing.items.map((playlist) => playlist.name).join(" | ")}`,
+  );
 
   const created = await spotifyFetch<SpotifyPlaylistObject>(
     accessToken,
@@ -115,8 +117,16 @@ export const spotifyProvider: MusicProvider = {
     return data.items.map(toTrack);
   },
 
-  createOrUpdatePlaylist: async (accessToken, spotifyUserId, tracks) => {
-    const playlistId = await findOrCreatePlaylistId(accessToken, spotifyUserId);
+  createOrUpdatePlaylist: async (
+    accessToken,
+    spotifyUserId,
+    tracks,
+    knownPlaylistId,
+  ) => {
+    // ponytail: un id connu est utilisé tel quel (pas de contrôle d'existence) ;
+    // une playlist supprimée à la main est à effacer de oauth_tokens.playlist_id.
+    const playlistId =
+      knownPlaylistId ?? (await findOrCreatePlaylistId(accessToken, spotifyUserId));
 
     // Créer une playlist ne la fait plus apparaître automatiquement dans la
     // bibliothèque du propriétaire (migration Spotify de février 2026) — il
@@ -134,6 +144,8 @@ export const spotifyProvider: MusicProvider = {
       method: "PUT",
       body: JSON.stringify({ uris: tracks.map((track) => track.uri) }),
     });
+
+    return playlistId;
   },
 
   refreshTokenIfNeeded: async (tokens) => {

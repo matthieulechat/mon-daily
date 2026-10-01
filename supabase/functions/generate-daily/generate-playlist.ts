@@ -274,7 +274,16 @@ export const generatePlaylistForUser = async (
 
   const mix = truncateToDuration(fullMix, MAX_PLAYLIST_DURATION_MS);
 
-  await spotifyProvider.createOrUpdatePlaylist(tokens.accessToken, userId, mix);
+  const knownPlaylistId = await supabaseStorage.getPlaylistId(userId);
+  const playlistId = await spotifyProvider.createOrUpdatePlaylist(
+    tokens.accessToken,
+    userId,
+    mix,
+    knownPlaylistId ?? undefined,
+  );
+  if (playlistId !== knownPlaylistId) {
+    await supabaseStorage.savePlaylistId(userId, playlistId);
+  }
 
   // Podcasts réellement inclus après la coupe 4h (un pick tronqué n'est pas
   // dans la playlist).
