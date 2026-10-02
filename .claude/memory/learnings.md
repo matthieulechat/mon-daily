@@ -43,3 +43,4 @@ register: learnings
 | [LRN-035](learnings/LRN-035.md) | 2026-10-01 | Edge Function : un fichier lu sur disque n'est pas déployé | #supabase #edge-functions #readfile #assets #deployment #base64 #mon-daily |
 | [LRN-036](learnings/LRN-036.md) | 2026-10-01 | `deploy_edge_function` MCP fragile sur gros fichiers : CLI | #supabase #mcp #edge-functions #cli #deployment #payload #mon-daily |
 | [LRN-037](learnings/LRN-037.md) | 2026-10-01 | `tsx` hors projet sous Windows : `.mts` + imports `file:///` | #tsx #windows #esm #scratchpad #top-level-await #tooling #mon-daily |
+| [LRN-038](learnings/LRN-038.md) | 2026-10-02 | Id de ressource stocké : config idempotente à chaque run | #spotify #idempotence #playlist #cover #stored-id #silent-failure #mon-daily |

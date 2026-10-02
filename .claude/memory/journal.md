@@ -228,14 +228,25 @@ Deux « Journal » ne remontaient pas comme attendu. Le 7h de France Culture pas
 
 ## 2026-10-01
 
-Les playlists ne se sont pas mises à jour au cron de 05:00 UTC : l'Edge Function a répondu 207, les 2 comptes en échec. Diagnostic par les logs Supabase et des appels Spotify en lecture seule : deux bugs enchaînés ([BLK-018](blockers/BLK-018.md)). Certain : `uploadCoverImage` lisait `public/playlist-cover.jpg`, absent de l'Edge Function ([LRN-035](learnings/LRN-035.md)). Non prouvé : `/me/playlists` n'avait pas renvoyé « Mon Daily » à 05:00 pour les 2 comptes (35 et 14 playlists, nom identique, première page, code de recherche inchangé depuis le 07/09), d'où une création en doublon vide qui a déclenché le premier bug ; les runs des 29 et 30/09 l'avaient retrouvée.
+Les playlists ne se sont pas mises à jour au cron de 05:00 UTC : l'Edge Function a répondu 207, les 2 comptes en échec. Diagnostic par les logs Supabase et des appels Spotify en lecture seule : deux bugs enchaînés ([ZBLK-018](archive/blockers/ZBLK-018.md)). Certain : `uploadCoverImage` lisait `public/playlist-cover.jpg`, absent de l'Edge Function ([LRN-035](learnings/LRN-035.md)). Non prouvé : `/me/playlists` n'avait pas renvoyé « Mon Daily » à 05:00 pour les 2 comptes (35 et 14 playlists, nom identique, première page, code de recherche inchangé depuis le 07/09), d'où une création en doublon vide qui a déclenché le premier bug ; les runs des 29 et 30/09 l'avaient retrouvée.
 
 Correction : colonne `oauth_tokens.playlist_id` (migration) avec les ids actuels, `createOrUpdatePlaylist` qui accepte et renvoie l'id ([BDR-029](decisions/BDR-029.md)), pochette embarquée en base64 avec contrôle SHA-256 au boot dans la copie Edge, `console.warn` listant les playlists reçues quand la recherche ne trouve rien. Les doublons ont été supprimés à la main (le classifieur du mode auto a refusé la suppression par l'API). Plusieurs fausses pistes ont coûté du temps : un pool d'actu tombé à 1 qui venait du rate limit Spotify et non de la sélection, masqué par mon propre `grep -v "ignoré"` ([LRN-034](learnings/LRN-034.md)) ; `pg_net` inutilisable pour rafraîchir un token (JSON uniquement), remplacé par des scripts jetables `.mts` ([LRN-037](learnings/LRN-037.md)).
 
-Trois déploiements MCP de l'Edge Function ont échoué au bundling (payload recopié incomplet, base64 de 58 Ko tronqué), sans toucher la v6 ([BLK-019](blockers/BLK-019.md)). Déploiement par le CLI après un `supabase login` : version 7, test réel en rejouant le cron (200, 2 comptes, `Pochette OK`, aucun 429) ([LRN-036](learnings/LRN-036.md)). Commit `a68ab2a` poussé. Restent ouverts : confirmer au cron du 02/10 05:00 ([BLK-018](blockers/BLK-018.md)) et la visibilité des playlists, lues `public: true` malgré `public: false` ([BLK-020](blockers/BLK-020.md)).
+Trois déploiements MCP de l'Edge Function ont échoué au bundling (payload recopié incomplet, base64 de 58 Ko tronqué), sans toucher la v6 ([ZBLK-019](archive/blockers/ZBLK-019.md)). Déploiement par le CLI après un `supabase login` : version 7, test réel en rejouant le cron (200, 2 comptes, `Pochette OK`, aucun 429) ([LRN-036](learnings/LRN-036.md)). Commit `a68ab2a` poussé. Restent ouverts : confirmer au cron du 02/10 05:00 ([ZBLK-018](archive/blockers/ZBLK-018.md)) et la visibilité des playlists, lues `public: true` malgré `public: false` ([BLK-020](blockers/BLK-020.md)).
 
 **Entrées clés :**
 
 - [BDR-029](decisions/BDR-029.md) — Id de playlist stocké par compte, plus de recherche par nom
-- [BLK-018](blockers/BLK-018.md) — Cron du 01/10 : 2 comptes en échec, mix non mis à jour
+- [ZBLK-018](archive/blockers/ZBLK-018.md) — Cron du 01/10 : 2 comptes en échec, mix non mis à jour
 - [LRN-036](learnings/LRN-036.md) — `deploy_edge_function` MCP fragile sur gros fichiers : CLI
+
+## 2026-10-02
+
+Le cron de 05:00 UTC a mis à jour les 2 comptes (50 et 45 titres, `Pochette OK`, aucun `console.warn`), ce qui confirme la correction de la veille ([ZBLK-018](archive/blockers/ZBLK-018.md)). Mais la playlist de Baptiste n'avait pas de pochette, celle de Matthieu oui. Cause : `uploadCoverImage` n'était appelé qu'à la création, et depuis le stockage de l'id ([BDR-029](decisions/BDR-029.md)) la playlist restée après suppression des doublons n'était plus jamais corrigée ([ZBLK-021](archive/blockers/ZBLK-021.md), [LRN-038](learnings/LRN-038.md)).
+
+Correctif : upload de la pochette à chaque run (copie `src/` + Edge Function), `tsc` OK. Le classifieur du mode auto a bloqué le déploiement ; Baptiste a lancé `npx supabase functions deploy` (version 8, contenu vérifié), puis le cron a été rejoué (200, 2 comptes OK). Commit `0653a96` poussé avec l'entrée du changelog. Reste ouvert : visibilité `public: true` des playlists ([BLK-020](blockers/BLK-020.md)).
+
+**Entrées clés :**
+
+- [ZBLK-021](archive/blockers/ZBLK-021.md) — Pochette absente chez un compte malgré id stocké
+- [LRN-038](learnings/LRN-038.md) — Id de ressource stocké : config idempotente à chaque run

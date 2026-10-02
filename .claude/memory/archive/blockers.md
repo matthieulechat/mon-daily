@@ -23,3 +23,6 @@ register: archive_blockers
 | [ZBLK-015](blockers/ZBLK-015.md) | 2026-09-28 | Déploiement Edge Function échoue "Module not found .js" | #deno #supabase #edge-functions #module-resolution #deployment                 | résolu |
 | [ZBLK-016](blockers/ZBLK-016.md) | 2026-09-28 | curl avec JWT en clair bloqué par le classifier         | #claude-code #auto-mode #classifier #credential-materialization #bash #testing | résolu |
 | [ZBLK-017](blockers/ZBLK-017.md) | 2026-09-28 | 429 Spotify pendant les tests d'automatisation          | #spotify #rate-limit #429 #testing #automation #mon-daily                      | résolu |
+| [ZBLK-019](blockers/ZBLK-019.md) | 2026-10-01 | 3 déploiements MCP échoués avant le CLI | #supabase #mcp #edge-functions #deployment #payload #mon-daily | résolu |
+| [ZBLK-018](blockers/ZBLK-018.md) | 2026-10-01 | Cron du 01/10 : 2 comptes en échec, mix non mis à jour | #spotify #supabase #edge-functions #cron #playlist #cover #mon-daily | résolu |
+| [ZBLK-021](blockers/ZBLK-021.md) | 2026-10-02 | Pochette absente chez un compte malgré id stocké | #spotify #playlist #cover #stored-id #idempotence #edge-functions #mon-daily | résolu |
