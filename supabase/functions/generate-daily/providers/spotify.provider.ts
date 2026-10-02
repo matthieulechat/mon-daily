@@ -103,8 +103,6 @@ const findOrCreatePlaylistId = async (
     },
   );
 
-  await uploadCoverImage(accessToken, created.id);
-
   return created.id;
 };
 
@@ -144,6 +142,10 @@ export const spotifyProvider: MusicProvider = {
       method: "PUT",
       body: JSON.stringify({ uris: tracks.map((track) => track.uri) }),
     });
+
+    // À chaque run (pas seulement à la création) : l'id est stocké, une
+    // playlist sans pochette ne serait sinon jamais réparée.
+    await uploadCoverImage(accessToken, playlistId);
 
     return playlistId;
   },

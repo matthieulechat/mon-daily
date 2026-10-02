@@ -36,3 +36,4 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - Un podcast pouvait être ignoré à tort ("aucun épisode disponible") quand Spotify renvoyait un épisode inexploitable en première position alors qu'un épisode valide existait juste après
 - « Les journaux de France Culture » : un journal ancien (ex. 7h) pouvait passer devant le plus récent (ex. 8h45), car ce show n'était pas filtré par heure et son titre « JOURNAL DE 7H, du … » (avec virgule) n'était pas reconnu
 - Génération quotidienne en échec et playlist « Mon Daily » recréée en doublon (vide, sans pochette) quand Spotify ne la retrouvait pas par son nom : l'id de la playlist est désormais mémorisé par compte, et la pochette est embarquée dans l'Edge Function (elle n'y était pas déployée)
+- Playlist « Mon Daily » sans pochette sur un compte (la mosaïque Spotify s'affichait) : la pochette est désormais renvoyée à chaque génération, plus seulement à la création de la playlist
