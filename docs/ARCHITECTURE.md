@@ -29,7 +29,7 @@ Le code est pensé dès le départ pour que le passage de A à B ne demande de t
 
 ```
 mon-daily/
-├── src/
+├── scripts/
 │   ├── providers/
 │   │   ├── provider.interface.ts     # interface commune (déjà pensée multi-plateforme)
 │   │   └── spotify.provider.ts       # seul provider implémenté à l'étape A

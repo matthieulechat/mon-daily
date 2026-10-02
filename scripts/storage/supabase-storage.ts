@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import { DEFAULT_SETTINGS } from "../config/default-settings.js";
 import { env } from "../config/env.js";
 import type { OAuthTokens } from "../types/index.js";
 import type { Storage } from "./storage.interface.js";
@@ -9,6 +10,11 @@ interface OAuthTokensRow {
   access_token: string;
   refresh_token: string;
   expires_at: string;
+}
+
+interface UserSettingsRow {
+  max_duration_minutes: number;
+  disabled_show_ids: string[];
 }
 
 export const supabaseStorage: Storage = {
@@ -53,6 +59,23 @@ export const supabaseStorage: Storage = {
       .eq("platform_user_id", userId);
 
     if (error) throw new Error(`Supabase savePlaylistId: ${error.message}`);
+  },
+
+  getSettings: async (userId) => {
+    const { data, error } = await supabase
+      .from("user_settings")
+      .select("max_duration_minutes, disabled_show_ids")
+      .eq("platform", "spotify")
+      .eq("platform_user_id", userId)
+      .maybeSingle<UserSettingsRow>();
+
+    if (error) throw new Error(`Supabase getSettings: ${error.message}`);
+    if (!data) return DEFAULT_SETTINGS;
+
+    return {
+      maxDurationMinutes: data.max_duration_minutes,
+      disabledShowIds: data.disabled_show_ids,
+    };
   },
 
   saveTokens: async (userId, tokens) => {

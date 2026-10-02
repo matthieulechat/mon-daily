@@ -1,4 +1,4 @@
-// Version Deno de src/config/env.ts — mêmes clés, lues via Deno.env.get()
+// Version Deno de scripts/config/env.ts — mêmes clés, lues via Deno.env.get()
 // au lieu de dotenv/process.env. SPOTIFY_REDIRECT_URI n'est pas nécessaire
 // ici (utilisé uniquement par le flow login.ts, jamais exécuté côté cron).
 import { z } from "npm:zod@3";

@@ -1,4 +1,4 @@
-import type { OAuthTokens } from "../types/index.ts";
+import type { OAuthTokens, UserSettings } from "../types/index.ts";
 
 export interface Storage {
   getTokens: (userId: string) => Promise<OAuthTokens | null>;
@@ -7,4 +7,6 @@ export interface Storage {
   // à chaque run (une recherche ratée créait une playlist en doublon).
   getPlaylistId: (userId: string) => Promise<string | null>;
   savePlaylistId: (userId: string, playlistId: string) => Promise<void>;
+  // Réglages de l'interface web ; valeurs par défaut si jamais enregistrés.
+  getSettings: (userId: string) => Promise<UserSettings>;
 }

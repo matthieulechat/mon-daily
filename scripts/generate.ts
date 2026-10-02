@@ -1,5 +1,5 @@
-import { todaysJingleUri } from "./config/jingles.ts";
-import { PODCAST_SHOWS, type PodcastShow } from "./config/podcast-shows.ts";
+import { todaysJingleUri } from "./config/jingles.js";
+import { PODCAST_SHOWS, type PodcastShow } from "./config/podcast-shows.js";
 import {
   buildMix,
   musicTargetCount,
@@ -8,15 +8,15 @@ import {
   truncateToDuration,
   type MixQueues,
   type PodcastPick,
-} from "./core/mix-builder.ts";
+} from "./core/mix-builder.js";
 import {
   getEligibleEpisodes,
   keepClosestByGroup,
-} from "./core/podcast-source.ts";
-import type { TopTracksRange } from "./providers/provider.interface.ts";
-import { spotifyProvider } from "./providers/spotify.provider.ts";
-import { supabaseStorage } from "./storage/supabase-storage.ts";
-import type { Track } from "./types/index.ts";
+} from "./core/podcast-source.js";
+import type { TopTracksRange } from "./providers/provider.interface.js";
+import { spotifyProvider } from "./providers/spotify.provider.js";
+import { supabaseStorage } from "./storage/supabase-storage.js";
+import type { Track } from "./types/index.js";
 
 // Jingle très court (~15s) : pas besoin d'un appel API dédié juste pour sa
 // durée exacte, négligeable sur un budget de plusieurs heures.
@@ -77,19 +77,14 @@ const fetchEligibleEpisodes = async (
   return keepClosestByGroup(results.flat(), shows);
 };
 
-// Adapté de scripts/generate.ts pour être appelable pour un `userId` donné
-// (boucle multi-comptes gérée par index.ts) plutôt qu'un script CLI
-// mono-utilisateur avec `process.argv`/`process.exit`.
-export interface GenerationResult {
-  userId: string;
-  tracksCount: number;
-  durationMinutes: number;
-  podcastsCount: number;
-}
+const main = async (): Promise<void> => {
+  const userId = process.argv[2];
+  if (!userId) {
+    throw new Error(
+      "Usage : pnpm run generate <spotify_user_id> (l'id affiché après pnpm run login)",
+    );
+  }
 
-export const generatePlaylistForUser = async (
-  userId: string,
-): Promise<GenerationResult> => {
   const storedTokens = await supabaseStorage.getTokens(userId);
   if (!storedTokens) {
     throw new Error(
@@ -180,11 +175,12 @@ export const generatePlaylistForUser = async (
   console.log(
     `Playlist "Mon Daily" mise à jour avec ${mix.length} titres (~${totalMinutes} min sur ${settings.maxDurationMinutes} max, ${includedPicks.length} podcasts).`,
   );
-
-  return {
-    userId,
-    tracksCount: mix.length,
-    durationMinutes: totalMinutes,
-    podcastsCount: includedPicks.length,
-  };
 };
+
+main().catch((error: unknown) => {
+  console.error(
+    "Échec de la génération :",
+    error instanceof Error ? error.message : error,
+  );
+  process.exit(1);
+});

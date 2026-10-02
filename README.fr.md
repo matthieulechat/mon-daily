@@ -23,7 +23,7 @@
 
 - **Le Daily Drive, reconstruit** : Spotify a supprimé le Daily Drive en mars 2026 — une commande régénère une playlist privée « Mon Daily » mêlant ta musique et des podcasts français.
 - **Tes propres top tracks** : pas de recommandation boîte noire (Spotify a déprécié `/recommendations` pour les nouvelles apps en novembre 2024) — la musique vient de tes top tracks à court terme, dédoublonnés.
-- **55 podcasts français** : journaux d'actu, géopolitique, culture, sport, reportages... triés à la main en `actu` (11 shows) et `thematique` (44 shows) dans [`src/config/podcast-shows.ts`](src/config/podcast-shows.ts).
+- **55 podcasts français** : journaux d'actu, géopolitique, culture, sport, reportages... triés à la main en `actu` (11 shows) et `thematique` (44 shows) dans [`scripts/config/podcast-shows.ts`](scripts/config/podcast-shows.ts).
 - **Un gabarit de mix fixe** : 2 épisodes d'actu en ouverture, puis un podcast toutes les 4 musiques en alternant actu et thématique — 4 + 4 par jour, tirés au sort.
 - **Frais et varié** : un épisode de plus de 3 jours est ignoré, et les shows thématiques déjà utilisés dans les 14 derniers jours sont écartés.
 - **Jingle du jour** : la playlist démarre avec le jingle officiel Spotify « C'est {jour} », calculé sur le fuseau `Europe/Paris`.
@@ -73,14 +73,16 @@ La génération se lance à la main pour l'instant. L'automatisation quotidienne
 ## 📂 Structure du projet
 
 ```
-src/
+scripts/
 ├── auth/        # flow OAuth Spotify (script de login + service PKCE)
 ├── config/      # validation de l'env, jingles du jour, liste des podcasts
 ├── core/        # sélection des épisodes de podcast (règles de fraîcheur)
 ├── providers/   # interface plateforme musicale (Spotify aujourd'hui, Deezer/Apple Music plus tard)
 ├── storage/     # interface de stockage (Supabase)
 ├── types/       # types partagés
-└── generate.ts  # construction du mix : gabarit, coupe 4h, mise à jour de la playlist
+└── generate.ts  # construction du mix : gabarit, coupe de durée, mise à jour de la playlist
+web/             # interface de réglages (Vite + React), lit le .env.local racine
+supabase/        # Edge Function quotidienne (copie Deno de scripts/)
 ```
 
 ## 🧠 Comment le mix est construit

@@ -12,13 +12,13 @@
 
 **Objectif : un script lancé à la main qui remplit une playlist Spotify avec de la musique personnalisée. Stockage Supabase dès cette phase (cf. [BDR-002](../.claude/memory/decisions/BDR-002.md)), pas de JSON local.**
 
-- [x] Implémenter le flow OAuth (authorization code + PKCE) — `src/auth/oauth.service.ts` + `src/auth/login.ts`
-- [x] Stocker le refresh token dans Supabase (table `oauth_tokens`, RLS activé, accès via `service_role`) — `src/storage/supabase-storage.ts`
-- [x] Récupérer top tracks / top artists (`time_range=short_term`) — `src/providers/spotify.provider.ts`
-- [x] Extraire les genres dominants — `src/core/taste-analyzer.ts`
-- [x] Construire la logique de recherche par genre (`/search?q=genre:"x"`) — `src/core/discovery-engine.ts`
-- [x] Dédupliquer / mixer top tracks connus + découvertes — `src/generate.ts`
-- [x] Créer/mettre à jour une playlist Spotify via l'API (`playlists/{id}/tracks`) — `src/providers/spotify.provider.ts`
+- [x] Implémenter le flow OAuth (authorization code + PKCE) — `scripts/auth/oauth.service.ts` + `scripts/auth/login.ts`
+- [x] Stocker le refresh token dans Supabase (table `oauth_tokens`, RLS activé, accès via `service_role`) — `scripts/storage/supabase-storage.ts`
+- [x] Récupérer top tracks / top artists (`time_range=short_term`) — `scripts/providers/spotify.provider.ts`
+- [x] Extraire les genres dominants — `scripts/core/taste-analyzer.ts`
+- [x] Construire la logique de recherche par genre (`/search?q=genre:"x"`) — `scripts/core/discovery-engine.ts`
+- [x] Dédupliquer / mixer top tracks connus + découvertes — `scripts/generate.ts`
+- [x] Créer/mettre à jour une playlist Spotify via l'API (`playlists/{id}/tracks`) — `scripts/providers/spotify.provider.ts`
 - [x] Lancer le script manuellement (`pnpm run login` puis `pnpm run generate <user_id>`) — premier run réussi le 2026-09-21, playlist "Mon Daily" créée avec 25 titres
 
 **Livrable** : tu lances une commande, ta playlist Spotify se remplit avec de la musique cohérente avec tes goûts.
@@ -27,7 +27,7 @@
 
 **Objectif : le script génère un vrai mix musique + actu, toujours lancé manuellement.**
 
-- [x] Récupérer le dernier épisode d'un show Spotify natif via `GET /shows/{id}/episodes?market=FR&limit=1`, pas de parser RSS (liste étendue le 2026-09-20 à partir des 3 pilotes de [BDR-005](../.claude/memory/decisions/BDR-005.md), cf. [BDR-008](../.claude/memory/decisions/BDR-008.md)) — implémenté en `src/core/podcast-source.ts` ; par souci d'appels API, on ne récupère que les shows sélectionnés pour le mix du jour (cf. item mix ci-dessous), pas les 55 à chaque run :
+- [x] Récupérer le dernier épisode d'un show Spotify natif via `GET /shows/{id}/episodes?market=FR&limit=1`, pas de parser RSS (liste étendue le 2026-09-20 à partir des 3 pilotes de [BDR-005](../.claude/memory/decisions/BDR-005.md), cf. [BDR-008](../.claude/memory/decisions/BDR-008.md)) — implémenté en `scripts/core/podcast-source.ts` ; par souci d'appels API, on ne récupère que les shows sélectionnés pour le mix du jour (cf. item mix ci-dessous), pas les 55 à chaque run :
 
   | Média              | Show                                                   | Show ID                  | Format                                             |
   | ------------------ | ------------------------------------------------------ | ------------------------ | -------------------------------------------------- |
@@ -90,14 +90,14 @@
   ⚠️ Plusieurs shows (Sur le fil, Le Fil Culture G, Maintenant Vous Savez Santé, Code source, Le Crayon) sont marqués `explicit: true` par Spotify — ce flag ne couvre pas les sujets sensibles visés par la modération prévue plus bas (guerre, sexualité, violence), à ne pas utiliser comme substitut.
 
 - [x] **Bloquant avant le mixer** — Tester manuellement qu'un épisode ajouté à une playlist perso (bouton "Ajouter à la playlist" sur la page d'un épisode dans l'app Spotify) apparaît et **joue bien depuis la playlist elle-même** (pas seulement en lecture directe du podcast) — risque documenté dans [LRN-006](../.claude/memory/learnings/LRN-006.md) (bug API Spotify connu depuis 2020, jamais corrigé). Testé OK par Matthieu le 2026-09-22.
-- [x] Ajouter la logique de mix musique/podcast (gabarit fixe : 2 actus d'affilée en ouverture, puis alternance actu/thématique toutes les 4 musiques jusqu'à 4 actus + 4 thématiques ; au-delà, musique seule jusqu'à la coupe 4h) — `src/generate.ts`, `src/core/podcast-source.ts`. Décisions du 2026-09-22, cf. [docs/PLAYLIST_GENERATION.md](PLAYLIST_GENERATION.md) :
+- [x] Ajouter la logique de mix musique/podcast (gabarit fixe : 2 actus d'affilée en ouverture, puis alternance actu/thématique toutes les 4 musiques jusqu'à 4 actus + 4 thématiques ; au-delà, musique seule jusqu'à la coupe 4h) — `scripts/generate.ts`, `scripts/core/podcast-source.ts`. Décisions du 2026-09-22, cf. [docs/PLAYLIST_GENERATION.md](PLAYLIST_GENERATION.md) :
   - Musique : top tracks seuls, répétition voulue. Deux pistes d'enrichissement essayées puis retirées (code supprimé, récupérable via git) : découverte par genre, et playlists éditoriales Spotify hits/découvertes — **bloquées côté API** (404, migration Spotify de février 2026 sur les playlists non possédées), reportées en Phase 6
   - Podcasts : catégorisation manuelle `actu`/`thematique` dans `podcast-shows.ts` (pas de signal de popularité exposé par l'API Spotify, ni sur les shows ni dans l'historique d'écoute), tirage au sort (pas un ordre fixe), plafonné à **4 actus + 4 thématiques/jour**. Actu tirée parmi les 11 shows actu (épisodes frais (< 3 jours) ; < 3 jours) ; thématique tirée parmi les 44 shows thématiques hors des 14 derniers jours utilisés (compteurs après tri manuel + ajouts des 2026-09-22 et 2026-09-23). Fallback croisé symétrique si un pool est trop court. Fraîcheur commune aux 2 catégories, abaissée à `EPISODE_MAX_AGE_DAYS = 3` le 2026-09-22 (7 jours laissait passer du contenu périmé) — **tensions connues acceptées telles quelles** : pénalise les thématiques hebdomadaires (fraîcheur), et un pool de 15 s'épuise en ~4 jours à raison de 4/jour avec exclusion 14 jours (rotation) — cf. doc pour le détail
   - Playlist plafonnée à **4h** de durée cumulée (coupe en fin de pipeline, les titres prioritaires survivent)
   - **Fix** : `getLatestEpisode` ne regardait que l'index 0 de la réponse Spotify et ratait les épisodes valides quand Spotify renvoie `null` à cet index précis (repéré sur "Gaspard G") — cherche maintenant le premier élément non-`null` parmi les 5 récupérés
 - [x] ~~Enregistrer l'historique des playlists~~ — fait puis **retiré le 2026-09-23** (table `playlist_history` supprimée) : avec un grand nombre de podcasts, le risque de retomber sur le même deux jours de suite est faible, l'historique n'apportait plus rien
 - [x] Logging + gestion d'erreurs (échec API, token expiré...) — un show en erreur/sans contenu/trop ancien est loggé et ignoré, ne fait pas échouer toute la génération
-- [x] Préfixer la playlist du jour par le jingle "C'est {jour}" de l'album officiel Spotify [Mon Daily](https://open.spotify.com/intl-fr/album/7F6q2YyEzP7ugqZhxfwouD) (2021) — `src/config/jingles.ts`, calculé sur `Europe/Paris` (pas `getDay()` brut) :
+- [x] Préfixer la playlist du jour par le jingle "C'est {jour}" de l'album officiel Spotify [Mon Daily](https://open.spotify.com/intl-fr/album/7F6q2YyEzP7ugqZhxfwouD) (2021) — `scripts/config/jingles.ts`, calculé sur `Europe/Paris` (pas `getDay()` brut) :
 
   | Jour     | URI                                    |
   | -------- | -------------------------------------- |
@@ -152,8 +152,8 @@ Limites, coût (gratuit) et points de vigilance : cf. [docs/AUTOMATION.md](AUTOM
 
 ## Phase 6 — Améliorations (optionnel, post-V1)
 
-- [ ] Interface utilisateur simple (réglages : durée max de la playlist, sources d'actu)
-- [ ] **Pool musique à étoffer avant d'exposer la durée max à l'utilisateur** — le mix boucle sur les podcasts tant que la coupe de durée n'est pas atteinte (le 2026-09-30, plus de plafond actu/thématique), mais `getTopTracks` ne renvoie que 50 titres (`/me/top/tracks?time_range=short_term&limit=50`, soit ~2h55 de musique, plafond de l'endpoint). À 4h ça suffit ; si l'utilisateur monte la durée (ex. 8h), la musique s'épuise et les podcasts s'enchaînent sans coupure musicale. Pistes : autre `time_range` (`medium_term`/`long_term`) ou plusieurs appels dédupliqués, et surtout la découverte musicale ci-dessous (recommandations d'écoute) pour étoffer le pool. À traiter en même temps que la page de personnalisation
+- [x] Interface utilisateur simple — SPA Vite + React (`web/`, direction « Bulletin Groove »), connexion Spotify via Supabase Auth, réglages en table `user_settings` (RLS par id Spotify) lus à chaque run par le script et l'Edge Function : durée max (1-8 h) et sources activables une à une (pas de réglage de proportion musique/podcasts : le gabarit fixe est respecté jusqu'à la coupe de durée). **Reste à faire côté config** : activer le provider Spotify dans Supabase Auth + redirect URI, puis déployer (Vercel)
+- [x] ~~**Pool musique à étoffer avant d'exposer la durée max à l'utilisateur**~~ — résolu avec l'UI : le nombre de titres musique est calculé d'après la durée max (`musicTargetCount`), piochés dans les 3 fenêtres d'écoute (jusqu'à ~150 titres dédupliqués) ; au-delà, la musique s'arrête faute de pool. Contexte d'origine : le mix boucle sur les podcasts tant que la coupe de durée n'est pas atteinte (le 2026-09-30, plus de plafond actu/thématique), mais `getTopTracks` ne renvoie que 50 titres (`/me/top/tracks?time_range=short_term&limit=50`, soit ~2h55 de musique, plafond de l'endpoint). À 4h ça suffit ; si l'utilisateur monte la durée (ex. 8h), la musique s'épuise et les podcasts s'enchaînent sans coupure musicale. Pistes : autre `time_range` (`medium_term`/`long_term`) ou plusieurs appels dédupliqués, et surtout la découverte musicale ci-dessous (recommandations d'écoute) pour étoffer le pool. À traiter en même temps que la page de personnalisation
 - [ ] Notifications (playlist prête, échec de génération)
 - [ ] Multi-utilisateurs si le projet s'ouvre à d'autres personnes
 - [ ] **(pas prioritaire, gardé en tête)** Filtrage des podcasts par préférence utilisateur : durée max de l'épisode (certains shows font ~1h, ex. C dans l'air, Les informés, L'ordre du monde) et fréquence de publication (certains shows publient plusieurs épisodes/jour, ex. HugoDécrypte) — cf. tableau Phase 2 pour le point de départ éditorial (colonne Format)

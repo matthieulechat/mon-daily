@@ -17,3 +17,8 @@ export interface User {
   platform: "spotify";
   platformUserId: string;
 }
+
+export interface UserSettings {
+  maxDurationMinutes: number;
+  disabledShowIds: string[];
+}

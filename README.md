@@ -23,7 +23,7 @@
 
 - **Daily Drive, rebuilt**: Spotify removed the Daily Drive in March 2026 — one command regenerates a private "Mon Daily" playlist mixing your music and French podcasts.
 - **Your own top tracks**: no black-box recommendations (Spotify deprecated `/recommendations` for new apps in November 2024) — the music comes from your short-term top tracks, deduplicated.
-- **55 French podcasts**: news bulletins, geopolitics, culture, sport, reportage... hand-sorted into `actu` (11 shows) and `thematique` (44 shows) in [`src/config/podcast-shows.ts`](src/config/podcast-shows.ts).
+- **55 French podcasts**: news bulletins, geopolitics, culture, sport, reportage... hand-sorted into `actu` (11 shows) and `thematique` (44 shows) in [`scripts/config/podcast-shows.ts`](scripts/config/podcast-shows.ts).
 - **A fixed mix template**: 2 news episodes to open, then a podcast every 4 songs, alternating news and themed shows — 4 + 4 per day, drawn at random.
 - **Fresh and varied**: episodes older than 3 days are ignored, and themed shows already used in the last 14 days are skipped.
 - **Daily jingle**: the playlist starts with the official Spotify "C'est {jour}" jingle, computed on the `Europe/Paris` timezone.
@@ -73,14 +73,16 @@ The generation is triggered by hand for now. Daily automation (Supabase Edge Fun
 ## 📂 Project Structure
 
 ```
-src/
+scripts/
 ├── auth/        # Spotify OAuth flow (login script + PKCE service)
 ├── config/      # env validation, daily jingles, podcast shows list
 ├── core/        # podcast episode selection (freshness rules)
 ├── providers/   # music platform interface (Spotify today, Deezer/Apple Music later)
 ├── storage/     # storage interface (Supabase)
 ├── types/       # shared types
-└── generate.ts  # mix builder: template, 4h cut, playlist update
+└── generate.ts  # mix builder: template, duration cut, playlist update
+web/             # settings UI (Vite + React), reads the root .env.local
+supabase/        # daily Edge Function (Deno copy of scripts/)
 ```
 
 ## 🧠 How the mix is built

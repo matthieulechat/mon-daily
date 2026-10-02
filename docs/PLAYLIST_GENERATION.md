@@ -1,6 +1,6 @@
 # Logique de génération de la playlist
 
-Ce document décrit ce que fait `pnpm run generate <spotify_user_id>` (`src/generate.ts`), étape par étape. Généré manuellement pour l'instant (Phase 2) — l'automatisation quotidienne (`pg_cron`) arrive en Phase 3.
+Ce document décrit ce que fait `pnpm run generate <spotify_user_id>` (`scripts/generate.ts`), étape par étape. Généré manuellement pour l'instant (Phase 2) — l'automatisation quotidienne (`pg_cron`) arrive en Phase 3.
 
 ## Schéma
 
@@ -37,7 +37,7 @@ flowchart TD
 
 ## Sélection des podcasts
 
-Il n'existe **aucun signal de popularité exploitable côté API Spotify** : l'objet `Show` n'a pas de champ `popularity` (contrairement aux morceaux), et `/me/player/recently-played` ne remonte pas les épisodes écoutés. Impossible de calculer un vrai classement "les plus écoutés" — la sélection repose donc sur une **catégorisation manuelle** (`category` dans `src/config/podcast-shows.ts`, plus une détection par titre pour la météo) et un **tirage au sort**, plafonné par catégorie.
+Il n'existe **aucun signal de popularité exploitable côté API Spotify** : l'objet `Show` n'a pas de champ `popularity` (contrairement aux morceaux), et `/me/player/recently-played` ne remonte pas les épisodes écoutés. Impossible de calculer un vrai classement "les plus écoutés" — la sélection repose donc sur une **catégorisation manuelle** (`category` dans `scripts/config/podcast-shows.ts`, plus une détection par titre pour la météo) et un **tirage au sort**, plafonné par catégorie.
 
 ### Actu (3 max/jour)
 
@@ -122,3 +122,12 @@ Aucun contournement officiel identifié (pas de "charts" public dans le Web API)
 - **Fraîcheur** : seuil à 3 jours (`EPISODE_MAX_AGE_DAYS`), commun aux 2 catégories — cf. tension connue ci-dessus pour les thématiques hebdomadaires.
 - **Playlist plafonnée à 4h** : coupe par durée cumulée en fin de pipeline, pas de limite fixe sur le nombre de titres.
 - **Fix** : `getLatestEpisode` cherchait un épisode uniquement à l'index 0 de la réponse Spotify, ratant les cas où Spotify renvoie `null` pour cet index précis alors qu'un épisode valide existe plus loin dans la liste — cherche maintenant le premier élément non-`null` parmi les 5 récupérés.
+
+## Réglages utilisateur (interface web, ajoutés le 2026-10-02)
+
+Lus à chaque run via `Storage.getSettings` (table `user_settings`, valeurs par défaut dans `scripts/config/default-settings.ts`) :
+
+- **Durée max** (60-480 min, défaut 240) : remplace la constante 4h de la coupe finale (`truncateToDuration`).
+- **Sources** (`disabled_show_ids`) : les shows décochés sont retirés des pools `actu`/`thematique` avant le fetch Spotify (moins d'appels API). Décocher le « journal d'Europe 1 » supprime aussi la météo.
+- **Pool musique** : `musicTargetCount` = durée max / 3,5 min + marge de 10 titres (min 20), piochés dans les 3 fenêtres d'écoute avec le plafond de 5 titres par artiste.
+- **Pas de réglage de proportion musique/podcasts** (retiré le jour même) : le gabarit fixe (`buildMix`, `scripts/core/mix-builder.ts`) est respecté tel quel jusqu'à la coupe de durée.

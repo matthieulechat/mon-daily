@@ -43,13 +43,13 @@ Dépassement de durée ou de CPU → réponse **546**.
 
 1. **Pause d'inactivité (7 jours)** : un projet Free est mis en pause après une semaine sans activité. Le cron appelle l'Edge Function chaque jour, qui lit/écrit en base via l'API — ça devrait compter comme activité, mais la doc ne le garantit pas explicitement. Vérifier dans le dashboard après quelques jours de run réel que le projet ne passe pas en pause.
 2. **Limite de 2 projets actifs** ([GLRN-284](../../baptistelechat-setup/settings/Claude/global-memory/learnings/GLRN-284.md)) : aucun autre projet Supabase ne peut être actif en parallèle sans en mettre un en pause.
-3. **`pg_cron` tourne en UTC** : pas de suivi de l'heure d'été. `0 5 * * *` = 6h l'hiver, 7h l'été à Paris. Choisir une heure tolérante. Le jour du jingle (`src/config/jingles.ts`) reste calculé sur `Europe/Paris`, pas sur l'heure serveur.
+3. **`pg_cron` tourne en UTC** : pas de suivi de l'heure d'été. `0 5 * * *` = 6h l'hiver, 7h l'été à Paris. Choisir une heure tolérante. Le jour du jingle (`scripts/config/jingles.ts`) reste calculé sur `Europe/Paris`, pas sur l'heure serveur.
 4. **Rétention `cron.job_run_details`** : non purgée automatiquement, à nettoyer périodiquement (job `cron` de suppression) pour ne pas gonfler la base.
 
 ## Points de portage Node → Deno
 
 - L'Edge Function tourne sur **Deno**, pas Node : `process.env.X` → `Deno.env.get('X')`.
-- Imports npm via `npm:` ou `deno.json` (import map) ; adapter les imports de `src/generate.ts` et de ses dépendances.
+- Imports npm via `npm:` ou `deno.json` (import map) ; adapter les imports de `scripts/generate.ts` et de ses dépendances.
 - Le code métier reste derrière `Storage` / `Provider` (cf. [ARCHITECTURE.md](ARCHITECTURE.md)) : seule la couche d'entrée (script CLI → handler `Deno.serve`) change.
 - Éviter les appels Edge Function → Edge Function (budget de ~5 000 req/min par chaîne, non pertinent ici mais à savoir) ; partager le code via un dossier `_shared/`.
 

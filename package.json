@@ -4,10 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "login": "tsx src/auth/login.ts",
-    "generate": "tsx src/generate.ts",
-    "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/**/*.test.ts"
+    "login": "tsx scripts/auth/login.ts",
+    "generate": "tsx scripts/generate.ts",
+    "typecheck": "tsc --noEmit -p scripts",
+    "test": "tsx --test scripts/**/*.test.ts",
+    "web:dev": "pnpm --filter mon-daily-web dev",
+    "web:build": "pnpm --filter mon-daily-web build",
+    "deploy:edge": "npx supabase@latest functions deploy generate-daily --project-ref lwrcbeaxsgolooqafogz --use-api",
+    "deploy:login": "npx supabase@latest login && pnpm run deploy:edge"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",
