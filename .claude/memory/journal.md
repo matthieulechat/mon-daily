@@ -250,3 +250,13 @@ Correctif : upload de la pochette à chaque run (copie `src/` + Edge Function), 
 
 - [ZBLK-021](archive/blockers/ZBLK-021.md) — Pochette absente chez un compte malgré id stocké
 - [LRN-038](learnings/LRN-038.md) — Id de ressource stocké : config idempotente à chaque run
+
+---
+
+Phase 6, item 1 : interface de réglages. Plan validé après lecture du moodboard (direction « Bulletin Groove »), puis implémentation de `web/` (Vite + React, login Spotify via Supabase Auth), table `user_settings` avec RLS, lecture des réglages par `generate.ts` et la copie Deno de l'Edge Function, et extraction de `core/mix-builder.ts` avec tests. Le premier jet de la RLS lisait `user_metadata` (faille relevée par les advisors) : remplacé par `private.current_spotify_id()`. Une proportion musique/podcasts avait été ajoutée puis retirée à la demande de Matthieu (colonne `podcast_share` supprimée). `src/` déplacé dans `scripts/`, `.env.local` racine partagé avec le web (préfixes exacts), scripts `deploy:login` / `deploy:edge`. Connexion testée : erreur `over_email_send_rate_limit` résolue en désactivant « Confirm email » ; un réglage enregistré a bien atterri en base (3 sources décochées). Edge Function redéployée par CLI (version 9), commit `3d03437` poussé.
+
+**Entrées clés :**
+
+- [BDR-030](decisions/BDR-030.md) — UI de réglages : SPA Vite + Supabase Auth Spotify, RLS
+- [BDR-031](decisions/BDR-031.md) — Pas de réglage de proportion musique/podcasts
+- [ZBLK-022](archive/blockers/ZBLK-022.md) — Login OAuth Spotify : `over_email_send_rate_limit`

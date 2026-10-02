@@ -35,3 +35,6 @@ register: decisions
 | [BDR-027](decisions/BDR-027.md) | 2026-09-30 | Mix musique pondéré 3 fenêtres + plafond par artiste | #spotify #music-mix #weighted-sampling #artist-cap #shuffle #mon-daily | actif |
 | [BDR-028](decisions/BDR-028.md) | 2026-09-30 | France Culture dans `closestGroup` ; regex tolère la virgule | #spotify #podcast #freshness #closest-group #title-parsing #regex #mon-daily | actif |
 | [BDR-029](decisions/BDR-029.md) | 2026-10-01 | Id de playlist stocké par compte, plus de recherche par nom | #spotify #playlist #oauth-tokens #duplicates #supabase #idempotence #mon-daily | actif |
+| [BDR-030](decisions/BDR-030.md) | 2026-10-02 | UI de réglages : SPA Vite + Supabase Auth Spotify, RLS | #ui #vite #react #supabase-auth #rls #settings #mon-daily | actif |
+| [BDR-031](decisions/BDR-031.md) | 2026-10-02 | Pas de réglage de proportion musique/podcasts | #settings #mix #playlist-generation #pattern #scope #mon-daily | actif |
+| [BDR-032](decisions/BDR-032.md) | 2026-10-02 | Code Node dans `scripts/`, `.env.local` racine partagé | #project-structure #env #vite #pnpm #deployment #mon-daily | actif |

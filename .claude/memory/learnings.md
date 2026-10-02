@@ -44,3 +44,6 @@ register: learnings
 | [LRN-036](learnings/LRN-036.md) | 2026-10-01 | `deploy_edge_function` MCP fragile sur gros fichiers : CLI | #supabase #mcp #edge-functions #cli #deployment #payload #mon-daily |
 | [LRN-037](learnings/LRN-037.md) | 2026-10-01 | `tsx` hors projet sous Windows : `.mts` + imports `file:///` | #tsx #windows #esm #scratchpad #top-level-await #tooling #mon-daily |
 | [LRN-038](learnings/LRN-038.md) | 2026-10-02 | Id de ressource stocké : config idempotente à chaque run | #spotify #idempotence #playlist #cover #stored-id #silent-failure #mon-daily |
+| [LRN-039](learnings/LRN-039.md) | 2026-10-02 | RLS Supabase : `auth.identities`, pas `user_metadata` | #supabase #rls #auth #user-metadata #security-definer #advisors #mon-daily |
+| [LRN-040](learnings/LRN-040.md) | 2026-10-02 | Exposer une clé publique à Vite : préfixes exacts, bundle vérifié | #vite #env #secrets #supabase #service-role #bundle #mon-daily |
+| [LRN-041](learnings/LRN-041.md) | 2026-10-02 | Spotify OAuth : `show_dialog=true` pour changer de compte | #spotify #oauth #supabase-auth #show-dialog #logout #mon-daily |
