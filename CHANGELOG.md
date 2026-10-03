@@ -9,6 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Interface de réglages installable comme application (PWA) avec icônes à l'effigie de la pochette (favicon, écran d'accueil mobile, icône maskable Android)
 - Interface web de réglages (`web/`, Vite + React, connexion Spotify via Supabase Auth) : durée maximale de la playlist (1 à 8 h) et activation source par source des 55 shows. Les réglages sont lus à chaque génération quotidienne ; sans réglage enregistré, le comportement reste celui d'avant (4 h, toutes sources)
 - Automatisation quotidienne : la génération de la playlist tourne désormais seule, sans intervention manuelle, via une Edge Function Supabase (`supabase/functions/generate-daily`) déclenchée chaque jour à 5h UTC (6h/7h Paris selon la saison) par `pg_cron`/`pg_net`, boucle sur tous les comptes Spotify connectés (un compte en échec n'empêche pas les autres)
 - Retry automatique (backoff + `Retry-After`) sur les appels Spotify en 429 (`scripts/providers/spotify-http.ts`) — Spotify limite par app, pas par compte, et `fetchEligibleEpisodes` tire des dizaines de requêtes en rafale par run
