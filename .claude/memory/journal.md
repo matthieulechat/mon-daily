@@ -260,3 +260,31 @@ Phase 6, item 1 : interface de réglages. Plan validé après lecture du moodboa
 - [BDR-030](decisions/BDR-030.md) — UI de réglages : SPA Vite + Supabase Auth Spotify, RLS
 - [BDR-031](decisions/BDR-031.md) — Pas de réglage de proportion musique/podcasts
 - [ZBLK-022](archive/blockers/ZBLK-022.md) — Login OAuth Spotify : `over_email_send_rate_limit`
+
+---
+
+## 2026-10-03
+
+Vérification des exclusions de shows de l'interface de réglages. Les playlists générées par le cron de 05:00 UTC ont été relues sur Spotify (script jetable, tokens lus côté script) et comparées à `user_settings.disabled_show_ids` : 0 épisode exclu présent pour les 2 comptes, cohérent avec les logs (pool thématique 88 contre 100). Baptiste a ensuite ajouté 3 exclusions (6 au total) et passé la durée max à 360 min ; régénération locale (`pnpm run generate`, 65 titres, ~355 min, 14 podcasts), relecture : 0 violation. Lancement du serveur de dev web (`pnpm web:dev`, port 5173) via un nouveau `.claude/launch.json`.
+
+**Entrées clés :**
+
+- [LRN-042](learnings/LRN-042.md) — Vérifier une exclusion en relisant la playlist réelle
+
+---
+
+Refonte visuelle de l'interface de réglages. Vinyle de fond agrandi (label jaune, icône radio) avec bras de platine, puis passage au style « home cinéma » après deux planches de variantes : façade d'ampli, afficheur, potard (slider natif masqué pour l'accessibilité), LED d'état. Les 63 pochettes de podcasts, récupérées par script, deviennent des disques qui tournent ou se grisent selon l'inclusion, avec une rotation limitée à ce qui est à l'écran. Pied de page réorganisé (note + LED à côté d'« Enregistrer », pulse et badge « Daily » supprimés). Commit `b84d9fb`. À noter : `web/package.json` (PWA, `vite --host`) et `pnpm-lock.yaml` portent des changements hors de cette session, non committés. Les boutons ronds de filtre de mots violents sont prévus plus tard.
+
+**Entrées clés :**
+
+- [BDR-033](decisions/BDR-033.md) — UI réglages : amp « home cinéma », sources en disques
+- [BDR-034](decisions/BDR-034.md) — Pochettes de podcasts figées par script
+
+---
+
+Installation et configuration des plugins Vite du skill brand-creator : `vite-plugin-pwa` (manifeste, service worker autoUpdate), `@vite-pwa/assets-generator` (conflit de peer résolu en repassant en 1.x) et `vite-plugin-qrcode` (QR code du serveur de dev, `host: true`). Icône source redessinée depuis la pochette de la playlist (sans texte), PNG et favicon générés, balises ajoutées à `index.html`. Commit `9b00e38` poussé. Les fichiers `.claude/` restent à committer.
+
+**Entrées clés :**
+
+- [BDR-035](decisions/BDR-035.md) — PWA installable, icônes tirées de la pochette
+- [BLK-023](blockers/BLK-023.md) — `vite-plugin-pwa` 1.3.0 refuse `assets-generator` 2.0.0

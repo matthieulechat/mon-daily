@@ -47,3 +47,7 @@ register: learnings
 | [LRN-039](learnings/LRN-039.md) | 2026-10-02 | RLS Supabase : `auth.identities`, pas `user_metadata` | #supabase #rls #auth #user-metadata #security-definer #advisors #mon-daily |
 | [LRN-040](learnings/LRN-040.md) | 2026-10-02 | Exposer une clé publique à Vite : préfixes exacts, bundle vérifié | #vite #env #secrets #supabase #service-role #bundle #mon-daily |
 | [LRN-041](learnings/LRN-041.md) | 2026-10-02 | Spotify OAuth : `show_dialog=true` pour changer de compte | #spotify #oauth #supabase-auth #show-dialog #logout #mon-daily |
+| [LRN-042](learnings/LRN-042.md) | 2026-10-03 | Vérifier une exclusion en relisant la playlist réelle | #spotify #settings #verification #playlist #exclusions #service-role #mon-daily |
+| [LRN-043](learnings/LRN-043.md) | 2026-10-03 | Contrôle custom (potard) : vrai input masqué dessous | #a11y #custom-control #sr-only #range #react #knob |
+| [LRN-044](learnings/LRN-044.md) | 2026-10-03 | Prévisualiser une page authentifiée : fausse session | #supabase #auth #preview #localstorage #testing #mon-daily |
+| [LRN-045](learnings/LRN-045.md) | 2026-10-03 | `pnpm peers check` après ajout de plugins couplés | #pnpm #peer-deps #vite #plugins #verification |

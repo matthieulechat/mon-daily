@@ -38,3 +38,6 @@ register: decisions
 | [BDR-030](decisions/BDR-030.md) | 2026-10-02 | UI de réglages : SPA Vite + Supabase Auth Spotify, RLS | #ui #vite #react #supabase-auth #rls #settings #mon-daily | actif |
 | [BDR-031](decisions/BDR-031.md) | 2026-10-02 | Pas de réglage de proportion musique/podcasts | #settings #mix #playlist-generation #pattern #scope #mon-daily | actif |
 | [BDR-032](decisions/BDR-032.md) | 2026-10-02 | Code Node dans `scripts/`, `.env.local` racine partagé | #project-structure #env #vite #pnpm #deployment #mon-daily | actif |
+| [BDR-033](decisions/BDR-033.md) | 2026-10-03 | UI réglages : amp « home cinéma », sources en disques | #ui #design #home-cinema #vinyle #knob #mon-daily | actif |
+| [BDR-034](decisions/BDR-034.md) | 2026-10-03 | Pochettes de podcasts figées par script | #spotify #covers #static-data #script #shows-api #mon-daily | actif |
+| [BDR-035](decisions/BDR-035.md) | 2026-10-03 | PWA installable, icônes tirées de la pochette | #pwa #vite #icons #cover #qrcode #mon-daily | actif |
