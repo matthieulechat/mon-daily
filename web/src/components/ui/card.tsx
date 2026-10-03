@@ -7,6 +7,7 @@ const cardVariants = cva("rounded-xl border border-border p-4", {
     tone: {
       default: "bg-background",
       panel: "bg-secondary rounded-2xl p-5",
+      amp: "amp-face rounded-2xl p-5 border-primary/60",
     },
   },
   defaultVariants: { tone: "default" },

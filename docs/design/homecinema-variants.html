@@ -1,0 +1,734 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Home cinéma — 4 directions</title>
+    <style>
+      :root {
+        --bg: #05080f;
+        --fg: #e6edf7;
+        --muted: #7686a0;
+        --blue: #2f93ff;
+        --yellow: #ffd23f;
+        --lime: #a3e635;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        background: #02040a;
+        color: var(--fg);
+        font-family: Archivo, system-ui, sans-serif;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0 0 4px;
+      }
+      p.sub {
+        color: var(--muted);
+        margin: 0 0 24px;
+        font-size: 14px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+        gap: 32px;
+      }
+      figure {
+        margin: 0;
+      }
+      figcaption {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 10px;
+        line-height: 1.5;
+      }
+      figcaption b {
+        color: var(--fg);
+      }
+      .stage {
+        padding: 22px;
+        border-radius: 16px;
+        background: var(--bg);
+        border: 1px solid rgb(230 237 247 / 0.08);
+      }
+
+      /* ====== Ampli ====== */
+      .unit {
+        position: relative;
+        padding: 18px 20px 16px;
+        border-radius: 10px;
+        background: var(--face);
+        border: 1px solid var(--edge);
+        box-shadow: var(--shadow);
+        color: var(--ink);
+      }
+      .unit::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: var(--grain);
+        pointer-events: none;
+      }
+      .screw {
+        position: absolute;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #cfd6e2, #4a5160 70%);
+        box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.5);
+      }
+      .screw::after {
+        content: "";
+        position: absolute;
+        left: 1px;
+        right: 1px;
+        top: 4px;
+        height: 1px;
+        background: rgb(0 0 0 / 0.6);
+        transform: rotate(35deg);
+      }
+      .screw.tl {
+        top: 7px;
+        left: 7px;
+      }
+      .screw.tr {
+        top: 7px;
+        right: 7px;
+      }
+      .screw.bl {
+        bottom: 7px;
+        left: 7px;
+      }
+      .screw.br {
+        bottom: 7px;
+        right: 7px;
+      }
+      .plate {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 0 10px 12px;
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-dim);
+      }
+      .plate b {
+        font-family: "Archivo Black", Archivo, sans-serif;
+        letter-spacing: 0.12em;
+        color: var(--ink);
+        font-size: 12px;
+      }
+      .row {
+        position: relative;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+      }
+      .display {
+        flex: 1;
+        padding: 12px 16px;
+        border-radius: 6px;
+        background: var(--disp-bg);
+        border: 1px solid rgb(0 0 0 / 0.6);
+        box-shadow:
+          inset 0 2px 8px rgb(0 0 0 / 0.8),
+          0 0 0 1px var(--disp-ring);
+        color: var(--disp-fg);
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+        text-shadow: 0 0 8px var(--glow);
+      }
+      .display .l {
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        opacity: 0.65;
+      }
+      .display .v {
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        line-height: 1.15;
+      }
+      .display .st {
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        display: flex;
+        justify-content: space-between;
+        opacity: 0.85;
+      }
+      .vu {
+        display: flex;
+        gap: 3px;
+        align-items: flex-end;
+        height: 14px;
+        margin-top: 6px;
+      }
+      .vu i {
+        flex: 1;
+        background: var(--disp-fg);
+        opacity: 0.85;
+        box-shadow: 0 0 6px var(--glow);
+        border-radius: 1px;
+        animation: vu 1s ease-in-out infinite alternate;
+      }
+      .vu i:nth-child(2n) {
+        animation-delay: 0.2s;
+      }
+      .vu i:nth-child(3n) {
+        animation-delay: 0.45s;
+      }
+      .vu i:nth-child(5n) {
+        animation-delay: 0.7s;
+      }
+      @keyframes vu {
+        from {
+          height: 25%;
+        }
+        to {
+          height: 100%;
+        }
+      }
+
+      /* potard */
+      .knobwrap {
+        text-align: center;
+        flex: none;
+      }
+      .knob {
+        position: relative;
+        width: 96px;
+        height: 96px;
+        border-radius: 50%;
+        cursor: ns-resize;
+        touch-action: none;
+        user-select: none;
+        background:
+          repeating-conic-gradient(
+            from 0deg,
+            rgb(255 255 255 / 0) 0 4deg,
+            rgb(255 255 255 / 0.09) 4deg 5deg
+          ),
+          conic-gradient(
+            from 20deg,
+            var(--k1),
+            var(--k2),
+            var(--k1),
+            var(--k2),
+            var(--k1)
+          );
+        box-shadow:
+          0 6px 14px rgb(0 0 0 / 0.6),
+          inset 0 0 0 2px rgb(0 0 0 / 0.35),
+          inset 0 2px 2px rgb(255 255 255 / 0.35);
+      }
+      .knob::after {
+        content: "";
+        position: absolute;
+        inset: 14px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 35% 30%,
+          var(--k2),
+          var(--k1) 70%
+        );
+        box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.3);
+      }
+      .knob i {
+        position: absolute;
+        left: 50%;
+        top: 6px;
+        width: 4px;
+        height: 16px;
+        margin-left: -2px;
+        border-radius: 2px;
+        background: var(--pointer);
+        box-shadow: 0 0 6px var(--pointer);
+        z-index: 2;
+      }
+      .knob .rot {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+      }
+      .ticks {
+        position: absolute;
+        inset: -12px;
+        border-radius: 50%;
+        background: repeating-conic-gradient(
+          from -135deg,
+          var(--ink-dim) 0 1deg,
+          transparent 1deg 27deg
+        );
+        -webkit-mask: radial-gradient(
+          circle,
+          transparent 0 62%,
+          #000 63%,
+          #000 66%,
+          transparent 67%
+        );
+        mask: radial-gradient(
+          circle,
+          transparent 0 62%,
+          #000 63%,
+          #000 66%,
+          transparent 67%
+        );
+        clip-path: polygon(50% 50%, 0 100%, 0 0, 100% 0, 100% 100%);
+        opacity: 0.7;
+      }
+      .knobwrap small {
+        display: block;
+        margin-top: 12px;
+        font-size: 9px;
+        letter-spacing: 0.2em;
+        color: var(--ink-dim);
+      }
+
+      /* sources / boutons ronds */
+      .btns {
+        display: flex;
+        gap: 28px;
+        margin: 14px 0 4px;
+        justify-content: center;
+        position: relative;
+      }
+      .btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle at 35% 30%,
+          var(--k1),
+          var(--k2) 80%
+        );
+        box-shadow:
+          0 3px 6px rgb(0 0 0 / 0.55),
+          inset 0 1px 1px rgb(255 255 255 / 0.3);
+        cursor: pointer;
+        border: 0;
+        position: relative;
+      }
+      .btn::after {
+        content: "";
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        margin-left: -2.5px;
+        border-radius: 50%;
+        background: #222;
+      }
+      .btn.on::after {
+        background: var(--led);
+        box-shadow: 0 0 8px var(--led);
+      }
+      .btn:active {
+        transform: translateY(1px);
+      }
+      .lbl {
+        display: flex;
+        gap: 28px;
+        justify-content: center;
+        font-size: 8.5px;
+        letter-spacing: 0.15em;
+        color: var(--ink-dim);
+        text-transform: uppercase;
+        position: relative;
+      }
+      .lbl span {
+        width: 34px;
+        text-align: center;
+        white-space: nowrap;
+        overflow: visible;
+      }
+
+      /* enceintes = podcasts */
+      .speakers {
+        display: flex;
+        justify-content: space-around;
+        gap: 10px;
+        margin-top: 14px;
+        position: relative;
+      }
+      .spk {
+        flex: none;
+        width: 92px;
+        text-align: center;
+        cursor: pointer;
+        background: 0;
+        border: 0;
+        color: inherit;
+        padding: 0;
+        font: inherit;
+      }
+      .cone {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          var(--cone-c) 0 13%,
+          var(--cone) 14% 62%,
+          #0a0a0a 63% 70%,
+          #1a1a1a 71%
+        );
+        box-shadow:
+          inset 0 0 0 4px #090909,
+          0 4px 10px rgb(0 0 0 / 0.6);
+        transition:
+          filter 0.2s,
+          box-shadow 0.2s;
+      }
+      .cone::before {
+        content: "";
+        position: absolute;
+        inset: 16%;
+        border-radius: 50%;
+        background: repeating-radial-gradient(
+          circle,
+          rgb(0 0 0 / 0.18) 0 1px,
+          transparent 1px 5px
+        );
+      }
+      .spk.off .cone {
+        filter: saturate(0.1) brightness(0.4);
+      }
+      .spk .n {
+        display: block;
+        margin-top: 8px;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        color: var(--ink-dim);
+      }
+      .spk:not(.off) .n {
+        color: var(--ink);
+      }
+
+      .foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 16px;
+        position: relative;
+      }
+      .leds {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        color: var(--ink-dim);
+        text-transform: uppercase;
+      }
+      .led {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: var(--lime);
+        box-shadow: 0 0 8px var(--lime);
+      }
+      .led.y {
+        background: var(--yellow);
+        box-shadow: 0 0 8px var(--yellow);
+      }
+      .save {
+        font: inherit;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 8px 18px;
+        border-radius: var(--save-r);
+        border: 1px solid var(--save-b);
+        background: var(--save-bg);
+        color: var(--save-fg);
+        cursor: pointer;
+        box-shadow:
+          0 3px 8px rgb(0 0 0 / 0.5),
+          inset 0 1px 0 rgb(255 255 255 / 0.25);
+      }
+
+      /* ===== V1 Métal brossé ===== */
+      .v1 {
+        --face: linear-gradient(180deg, #2a2e35 0%, #14171c 12%, #0d0f13 100%);
+        --edge: #3a404a;
+        --shadow:
+          0 18px 40px rgb(0 0 0 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.12);
+        --grain: repeating-linear-gradient(
+          90deg,
+          rgb(255 255 255 / 0.018) 0 1px,
+          transparent 1px 3px
+        );
+        --ink: #dfe6f0;
+        --ink-dim: #7d8898;
+        --disp-bg: #03070d;
+        --disp-fg: #5fb4ff;
+        --glow: rgb(47 147 255 / 0.85);
+        --disp-ring: #2b323d;
+        --k1: #b9c2cf;
+        --k2: #555e6c;
+        --pointer: #ffd23f;
+        --led: #2f93ff;
+        --cone: #6b7280;
+        --cone-c: #cfd6e2;
+        --save-r: 999px;
+        --save-b: #1f6fd0;
+        --save-bg: linear-gradient(#4aa5ff, #2f7fe0);
+        --save-fg: #03060c;
+      }
+      /* ===== V2 Noir laqué + néon ===== */
+      .v2 {
+        --face: linear-gradient(160deg, #101a2b 0%, #060a12 45%, #0a1220 100%);
+        --edge: #1f6fd0;
+        --shadow:
+          0 0 0 1px rgb(47 147 255 / 0.35), 0 0 36px rgb(47 147 255 / 0.28),
+          inset 0 1px 0 rgb(255 255 255 / 0.1);
+        --grain: linear-gradient(
+          115deg,
+          rgb(255 255 255 / 0.06) 0%,
+          transparent 28%
+        );
+        --ink: #e6edf7;
+        --ink-dim: #6f87a8;
+        --disp-bg: #02060c;
+        --disp-fg: #7fd0ff;
+        --glow: rgb(47 147 255 / 1);
+        --disp-ring: #1f6fd0;
+        --k1: #2a3447;
+        --k2: #0c121c;
+        --pointer: #2f93ff;
+        --led: #2f93ff;
+        --cone: #ffb02e;
+        --cone-c: #3a2200;
+        --save-r: 6px;
+        --save-b: #2f93ff;
+        --save-bg: rgb(47 147 255 / 0.12);
+        --save-fg: #7fd0ff;
+      }
+      /* ===== V3 Vintage hi-fi ===== */
+      .v3 {
+        --face: linear-gradient(180deg, #d8c9a8 0%, #bfae88 100%);
+        --edge: #7a6a48;
+        --shadow:
+          -14px 0 0 -2px #5a3a22, 14px 0 0 -2px #5a3a22,
+          0 18px 36px rgb(0 0 0 / 0.6), inset 0 1px 0 rgb(255 255 255 / 0.5);
+        --grain: repeating-linear-gradient(
+          90deg,
+          rgb(0 0 0 / 0.035) 0 1px,
+          transparent 1px 3px
+        );
+        --ink: #2a2216;
+        --ink-dim: #6b5b3c;
+        --disp-bg: #1a0f05;
+        --disp-fg: #ffb02e;
+        --glow: rgb(255 176 46 / 0.9);
+        --disp-ring: #7a6a48;
+        --k1: #2b2b2b;
+        --k2: #0e0e0e;
+        --pointer: #ffd23f;
+        --led: #ff7a2e;
+        --cone: #5a3a22;
+        --cone-c: #d8c9a8;
+        --save-r: 4px;
+        --save-b: #2a2216;
+        --save-bg: linear-gradient(#3a2f1c, #1d160a);
+        --save-fg: #ffd23f;
+      }
+
+      /* ===== V4 Système complet (3 zones) ===== */
+      .sys .unit,
+      .sys .display {
+        min-width: 0;
+      }
+      .sys {
+        display: grid;
+        grid-template-columns: 76px minmax(0, 1fr) 76px;
+        gap: 10px;
+        align-items: end;
+      }
+      .tower {
+        height: 380px;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #0b0b0d, #17171b 50%, #0b0b0d);
+        border: 1px solid #2a2a30;
+        box-shadow:
+          0 14px 26px rgb(0 0 0 / 0.6),
+          inset 0 1px 0 rgb(255 255 255 / 0.1);
+        padding: 12px 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+      }
+      .tower .tw {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: radial-gradient(circle, #444 0 30%, #111 31%);
+        box-shadow: inset 0 0 0 3px #000;
+      }
+      .tower .spk {
+        width: 100%;
+        flex: none;
+      }
+      .tower .spk .n {
+        font-size: 8px;
+        color: #8a8f99;
+      }
+      .tower .spk:not(.off) .n {
+        color: #e6edf7;
+      }
+      .v4 .cone {
+        --cone: #ffb02e;
+        --cone-c: #3a2200;
+      }
+      .v4 {
+        --ink-dim: #8a8f99;
+      }
+      @media (max-width: 560px) {
+        .sys {
+          grid-template-columns: 1fr;
+        }
+        .tower {
+          height: auto;
+          flex-direction: row;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .vu i {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Home cinéma — 4 directions</h1>
+    <p class="sub">
+      Tourne le potard (glisse vers le haut/bas) et clique sur les boutons et
+      les enceintes : ils réagissent. Noms de podcasts fictifs.
+    </p>
+    <div class="grid" id="grid"></div>
+
+    <script>
+      const PODS = ["Actu du jour", "Géopolitique", "Éco & marchés", "Tech"];
+
+      const unit = (cls, brand, withSpeakers = true) => `
+<div class="unit ${cls}">
+  <i class="screw tl"></i><i class="screw tr"></i><i class="screw bl"></i><i class="screw br"></i>
+  <div class="plate"><b>MON DAILY</b><span>Daily Receiver · DR-4</span></div>
+  <div class="row">
+    <div class="display">
+      <div class="l">MAX DURATION</div>
+      <div class="v" data-v>3 H 30</div>
+      <div class="vu">${"<i></i>".repeat(18)}</div>
+      <div class="st"><span data-st>READY</span><span>DAILY</span></div>
+    </div>
+    <div class="knobwrap">
+      <div class="knob" data-knob><div class="ticks"></div><div class="rot"><i></i></div></div>
+      <small>DURÉE</small>
+    </div>
+  </div>
+  <div class="btns">${["ACTU", "MUSIQUE", "THÈME", "JINGLE"].map((_, i) => `<button class="btn ${i < 3 ? "on" : ""}" aria-label="source"></button>`).join("")}</div>
+  <div class="lbl">${["Actu", "Musique", "Thème", "Jingle"].map((t) => `<span>${t}</span>`).join("")}</div>
+  ${withSpeakers ? `<div class="speakers">${PODS.map((p) => spk(p)).join("")}</div>` : ""}
+  <div class="foot"><div class="leds"><i class="led" data-led></i><span data-ledt>Enregistré</span></div><button class="save">Enregistrer</button></div>
+</div>`;
+
+      const spk = (p) =>
+        `<button class="spk"><div class="cone"></div><span class="n">${p}</span></button>`;
+
+      const figs = [
+        {
+          c: "v1",
+          t: "<b>1 — Métal brossé</b> · la plus proche de l'ampli Yamaha : façade noir graphite, afficheur bleu à segments, potard argent striés, LEDs bleues. Sobre et sérieux.",
+          html: unit("v1"),
+        },
+        {
+          c: "v2",
+          t: "<b>2 — Noir laqué + néon</b> · même structure, mais bordure et halo bleu « Bulletin Groove », potard sombre à repère bleu, enceintes ambre qui ressortent. La plus spectaculaire sur fond sombre.",
+          html: unit("v2"),
+        },
+        {
+          c: "v3",
+          t: "<b>3 — Vintage hi-fi</b> · façade aluminium champagne, flancs bois, afficheur ambre. Très chaleureux, mais s'éloigne du bleu de la charte (à adapter).",
+          html: unit("v3"),
+        },
+        {
+          c: "v4",
+          t: "<b>4 — Système complet</b> · l'ampli au centre et deux enceintes colonnes à gauche et à droite (photo 2) : chaque cône ambre est un podcast. L'effet home cinéma maximal, plus de place requise.",
+          html: `<div class="sys v4"><div class="tower"><i class="tw"></i>${spk(PODS[0])}${spk(PODS[1])}</div>${unit("v2", "", false)}<div class="tower"><i class="tw"></i>${spk(PODS[2])}${spk(PODS[3])}</div></div>`,
+        },
+      ];
+      document.getElementById("grid").innerHTML = figs
+        .map(
+          (f) =>
+            `<figure><div class="stage">${f.html}</div><figcaption>${f.t}</figcaption></figure>`,
+        )
+        .join("");
+
+      // interactions
+      document
+        .querySelectorAll(".spk")
+        .forEach((b) =>
+          b.addEventListener("click", () => b.classList.toggle("off")),
+        );
+      document
+        .querySelectorAll(".btn")
+        .forEach((b) =>
+          b.addEventListener("click", () => b.classList.toggle("on")),
+        );
+      document.querySelectorAll(".unit").forEach((u) => {
+        const knob = u.querySelector("[data-knob]"),
+          rot = knob.querySelector(".rot"),
+          v = u.querySelector("[data-v]");
+        const st = u.querySelector("[data-st]"),
+          led = u.querySelector("[data-led]"),
+          ledt = u.querySelector("[data-ledt]");
+        let val = 210; // minutes, 60..240
+        const draw = () => {
+          rot.style.transform = `rotate(${-135 + ((val - 60) / 180) * 270}deg)`;
+          v.textContent = `${Math.floor(val / 60)} H ${String(val % 60).padStart(2, "0")}`;
+        };
+        const dirty = () => {
+          led.classList.add("y");
+          ledt.textContent = "Modifié";
+          st.textContent = "EDIT";
+        };
+        let y0 = null,
+          v0 = 0;
+        knob.addEventListener("pointerdown", (e) => {
+          y0 = e.clientY;
+          v0 = val;
+          knob.setPointerCapture(e.pointerId);
+        });
+        knob.addEventListener("pointermove", (e) => {
+          if (y0 === null) return;
+          val = Math.max(
+            60,
+            Math.min(240, v0 + Math.round((y0 - e.clientY) / 1.2 / 15) * 15),
+          );
+          draw();
+          dirty();
+        });
+        knob.addEventListener("pointerup", () => {
+          y0 = null;
+        });
+        u.querySelector(".save").addEventListener("click", () => {
+          led.classList.remove("y");
+          ledt.textContent = "Enregistré";
+          st.textContent = "SAVED";
+          setTimeout(() => (st.textContent = "READY"), 1200);
+        });
+        draw();
+      });
+    </script>
+  </body>
+</html>

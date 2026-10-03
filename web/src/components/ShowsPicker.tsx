@@ -3,6 +3,8 @@ import {
   PODCAST_SHOWS,
   type PodcastCategory,
 } from "@shared/config/podcast-shows";
+import { SHOW_COVERS } from "@shared/config/show-covers";
+import { ShowDisc } from "@/components/ShowDisc";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -78,20 +80,18 @@ export const ShowsPicker = () => {
                 </Button>
               </div>
             </div>
-            <ul className="grid gap-x-6 sm:grid-cols-2">
-              {visible.map((show) => (
-                <li key={show.id} className="border-b border-border">
-                  <label className="flex cursor-pointer items-center gap-3 py-1.5 text-sm">
-                    <input
-                      type="checkbox"
-                      className="size-4 accent-primary"
-                      checked={!disabledSet.has(show.id)}
-                      onChange={(e) =>
-                        setShowsEnabled([show.id], e.target.checked)
-                      }
-                    />
-                    {show.name}
-                  </label>
+            <ul className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-y-5">
+              {visible.map((show, i) => (
+                <li key={show.id} className="flex justify-center">
+                  <ShowDisc
+                    name={show.name}
+                    cover={SHOW_COVERS[show.id]}
+                    index={i}
+                    active={!disabledSet.has(show.id)}
+                    onToggle={() =>
+                      setShowsEnabled([show.id], disabledSet.has(show.id))
+                    }
+                  />
                 </li>
               ))}
             </ul>

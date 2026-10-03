@@ -1,3 +1,5 @@
+import { cn } from "@/lib/utils";
+
 // Hauteurs et barres "hi" du mockup Bulletin Groove.
 const BARS: { h: number; hi?: boolean }[] = [
   { h: 30 },
@@ -14,8 +16,11 @@ const BARS: { h: number; hi?: boolean }[] = [
   { h: 50 },
 ];
 
-export const Waveform = () => (
-  <div className="mb-4 flex h-7 items-end gap-[3px] px-0.5" aria-hidden="true">
+export const Waveform = ({ className }: { className?: string }) => (
+  <div
+    className={cn("flex h-7 items-end gap-[3px] px-0.5", className)}
+    aria-hidden="true"
+  >
     {BARS.map(({ h, hi }, i) => (
       <span
         key={i}

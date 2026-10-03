@@ -6,6 +6,7 @@
   "scripts": {
     "login": "tsx scripts/auth/login.ts",
     "generate": "tsx scripts/generate.ts",
+    "covers": "tsx scripts/fetch-show-covers.ts",
     "typecheck": "tsc --noEmit -p scripts",
     "test": "tsx --test scripts/**/*.test.ts",
     "web:dev": "pnpm --filter mon-daily-web dev",

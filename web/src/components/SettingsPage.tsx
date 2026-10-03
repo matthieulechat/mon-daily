@@ -1,15 +1,14 @@
 import { useEffect } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/lib/supabase";
+import { cn } from "@/lib/utils";
 import { selectIsDirty, useSettingsStore } from "@/lib/settings.store";
 import { spotifyIdOf } from "@/lib/settings-api";
 import { Brand } from "./Brand";
 import { MixCard } from "./MixCard";
 import { ShowsPicker } from "./ShowsPicker";
-import { Waveform } from "./Waveform";
 
 export const SettingsPage = ({ session }: { session: Session }) => {
   const spotifyId = spotifyIdOf(session);
@@ -30,7 +29,7 @@ export const SettingsPage = ({ session }: { session: Session }) => {
 
   return (
     <main className="relative z-10 mx-auto max-w-3xl px-4 py-8">
-      <Card tone="panel">
+      <Card tone="amp">
         <header className="mb-5 flex items-center justify-between">
           <Brand />
           <nav className="flex items-center gap-4 text-xs text-muted">
@@ -46,14 +45,6 @@ export const SettingsPage = ({ session }: { session: Session }) => {
             </button>
           </nav>
         </header>
-        <Waveform />
-
-        <div className="mb-4 flex items-center gap-2 text-xs text-muted">
-          <span className="live-dot" aria-hidden="true" />
-          Appliqué à la prochaine génération quotidienne
-          <Badge tone="accent">Daily</Badge>
-        </div>
-
         <div className="space-y-4">
           <MixCard />
           <ShowsPicker />
@@ -70,12 +61,21 @@ export const SettingsPage = ({ session }: { session: Session }) => {
               <span className="text-accent">Erreur : {error}</span>
             )}
           </p>
-          <Button
-            disabled={!dirty || status === "saving"}
-            onClick={() => void save(spotifyId)}
-          >
-            Enregistrer
-          </Button>
+          <div className="flex flex-wrap items-center justify-end gap-3">
+            <div className="flex items-center gap-2 text-xs text-muted">
+              <span
+                className={cn("led", dirty && "led-dirty")}
+                aria-hidden="true"
+              />
+              Appliqué à la prochaine génération quotidienne
+            </div>
+            <Button
+              disabled={!dirty || status === "saving"}
+              onClick={() => void save(spotifyId)}
+            >
+              Enregistrer
+            </Button>
+          </div>
         </footer>
       </Card>
     </main>
