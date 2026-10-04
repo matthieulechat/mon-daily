@@ -16,6 +16,10 @@
   --font-mono: "JetBrains Mono", monospace;
 }
 
+:root {
+  --ease-snap: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
 @layer base {
   body {
     background: var(--color-background);
@@ -39,7 +43,11 @@
   border-radius: 50%;
   z-index: 0;
   pointer-events: none;
-  animation: vinylspin 40s linear infinite;
+  /* Rotation continue + apparition (propriétés scale/translate, qui se
+     composent avec le transform de la rotation sans la couper). */
+  animation:
+    vinylspin 40s linear infinite,
+    vinyl-in 1s var(--ease-snap) backwards;
   background:
     radial-gradient(
       circle,
@@ -86,6 +94,9 @@
   z-index: 0;
   pointer-events: none;
   filter: drop-shadow(0 6px 8px rgb(0 0 0 / 0.5));
+  /* Le bras se pose sur le disque une fois celui-ci apparu */
+  transform-origin: 276px 370px;
+  animation: arm-drop 1.1s var(--ease-snap) 0.5s backwards;
 }
 .tonearm-arm {
   transform-origin: 276px 370px;
@@ -127,12 +138,210 @@
   }
 }
 
+/* ---------- Entrées et feedback (tous sous 400 ms) ---------- */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@keyframes rise-sm {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes crate-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+}
+@keyframes vinyl-in {
+  from {
+    opacity: 0;
+    scale: 0.9;
+    translate: 48px -48px;
+  }
+}
+@keyframes arm-drop {
+  from {
+    opacity: 0;
+    rotate: -9deg;
+  }
+}
+@keyframes crate-out {
+  to {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes save-btn {
+  0% {
+    background-color: var(--color-highlight);
+    scale: 0.96;
+  }
+  8% {
+    scale: 1.05;
+  }
+  16% {
+    scale: 1;
+  }
+  80% {
+    background-color: var(--color-highlight);
+    opacity: 1;
+  }
+  100% {
+    background-color: var(--color-primary);
+    opacity: 0.4;
+  }
+}
+@keyframes save-idle {
+  0%,
+  80% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes save-done {
+  0% {
+    opacity: 0;
+  }
+  6%,
+  78% {
+    opacity: 1;
+  }
+  90%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes check-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes tick {
+  from {
+    opacity: 0.5;
+    transform: translateY(4px);
+  }
+}
+@keyframes led-pulse {
+  50% {
+    transform: scale(1.7);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* Entrée de page : les deux cartes arrivent l'une après l'autre */
+.enter > * {
+  animation: rise 0.4s var(--ease-snap) backwards;
+}
+.enter > :nth-child(2) {
+  animation-delay: 60ms;
+}
+.show-item {
+  animation: rise-sm 0.4s var(--ease-snap) backwards;
+  animation-delay: min(calc(var(--i, 0) * 45ms), 700ms);
+}
+/* Connexion : la carte arrive une fois le disque posé, puis ses 3 éléments */
+.login-card {
+  animation: rise 0.5s var(--ease-snap) 0.3s backwards;
+}
+.login-card > * {
+  animation: rise-sm 0.4s var(--ease-snap) backwards;
+}
+.login-card > :nth-child(1) {
+  animation-delay: 0.5s;
+}
+.login-card > :nth-child(2) {
+  animation-delay: 0.58s;
+}
+.login-card > :nth-child(3) {
+  animation-delay: 0.66s;
+}
+.brand-wave {
+  animation: fade-in 0.4s ease-out 0.8s backwards;
+}
+.brand-wave-outer {
+  animation-delay: 0.95s;
+}
+.tick {
+  display: inline-block;
+  animation: tick 0.15s var(--ease-snap);
+}
+/* Bouton Enregistrer : flash vert 2,4 s puis retour à l'état « désactivé » */
+.save-label {
+  display: grid;
+  place-items: center;
+}
+.save-label > * {
+  grid-area: 1 / 1;
+}
+.save-done {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  opacity: 0;
+}
+.save-done path {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+}
+.save-btn[data-saved="true"] {
+  animation: save-btn 2.4s var(--ease-snap) forwards;
+}
+.save-btn[data-saved="true"] .save-idle {
+  animation: save-idle 2.4s linear forwards;
+}
+.save-btn[data-saved="true"] .save-done {
+  animation: save-done 2.4s linear forwards;
+}
+.save-btn[data-saved="true"] .save-done path {
+  animation: check-draw 0.35s ease-out 0.1s backwards;
+}
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: vinylspin 0.7s linear infinite;
+}
+.led-pulse {
+  animation: led-pulse 0.4s var(--ease-snap);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .groove-bg,
+  .tonearm,
   .tonearm-arm,
   .wave-bar,
   .disc-art {
     animation: none;
+  }
+  /* Mouvement atténué, pas supprimé : fondu seul */
+  .enter > *,
+  .login-card,
+  .login-card > *,
+  .show-item,
+  .pile,
+  .crate,
+  .tick,
+  .led-pulse {
+    animation-name: fade-in;
   }
 }
 
@@ -263,6 +472,10 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  transition: transform 0.16s var(--ease-snap);
+}
+.disc:active {
+  transform: scale(0.95);
 }
 .disc-art {
   position: relative;
@@ -371,15 +584,27 @@ input[type="range"].slider::-moz-range-thumb {
     var(--color-secondary) 70%
   );
   transition:
-    transform 0.2s,
-    border-color 0.2s;
+    transform 0.16s var(--ease-snap),
+    border-color 0.2s,
+    filter 0.25s,
+    opacity 0.25s;
+  animation: rise 0.4s var(--ease-snap) backwards;
+  animation-delay: calc(180ms + var(--i, 0) * 40ms);
 }
 .pile:hover {
   transform: translateY(-2px);
 }
+.pile:active {
+  transform: scale(0.97);
+}
 .pile[aria-pressed="true"] {
   border-color: var(--c);
   box-shadow: 0 0 0 1px var(--c);
+}
+/* Catégorie entièrement désactivée : grisée comme les pochettes exclues */
+.pile[data-off="true"] {
+  filter: grayscale(1);
+  opacity: 0.55;
 }
 .pile-count {
   position: absolute;
@@ -449,6 +674,31 @@ input[type="range"].slider::-moz-range-thumb {
   border-radius: 12px;
   border: 1px solid #3a2a1c;
   border-top: 3px solid var(--c);
+  animation: crate-in 0.22s var(--ease-snap) backwards;
   background: linear-gradient(#1a1410, #0d0a07);
   box-shadow: inset 0 0 40px rgb(0 0 0 / 0.6);
+}
+/* Placé dans la grille des piles, sous la rangée de la pile ouverte */
+.crate-slot {
+  grid-row: var(--row2);
+}
+@media (min-width: 640px) {
+  .crate-slot {
+    grid-row: var(--row3);
+  }
+}
+/* Fermeture : symétrique de l'ouverture, un peu plus vive */
+.crate.crate-out {
+  animation: crate-out 0.18s var(--ease-snap) forwards;
+}
+
+/* Après .pile et .crate pour gagner sur leur animation */
+@media (prefers-reduced-motion: reduce) {
+  .pile,
+  .crate {
+    animation-name: fade-in;
+  }
+  .crate.crate-out {
+    animation-name: fade-out;
+  }
 }

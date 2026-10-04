@@ -33,7 +33,10 @@ export const ShowsPicker = () => {
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold">Sources</span>
           <Badge>
-            {activeCount}/{PODCAST_SHOWS.length} actives
+            <span key={activeCount} className="tick">
+              {activeCount}/{PODCAST_SHOWS.length}
+            </span>{" "}
+            actives
           </Badge>
         </div>
         <input

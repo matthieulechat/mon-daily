@@ -34,7 +34,9 @@ export const MixCard = () => {
           className="font-mono text-4xl leading-tight font-bold tracking-wider"
           aria-live="polite"
         >
-          {formatDuration(maxDurationMinutes)}
+          <span key={maxDurationMinutes} className="tick">
+            {formatDuration(maxDurationMinutes)}
+          </span>
         </p>
         <Waveform className="mt-2 mb-1 h-4" />
         <p className="flex justify-between text-[10px] tracking-[0.2em] opacity-85">

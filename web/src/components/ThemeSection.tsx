@@ -1,10 +1,11 @@
-import { useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { PODCAST_SHOWS } from "@shared/config/podcast-shows";
 import { SHOW_COVERS } from "@shared/config/show-covers";
 import { ShowDisc } from "@/components/ShowDisc";
 import { ThemePile } from "@/components/ThemePile";
 import { Button } from "@/components/ui/button";
 import type { ShowTheme } from "@/lib/show-themes";
+import { cn } from "@/lib/utils";
 
 type Show = (typeof PODCAST_SHOWS)[number];
 
@@ -67,7 +68,11 @@ const ShowGroup = ({
       </div>
       <ul className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-y-5">
         {visible.map((show, i) => (
-          <li key={show.id} className="flex justify-center">
+          <li
+            key={show.id}
+            className="show-item flex justify-center"
+            style={{ "--i": i } as CSSProperties}
+          >
             <ShowDisc
               name={show.name}
               cover={SHOW_COVERS[show.id]}
@@ -110,6 +115,20 @@ export const ThemeSection = ({
 }: ThemeSectionProps) => {
   const { needle, disabledSet } = common;
   const [openIndex, setOpen] = useState<number | null>(null);
+  const [closing, setClosing] = useState(false);
+  const crateRef = useRef<HTMLDivElement>(null);
+
+  // Le bac s'ouvre sous la grille : on le ramène dans la fenêtre si besoin.
+  useEffect(() => {
+    if (openIndex === null) return;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    crateRef.current?.scrollIntoView({
+      block: "nearest",
+      behavior: reduce ? "auto" : "smooth",
+    });
+  }, [openIndex]);
 
   const byId = new Map(shows.map((s) => [s.id, s]));
   const known = new Set(themes.flatMap((t) => t.ids));
@@ -119,7 +138,12 @@ export const ThemeSection = ({
   }));
   const others = shows.filter((s) => !known.has(s.id));
   if (others.length)
-    groups.push({ title: "Autres", hint: "Non classés", color: "#7686a0", shows: others });
+    groups.push({
+      title: "Autres",
+      hint: "Non classés",
+      color: "#7686a0",
+      shows: others,
+    });
 
   const current = openIndex === null ? undefined : groups[openIndex];
   const found = groups
@@ -141,33 +165,60 @@ export const ThemeSection = ({
             covers={shows.map((s) => SHOW_COVERS[s.id])}
             active={shows.filter((s) => !disabledSet.has(s.id)).length}
             total={shows.length}
-            selected={needle === "" && i === openIndex}
+            index={i}
+            selected={needle === "" && i === openIndex && !closing}
             onSelect={() => {
               onSelect();
-              setOpen(openIndex === i && needle === "" ? null : i);
+              setClosing(false);
+              // Re-clic sur la pile ouverte : le bac joue sa sortie avant de disparaître.
+              if (openIndex === i && needle === "") setClosing(true);
+              else setOpen(i);
             }}
           />
         ))}
+        {/* Recherche : le bac montre les résultats de tous les thèmes. */}
+        {needle !== ""
+          ? found.length > 0 && (
+              <div
+                className="crate col-span-full"
+                style={{ "--c": "#e6edf7" } as CSSProperties}
+              >
+                <ShowGroup title="Résultats" shows={found} {...common} />
+              </div>
+            )
+          : current && (
+              // Le bac s'insère juste sous la rangée de sa pile (2 colonnes en
+              // mobile, 3 dès sm) : il s'ouvre là où on vient de cliquer.
+              <div
+                key={openIndex}
+                ref={crateRef}
+                className={cn(
+                  "crate crate-slot col-span-full",
+                  closing && "crate-out",
+                )}
+                style={
+                  {
+                    "--c": current.color,
+                    "--row2": Math.floor((openIndex ?? 0) / 2) + 2,
+                    "--row3": Math.floor((openIndex ?? 0) / 3) + 2,
+                  } as CSSProperties
+                }
+                onAnimationEnd={(e) => {
+                  if (closing && e.target === e.currentTarget) {
+                    setOpen(null);
+                    setClosing(false);
+                  }
+                }}
+              >
+                <ShowGroup
+                  title={current.title}
+                  hint={current.hint}
+                  shows={current.shows}
+                  {...common}
+                />
+              </div>
+            )}
       </div>
-      {/* Recherche : le bac montre les résultats de tous les thèmes. */}
-      {needle !== "" ? (
-        found.length > 0 && (
-          <div className="crate" style={{ "--c": "#e6edf7" } as CSSProperties}>
-            <ShowGroup title="Résultats" shows={found} {...common} />
-          </div>
-        )
-      ) : (
-        current && (
-          <div className="crate" style={{ "--c": current.color } as CSSProperties}>
-            <ShowGroup
-              title={current.title}
-              hint={current.hint}
-              shows={current.shows}
-              {...common}
-            />
-          </div>
-        )
-      )}
     </section>
   );
 };

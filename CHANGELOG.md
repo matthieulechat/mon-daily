@@ -9,6 +9,9 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Animations de l'interface de réglages : entrée de page en cascade, ouverture et fermeture du bac sous la rangée de sa pile (la page défile pour le montrer si besoin), pochettes qui arrivent une à une, vinyle de fond qui se pose avec son bras de platine, retour visuel au clic, compteurs qui « tickent » à chaque changement. Les utilisateurs qui réduisent les animations dans leur système n'ont que des fondus
+- Page de connexion animée (carte, logo aux ondes qui se propagent) et bouton « Se connecter avec Spotify » qui passe en attente pendant la redirection
+- Bouton « Enregistrer » qui raconte l'enregistrement : spinner pendant la sauvegarde (visible au moins 0,9 s), puis flash vert avec coche tracée, puis retour à l'état grisé
 - Pool de podcasts étendu de 48 sources (RTL, Europe 1, franceinfo, Radio Classique, RMC, Le Figaro, L'Express, France Culture…) : journal RTL, revues de presse, flashs et magazines en actu ; débats, interviews, histoire, crime, sport et humour en thématique. Nouveau thème « Revues de presse » (actu) et « Humour » (thématique) dans l'interface de réglages
 - « Slate Infos » : seules les éditions « La quotidienne » comptent comme actu, le reste du flux (interviews) alimente les thématiques
 - Interface de réglages installable comme application (PWA) avec icônes à l'effigie de la pochette (favicon, écran d'accueil mobile, icône maskable Android)
@@ -24,6 +27,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Interface de réglages : une catégorie dont toutes les sources sont désactivées est grisée, comme les pochettes exclues
 - Interface de réglages : les sources podcast sont rangées en thèmes (Actu : Matin, Midi & soir, Autres stations, Flashs ; Thématiques : Débats, Géopolitique, Sport, Culture, Histoires, Interviews). Chaque thème est une pile de pochettes colorée avec compteur et jauge de sources actives ; un clic ouvre son bac de disques, un second le referme. La recherche affiche les résultats de tous les thèmes
 - Interface de réglages en style « home cinéma » : façade d'ampli noir et néon, afficheur de la durée maximale avec potard à glisser (clavier toujours possible), LED d'état, disque vinyle en fond avec bras de platine et icône radio ; les sources podcast sont des pochettes rondes qui tournent quand elles sont dans le mix, grisées et à l'arrêt quand elles sont exclues
 - Classement actu/thématique revu à la main : seuls les journaux et flashs du jour comptent comme "actu" (les émissions de débat/décryptage comme C dans l'air, Code source ou L'Heure du Monde passent en thématique)

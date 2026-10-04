@@ -5,6 +5,7 @@ interface ThemePileProps {
   covers: (string | undefined)[];
   active: number;
   total: number;
+  index: number;
   selected: boolean;
   onSelect: () => void;
 }
@@ -17,6 +18,7 @@ export const ThemePile = ({
   covers,
   active,
   total,
+  index,
   selected,
   onSelect,
 }: ThemePileProps) => (
@@ -24,10 +26,11 @@ export const ThemePile = ({
     type="button"
     className="pile"
     aria-pressed={selected}
+    data-off={active === 0}
     onClick={onSelect}
-    style={{ "--c": color } as React.CSSProperties}
+    style={{ "--c": color, "--i": index } as React.CSSProperties}
   >
-    <span className="pile-count">
+    <span key={active} className="pile-count tick">
       {active}/{total}
     </span>
     <span className="pile-fan" aria-hidden="true">

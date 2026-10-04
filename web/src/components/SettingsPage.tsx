@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import type { Session } from "@supabase/supabase-js";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
@@ -8,6 +7,7 @@ import { selectIsDirty, useSettingsStore } from "@/lib/settings.store";
 import { spotifyIdOf } from "@/lib/settings-api";
 import { Brand } from "./Brand";
 import { MixCard } from "./MixCard";
+import { SaveButton } from "./SaveButton";
 import { ShowsPicker } from "./ShowsPicker";
 
 export const SettingsPage = ({ session }: { session: Session }) => {
@@ -45,7 +45,7 @@ export const SettingsPage = ({ session }: { session: Session }) => {
             </button>
           </nav>
         </header>
-        <div className="space-y-4">
+        <div className="enter space-y-4">
           <MixCard />
           <ShowsPicker />
         </div>
@@ -53,10 +53,8 @@ export const SettingsPage = ({ session }: { session: Session }) => {
         <footer className="mt-5 flex items-center justify-between gap-3">
           <p aria-live="polite" className="text-xs text-muted">
             {status === "loading" && "Chargement…"}
-            {status === "saving" && "Enregistrement…"}
-            {status === "saved" && (
-              <span className="text-highlight">Enregistré ✓</span>
-            )}
+            {/* La confirmation visuelle est dans le bouton ; ici, pour les lecteurs d'écran. */}
+            {status === "saved" && <span className="sr-only">Enregistré</span>}
             {status === "error" && (
               <span className="text-accent">Erreur : {error}</span>
             )}
@@ -64,17 +62,17 @@ export const SettingsPage = ({ session }: { session: Session }) => {
           <div className="flex flex-wrap items-center justify-end gap-3">
             <div className="flex items-center gap-2 text-xs text-muted">
               <span
-                className={cn("led", dirty && "led-dirty")}
+                key={status === "saved" ? "saved" : "idle"}
+                className={cn(
+                  "led",
+                  dirty && "led-dirty",
+                  status === "saved" && "led-pulse",
+                )}
                 aria-hidden="true"
               />
               Appliqué à la prochaine génération quotidienne
             </div>
-            <Button
-              disabled={!dirty || status === "saving"}
-              onClick={() => void save(spotifyId)}
-            >
-              Enregistrer
-            </Button>
+            <SaveButton onSave={() => void save(spotifyId)} />
           </div>
         </footer>
       </Card>

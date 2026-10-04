@@ -32,17 +32,27 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
       const settings = await fetchSettings(platformUserId);
       set({ settings, saved: settings, status: "idle" });
     } catch (e) {
-      set({ status: "error", error: e instanceof Error ? e.message : String(e) });
+      set({
+        status: "error",
+        error: e instanceof Error ? e.message : String(e),
+      });
     }
   },
 
   save: async (platformUserId) => {
     set({ status: "saving", error: null });
     try {
-      await saveSettings(platformUserId, get().settings);
+      // Durée minimale : sinon l'état « Enregistrement… » clignote trop vite pour être lu.
+      await Promise.all([
+        saveSettings(platformUserId, get().settings),
+        new Promise((resolve) => setTimeout(resolve, 900)),
+      ]);
       set({ saved: get().settings, status: "saved" });
     } catch (e) {
-      set({ status: "error", error: e instanceof Error ? e.message : String(e) });
+      set({
+        status: "error",
+        error: e instanceof Error ? e.message : String(e),
+      });
     }
   },
 
