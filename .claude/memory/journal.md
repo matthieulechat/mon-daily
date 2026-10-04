@@ -287,4 +287,39 @@ Installation et configuration des plugins Vite du skill brand-creator : `vite-pl
 **Entrées clés :**
 
 - [BDR-035](decisions/BDR-035.md) — PWA installable, icônes tirées de la pochette
-- [BLK-023](blockers/BLK-023.md) — `vite-plugin-pwa` 1.3.0 refuse `assets-generator` 2.0.0
+- [ZBLK-023](archive/blockers/ZBLK-023.md) — `vite-plugin-pwa` 1.3.0 refuse `assets-generator` 2.0.0
+
+---
+
+## 2026-10-04
+
+Section « Sources » de l'interface de réglages rendue moins dense : les ~50 podcasts thématiques d'abord rangés en menus dépliants, puis (sur demande, après quatre maquettes A/B/C/D) en piles de pochettes colorées servant d'onglets, avec un bac de disques dessous (mélange A + C), fermé par défaut et basculant au clic. Même mécanique pour l'Actu du jour, classée par moment de la journée après qu'un premier tri par station eut mis des journaux France Inter dans la mauvaise pile ; logique mutualisée dans `ThemeSection`. Recherche de nouvelles sources (moins de France Inter, radios, presse papier, régional, international, humour) : une première recherche de ~65 requêtes a donné ~290 candidats récents, une seconde de ~2 000 requêtes a déclenché un 429 Spotify de ~23 h (app bloquée) ; run `pnpm generate` lancé pour tester, pendu puis arrêté. Page `docs/podcast-review.html` régénérée avec 61 candidats et les 63 shows actuels, tâche ajoutée en tête de la Phase 6 de la roadmap. Commit `61539a2`.
+
+**Entrées clés :**
+
+- [BDR-036](decisions/BDR-036.md) — Sources en thèmes : piles + bac, repliés par défaut
+- [BDR-037](decisions/BDR-037.md) — Actu classée par moment de la journée
+- [BLK-024](blockers/BLK-024.md) — Spotify bloque l'app après ~2 000 requêtes
+- [LRN-046](learnings/LRN-046.md) — Pas de gros lot Spotify sans plafond
+
+
+---
+
+Relance de la génération du Daily pour les deux comptes Supabase en rejouant le `net.http_post` du cron. Deux runs (n°13, n°14) sont restés sans réponse puis ont fini en 546 `WORKER_RESOURCE_LIMIT` ; la file `pg_net` a d'abord été prise pour bloquée (purge refusée par les permissions, faite à la main dans le SQL Editor), alors que les requêtes étaient en vol. Les logs ont montré la fonction figée sur « Récupération des podcasts... » : Spotify renvoyait un `Retry-After` de 44 963 s (~12 h 30, suite du rate limit de [BLK-024](blockers/BLK-024.md)) et le backoff l'attendait sans plafond. Plafond de 30 s ajouté, Edge Function redéployée en v10 (commit `c9895ed`), rejeu n°15 réussi pour les deux comptes (65 et 71 titres) mais sans aucun podcast. Le cron de 5h UTC de demain peut encore produire des playlists sans podcasts, le rate limit tombant vers 05h UTC ; décision de ne rien relancer d'autre.
+
+**Entrées clés :**
+
+- [BDR-038](decisions/BDR-038.md) — Plafond de 30 s sur le Retry-After Spotify
+- [ZBLK-025](archive/blockers/ZBLK-025.md) — Génération sans résultat : 546 sur generate-daily
+- [LRN-048](learnings/LRN-048.md) — Requête pg_net « bloquée » : en vol, pas coincée
+
+---
+
+Actualisation du pool de podcasts : 48 sources ajoutées (RTL, Europe 1, franceinfo, RMC, Le Figaro, L'Express, France Culture…), « La semaine européenne » et sa règle `maxAgeDays` retirées au profit de « L'Express Podcasts ». Slate Infos géré comme flux mixte (« La quotidienne » en actu, le reste en thématique) via `actuTitleIncludes`, et affiché dans les deux sections de l'interface (Flashs & magazines et Culture). Journal RTL en `latestOnly`. Deux nouveaux thèmes d'interface : « Revues de presse » et « Humour ». Pendant l'opération, l'API Spotify était toujours en 429 : noms et pochettes lus sur les pages publiques, et `pnpm covers` a écrasé `show-covers.ts` (restauré par git). Commit `2c5b315` poussé.
+
+**Entrées clés :**
+
+- [BDR-039](decisions/BDR-039.md) — Show à flux mixte : catégorie par épisode
+- [BLK-026](blockers/BLK-026.md) — Noms et pochettes introuvables sous 429
+- [LRN-050](learnings/LRN-050.md) — Script générateur : ne pas écraser avec 0 résultat
+

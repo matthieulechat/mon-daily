@@ -41,3 +41,7 @@ register: decisions
 | [BDR-033](decisions/BDR-033.md) | 2026-10-03 | UI réglages : amp « home cinéma », sources en disques | #ui #design #home-cinema #vinyle #knob #mon-daily | actif |
 | [BDR-034](decisions/BDR-034.md) | 2026-10-03 | Pochettes de podcasts figées par script | #spotify #covers #static-data #script #shows-api #mon-daily | actif |
 | [BDR-035](decisions/BDR-035.md) | 2026-10-03 | PWA installable, icônes tirées de la pochette | #pwa #vite #icons #cover #qrcode #mon-daily | actif |
+| [BDR-036](decisions/BDR-036.md) | 2026-10-04 | Sources en thèmes : piles + bac, repliés par défaut | #ui #settings #themes #vinyle #react #mon-daily | actif |
+| [BDR-037](decisions/BDR-037.md) | 2026-10-04 | Actu classée par moment de la journée | #ui #podcast #actu #france-inter #classification #mon-daily | actif |
+| [BDR-038](decisions/BDR-038.md) | 2026-10-04 | Plafond de 30 s sur le Retry-After Spotify | #spotify #retry-after #edge-functions #rate-limit #resilience #mon-daily | actif |
+| [BDR-039](decisions/BDR-039.md) | 2026-10-04 | Show à flux mixte : catégorie par épisode | #podcast #categorization #slate #mixed-feed #ui #mon-daily | actif |

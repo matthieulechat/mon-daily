@@ -51,3 +51,8 @@ register: learnings
 | [LRN-043](learnings/LRN-043.md) | 2026-10-03 | Contrôle custom (potard) : vrai input masqué dessous | #a11y #custom-control #sr-only #range #react #knob |
 | [LRN-044](learnings/LRN-044.md) | 2026-10-03 | Prévisualiser une page authentifiée : fausse session | #supabase #auth #preview #localstorage #testing #mon-daily |
 | [LRN-045](learnings/LRN-045.md) | 2026-10-03 | `pnpm peers check` après ajout de plugins couplés | #pnpm #peer-deps #vite #plugins #verification |
+| [LRN-046](learnings/LRN-046.md) | 2026-10-04 | Pas de gros lot Spotify sans plafond ; stop au 429 long | #spotify #rate-limit #429 #search #batch #mon-daily |
+| [LRN-047](learnings/LRN-047.md) | 2026-10-04 | `pnpm generate` : `platform_user_id`, pas `user_id` | #spotify #supabase #oauth-tokens #generate #cli #mon-daily |
+| [LRN-048](learnings/LRN-048.md) | 2026-10-04 | Requête pg_net « bloquée » : en vol, pas coincée | #supabase #pg-net #edge-functions #queue #debugging #mon-daily |
+| [LRN-049](learnings/LRN-049.md) | 2026-10-04 | Nom et pochette d'un show sans l'API Spotify | #spotify #covers #og-image #oembed #rate-limit #mon-daily |
+| [LRN-050](learnings/LRN-050.md) | 2026-10-04 | Script générateur : ne pas écraser avec 0 résultat | #covers #script #rate-limit #guard #mon-daily |
