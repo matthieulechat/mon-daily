@@ -122,14 +122,21 @@ export const generatePlaylistForUser = async (
   );
 
   console.log("Récupération des podcasts...");
-  const [actuPoolPicks, eligibleThematic] = await Promise.all([
+  const [actuPoolPicks, thematicPoolPicks] = await Promise.all([
     fetchEligibleEpisodes(tokens.accessToken, actuShows),
     fetchEligibleEpisodes(tokens.accessToken, thematicShows),
   ]);
   // Le pool "actu" fetché (catégorisation par show) contient aussi la
   // météo (catégorisation par titre d'épisode, cf. podcast-source.ts) —
   // séparation ici, avant tirage au sort.
-  const eligibleActu = actuPoolPicks.filter((p) => p.category === "actu");
+  // Un show "thématique" à flux mixte (actuTitleIncludes) peut aussi livrer
+  // de l'actu : on trie par catégorie effective de l'épisode.
+  const eligibleActu = [...actuPoolPicks, ...thematicPoolPicks].filter(
+    (p) => p.category === "actu",
+  );
+  const eligibleThematic = thematicPoolPicks.filter(
+    (p) => p.category === "thematique",
+  );
   const eligibleMeteo = actuPoolPicks.filter((p) => p.category === "meteo");
   console.log(
     `Pool éligible : ${eligibleActu.length} épisodes actu, ${eligibleMeteo.length} épisodes météo, ${eligibleThematic.length} épisodes thématiques.`,

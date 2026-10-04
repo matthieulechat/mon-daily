@@ -9,6 +9,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Pool de podcasts étendu de 48 sources (RTL, Europe 1, franceinfo, Radio Classique, RMC, Le Figaro, L'Express, France Culture…) : journal RTL, revues de presse, flashs et magazines en actu ; débats, interviews, histoire, crime, sport et humour en thématique. Nouveau thème « Revues de presse » (actu) et « Humour » (thématique) dans l'interface de réglages
+- « Slate Infos » : seules les éditions « La quotidienne » comptent comme actu, le reste du flux (interviews) alimente les thématiques
 - Interface de réglages installable comme application (PWA) avec icônes à l'effigie de la pochette (favicon, écran d'accueil mobile, icône maskable Android)
 - Interface web de réglages (`web/`, Vite + React, connexion Spotify via Supabase Auth) : durée maximale de la playlist (1 à 8 h) et activation source par source des 55 shows. Les réglages sont lus à chaque génération quotidienne ; sans réglage enregistré, le comportement reste celui d'avant (4 h, toutes sources)
 - Automatisation quotidienne : la génération de la playlist tourne désormais seule, sans intervention manuelle, via une Edge Function Supabase (`supabase/functions/generate-daily`) déclenchée chaque jour à 5h UTC (6h/7h Paris selon la saison) par `pg_cron`/`pg_net`, boucle sur tous les comptes Spotify connectés (un compte en échec n'empêche pas les autres)
@@ -33,10 +35,13 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 - Musiques plus variées d'un jour à l'autre : le mix puise désormais dans tes écoutes des 4 dernières semaines (60 %), des 6 derniers mois (25 %) et de l'année (15 %), dans un ordre mélangé chaque jour, avec 5 titres maximum par artiste (les places libérées sont comblées par d'autres artistes)
 
+### Removed
+
+- « La semaine européenne » et sa règle de fraîcheur dédiée (7 jours) : le podcast « L'Express Podcasts », qui l'inclut, la remplace
+
 ### Fixed
 
 - Génération quotidienne qui plantait sans résultat (erreur 546) quand Spotify imposait une très longue attente (ex. ~12 h) après trop de requêtes : au-delà de 30 s d'attente demandée, les podcasts concernés sont ignorés et la playlist est quand même générée (musique seule)
-- « La semaine européenne » (hebdomadaire) était presque toujours ignorée car son dernier épisode dépassait 2 jours : sa fraîcheur maximale passe à 7 jours
 - Doublons de titres dans le mix généré (ex. "Titre" et "Titre (Music Video)" comptés comme deux titres différents)
 - Un podcast pouvait être ignoré à tort ("aucun épisode disponible") quand Spotify renvoyait un épisode inexploitable en première position alors qu'un épisode valide existait juste après
 - « Les journaux de France Culture » : un journal ancien (ex. 7h) pouvait passer devant le plus récent (ex. 8h45), car ce show n'était pas filtré par heure et son titre « JOURNAL DE 7H, du … » (avec virgule) n'était pas reconnu

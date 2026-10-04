@@ -53,6 +53,13 @@ const detectEpisodeCategory = (
     return isActuDuJour || isActuPop ? "actu" : "thematique";
   }
 
+  if (
+    show.actuTitleIncludes &&
+    title.includes(show.actuTitleIncludes.toLowerCase())
+  ) {
+    return "actu";
+  }
+
   return show.category;
 };
 

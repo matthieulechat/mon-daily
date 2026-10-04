@@ -6,7 +6,11 @@ import { Card } from "@/components/ui/card";
 import { useSettingsStore } from "@/lib/settings.store";
 import { ACTU_THEMES, SHOW_THEMES } from "@/lib/show-themes";
 
-const ACTU_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "actu");
+// Un flux mixte (actuTitleIncludes) apparaît aussi dans l'actu : même id, donc
+// même case activée dans les deux sections.
+const ACTU_SHOWS = PODCAST_SHOWS.filter(
+  (s) => s.category === "actu" || s.actuTitleIncludes,
+);
 const THEMATIC_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "thematique");
 
 export const ShowsPicker = () => {

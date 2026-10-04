@@ -15,9 +15,10 @@ export interface PodcastShow {
   // tous leurs épisodes, seul le plus proche de l'heure de génération est
   // gardé (les autres shows restent dans la liste, ils sont juste filtrés).
   closestGroup?: string;
-  // Remplace la fraîcheur max de la catégorie — pour un show hebdomadaire
-  // classé "actu" dont le dernier épisode dépasse sinon toujours le seuil.
-  maxAgeDays?: number;
+  // Flux mixte classé "thematique" : un épisode dont le titre contient cette
+  // sous-chaîne (insensible à la casse) est de l'actu, les autres restent
+  // thématiques (ex. "La quotidienne" de Slate Infos).
+  actuTitleIncludes?: string;
 }
 
 const JOURNAL_HORAIRE = "journal-horaire";
@@ -56,12 +57,6 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     id: "6y1PloEyNsCNJH9vHias4T",
     name: "HugoDécrypte - Actus et interviews",
     category: "actu",
-  },
-  {
-    id: "0pj85Csk4cPVRulubA1sel",
-    name: "La semaine européenne",
-    category: "actu",
-    maxAgeDays: 7,
   },
   {
     id: "3YCFNohB2PpHNY41qNsc5Q",
@@ -291,4 +286,59 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     name: "Les enquêtes d'Yvan Casta",
     category: "thematique",
   },
+  { id: "6xlXRVwfN8ruLSLDoEfo0U", name: "Le journal RTL", category: "actu", latestOnly: true },
+  { id: "6eUkIGI0fQWMB0tuHV5KtH", name: "L'invité RTL de 7h40", category: "thematique" },
+  { id: "4k0HzNOCXA4fq6Mi1fJn52", name: "Le grand jury", category: "thematique" },
+  { id: "0SPjN9Sc4mJ4YWUu73qGXS", name: "La revue de presse", category: "actu" },
+  { id: "5IIX7ZPalhtTKt4esRHer3", name: "La revue de presse internationale - Les correspondants d'Europe 1", category: "actu" },
+  { id: "6QHdvWJDqyCBNulOQ9Q5SS", name: "franceinfo monde", category: "actu" },
+  { id: "36I5SmJo2lyC2ItN6HgYxU", name: "Le choix de franceinfo", category: "actu" },
+  { id: "2RR0sbmCht1FV9huRDWg1H", name: "franceinfo sports", category: "actu" },
+  { id: "1UqC9vb9bmugCK23m14MLs", name: "La Revue de presse internationale", category: "actu" },
+  { id: "1sR81vYrWb2MGSyiaJxa5U", name: "Le Flash info 20 Minutes", category: "actu" },
+  {
+    id: "1AHG8f8NWv9WZtRTA7k3dy",
+    name: "Slate Infos",
+    category: "thematique",
+    // Flux mixte : seule "La quotidienne" est de l'actu, le reste (interviews)
+    // reste thématique.
+    actuTitleIncludes: "la quotidienne",
+  },
+  { id: "1vZVfukC3QBbZWg7hG1dqU", name: "La Revue de Presse", category: "actu" },
+  { id: "4WoDw5FtSR53h4Uz76DrqE", name: "Les Essentiels de l'info", category: "thematique" },
+  { id: "7Lfq9hAm5UFyuBoaJE7J3w", name: "Le sens de l'actu", category: "thematique" },
+  { id: "3FA6OTTrmQw7nJQailXCda", name: "Les coulisses de la politique", category: "thematique" },
+  { id: "7BULZvzhFCdZEf3D1m8yOt", name: "Le Journal de l'Economie", category: "actu" },
+  { id: "7kcz74SPx9ZqS5eE4HbBkW", name: "Chronique économique", category: "thematique" },
+  { id: "2KhIYTtyuWb1K2F5VThYRf", name: "Entendez-vous l'éco ?", category: "actu" },
+  { id: "0b3B75OyFO6msRJOvtjbBX", name: "L’Express Podcasts", category: "thematique" },
+  { id: "3HNRGEtjT3UrOpc6vsfRdt", name: "Anatomie d'une décision", category: "thematique" },
+  { id: "4wO7tqeEL2RTVDxv1cXdn2", name: "Newsroom, les invités de la rédaction d'Ouest-France", category: "thematique" },
+  { id: "52nCR9jqRKsiN1Ve0aZiGA", name: "Le Club Le Figaro Politique", category: "thematique" },
+  { id: "50GTqIdUIvw0nxFMdPBGrB", name: "Le Club Le Figaro Culture", category: "thematique" },
+  { id: "4lPbJxQ3b1G5B60PEwK0t3", name: "Les podcasts 20 Minutes", category: "thematique" },
+  { id: "5vWK8VVtYVqez2TTc0vBwN", name: "28 Minutes", category: "thematique" },
+  { id: "2R47RsdPn70kVpLIK0cIKl", name: "Conflits, géopolitique", category: "thematique" },
+  { id: "5AU3GzHiJhrRgUsJ8iEdxZ", name: "Culture G", category: "thematique" },
+  { id: "5ZdVWjo3QIdEOpGdcb8HPP", name: "Les Echos de l'IA", category: "thematique" },
+  { id: "166QNRRFq22r2iSLFgn4BX", name: "Face à Face", category: "thematique" },
+  { id: "0L85fRQXSTXgbqQWAa6wY4", name: "Points de Vue", category: "thematique" },
+  { id: "2VRR0TGLn4ckba3J0UyJjq", name: "Les pieds sur terre", category: "thematique" },
+  { id: "7lcxzeC0jTbpU7jBDu5IyW", name: "Entrez dans l'Histoire", category: "thematique" },
+  { id: "7iFJQotqjCziytm2RSuXB8", name: "Un Jour dans l'Histoire", category: "thematique" },
+  { id: "1fUNqOF5TeME7dEpU4aE65", name: "Face à l'histoire", category: "thematique" },
+  { id: "3HKqZ6Xyg4R2DCvMxnttR6", name: "Secrets d'Histoire", category: "thematique" },
+  { id: "0rhNDVyH0iGVHVDH6SOiMv", name: "Hondelatte Raconte", category: "thematique" },
+  { id: "3pYH5Kxw9IiznsPz0WoIn5", name: "L'Heure Du Crime", category: "thematique" },
+  { id: "38EKOHm8o9LflZRiqDmrmf", name: "Crime story", category: "thematique" },
+  { id: "4RSOfC8evY1VaRZrMO5PNk", name: "LSD, la série documentaire", category: "thematique" },
+  { id: "3ixMUAbmKEYcoRt62l48Zp", name: "L'After Foot", category: "thematique" },
+  { id: "7Msy4JUPv8qodVftr33WGv", name: "Le Paddock RMC", category: "thematique" },
+  { id: "4YrgK0BhFAwXDKqvebvNVP", name: "Rugby Confidential", category: "thematique" },
+  { id: "6iGZsNqtX8q1skSBBtQWik", name: "Peloton RMC", category: "thematique" },
+  { id: "0hBA2K37Vo1zoyShv1yPCK", name: "Les Grosses Têtes", category: "thematique" },
+  { id: "5WPgD6986cdh0P31pVAYbE", name: "Laurent Gerra", category: "thematique" },
+  { id: "5mHgwovq7vwh1hw88tidWS", name: "Les chroniques d'Arnaud Demanche", category: "thematique" },
+  { id: "0oEyqaLqs3WCbnLMqUAj3S", name: "Les chroniques de Daniel Morin", category: "thematique" },
+  { id: "5jZmbWSaEIQMPOjbarGxWB", name: "Laurent Baffie", category: "thematique" },
 ];
