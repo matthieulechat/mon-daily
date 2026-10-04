@@ -22,6 +22,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- Interface de réglages : les sources podcast sont rangées en thèmes (Actu : Matin, Midi & soir, Autres stations, Flashs ; Thématiques : Débats, Géopolitique, Sport, Culture, Histoires, Interviews). Chaque thème est une pile de pochettes colorée avec compteur et jauge de sources actives ; un clic ouvre son bac de disques, un second le referme. La recherche affiche les résultats de tous les thèmes
 - Interface de réglages en style « home cinéma » : façade d'ampli noir et néon, afficheur de la durée maximale avec potard à glisser (clavier toujours possible), LED d'état, disque vinyle en fond avec bras de platine et icône radio ; les sources podcast sont des pochettes rondes qui tournent quand elles sont dans le mix, grisées et à l'arrêt quand elles sont exclues
 - Classement actu/thématique revu à la main : seuls les journaux et flashs du jour comptent comme "actu" (les émissions de débat/décryptage comme C dans l'air, Code source ou L'Heure du Monde passent en thématique)
 - "La Matinée Est Tienne, par Samuel Etienne" : seuls les épisodes "L'actu du jour en bref" alimentent le mix, le reste du flux (chroniques, interviews) est écarté

@@ -353,3 +353,102 @@ input[type="range"].slider::-moz-range-thumb {
   background: var(--color-accent);
   border: 2px solid var(--color-background);
 }
+
+/* ---------- Thèmes : piles (onglets) + bac ---------- */
+.pile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 14px 12px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--c) 30%, transparent);
+  background: radial-gradient(
+    circle at 50% 0,
+    color-mix(in oklab, var(--c) 18%, var(--color-secondary)),
+    var(--color-secondary) 70%
+  );
+  transition:
+    transform 0.2s,
+    border-color 0.2s;
+}
+.pile:hover {
+  transform: translateY(-2px);
+}
+.pile[aria-pressed="true"] {
+  border-color: var(--c);
+  box-shadow: 0 0 0 1px var(--c);
+}
+.pile-count {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font: 11px var(--font-mono);
+  color: color-mix(in oklab, var(--c) 70%, white);
+}
+.pile-fan {
+  position: relative;
+  height: 62px;
+  margin-bottom: 8px;
+}
+.pile-disc {
+  position: absolute;
+  top: 6px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--c);
+  box-shadow:
+    0 0 0 2px var(--color-background),
+    0 4px 10px rgb(0 0 0 / 0.5);
+}
+.pile-disc img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pile-disc:nth-child(1) {
+  left: 4%;
+  transform: rotate(-8deg);
+}
+.pile-disc:nth-child(2) {
+  left: 26%;
+  top: 0;
+  z-index: 2;
+}
+.pile-disc:nth-child(3) {
+  left: 48%;
+  transform: rotate(8deg);
+}
+.pile-title {
+  font: 14px var(--font-display);
+}
+.pile-hint {
+  font-size: 11px;
+  color: var(--color-muted);
+}
+.pile-bar {
+  height: 3px;
+  margin-top: 8px;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 0.1);
+}
+.pile-bar b {
+  display: block;
+  height: 100%;
+  border-radius: 2px;
+  background: var(--c);
+  transition: width 0.3s;
+}
+/* Bac de disquaire : bois sombre, liseré de la teinte du thème */
+.crate {
+  padding: 18px 16px 14px;
+  border-radius: 12px;
+  border: 1px solid #3a2a1c;
+  border-top: 3px solid var(--c);
+  background: linear-gradient(#1a1410, #0d0a07);
+  box-shadow: inset 0 0 40px rgb(0 0 0 / 0.6);
+}

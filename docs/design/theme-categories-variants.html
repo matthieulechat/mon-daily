@@ -1,0 +1,678 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Catégories de thèmes — 4 directions</title>
+    <style>
+      :root {
+        --bg: #05080f;
+        --sec: #0e1826;
+        --fg: #e6edf7;
+        --muted: #7686a0;
+        --blue: #2f93ff;
+        --yellow: #ffd23f;
+        --lime: #a3e635;
+        --line: rgb(230 237 247 / 0.08);
+        /* une teinte par thème */
+        --c-debat: #2f93ff;
+        --c-geo: #a3e635;
+        --c-sport: #ff6a3d;
+        --c-culture: #c084fc;
+        --c-histoire: #ffd23f;
+        --c-interview: #22d3ee;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 24px;
+        background: #02040a;
+        color: var(--fg);
+        font-family: Archivo, system-ui, sans-serif;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 0 0 4px;
+      }
+      p.sub {
+        color: var(--muted);
+        margin: 0 0 28px;
+        font-size: 14px;
+      }
+      .grid {
+        display: grid;
+        gap: 36px;
+        grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+      }
+      figure {
+        margin: 0;
+      }
+      figcaption {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 10px;
+        line-height: 1.5;
+      }
+      figcaption b {
+        color: var(--fg);
+      }
+      .stage {
+        padding: 22px;
+        border-radius: 16px;
+        background: var(--bg);
+        border: 1px solid var(--line);
+      }
+      .mono {
+        font-family: "JetBrains Mono", ui-monospace, monospace;
+      }
+
+      /* disque générique : pochette = dégradé de la teinte du thème */
+      .d {
+        
+        display: block;
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        flex: none;
+        position: relative;
+        background:
+          radial-gradient(circle, #05080f 0 5%, transparent 6%),
+          radial-gradient(
+            circle at 35% 30%,
+            color-mix(in oklab, var(--c, var(--blue)) 85%, white),
+            var(--c, var(--blue)) 55%,
+            color-mix(in oklab, var(--c, var(--blue)) 40%, black)
+          );
+        box-shadow:
+          0 0 0 3px #0a0f18,
+          0 0 0 4px var(--line),
+          0 6px 14px rgb(0 0 0 / 0.5);
+      }
+      .d::after {
+        /* sillons */
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        background: repeating-radial-gradient(
+          circle,
+          transparent 0 3px,
+          rgb(0 0 0 / 0.18) 3px 4px
+        );
+      }
+      .d.off {
+        filter: grayscale(1) brightness(0.5);
+      }
+      .spin {
+        animation: spin 14s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .t-debat {
+        --c: var(--c-debat);
+      }
+      .t-geo {
+        --c: var(--c-geo);
+      }
+      .t-sport {
+        --c: var(--c-sport);
+      }
+      .t-culture {
+        --c: var(--c-culture);
+      }
+      .t-histoire {
+        --c: var(--c-histoire);
+      }
+      .t-interview {
+        --c: var(--c-interview);
+      }
+      .lbl {
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      /* ========== A — Bac à vinyles ========== */
+      .crate-tabs {
+        display: flex;
+        gap: 4px;
+        padding: 0 12px;
+        position: relative;
+        z-index: 2;
+        flex-wrap: wrap;
+      }
+      .tab {
+        padding: 8px 14px 10px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        background: color-mix(in oklab, var(--c, var(--blue)) 22%, #0a0f18);
+        color: color-mix(in oklab, var(--c, var(--blue)) 70%, white);
+        border-radius: 8px 8px 0 0;
+        border: 1px solid var(--line);
+        border-bottom: 0;
+        margin-bottom: -1px;
+        transform: translateY(6px);
+        transition: transform 0.2s;
+      }
+      .tab.on {
+        transform: none;
+        background: var(--c, var(--blue));
+        color: #03060c;
+      }
+      .tab small {
+        opacity: 0.75;
+        font-weight: 500;
+        margin-left: 4px;
+      }
+      .crate {
+        position: relative;
+        z-index: 1;
+        padding: 22px 18px 16px;
+        border-radius: 12px;
+        background: linear-gradient(#1a1410, #0d0a07);
+        border: 1px solid #3a2a1c;
+        box-shadow: inset 0 0 40px rgb(0 0 0 / 0.6);
+      }
+      .sleeves {
+        display: flex;
+        gap: 0;
+        padding-left: 8px;
+        overflow: hidden;
+        perspective: 700px;
+      }
+      .sleeve {
+        width: 74px;
+        height: 120px;
+        flex: none;
+        margin-left: -34px;
+        border-radius: 3px;
+        position: relative;
+        background: linear-gradient(
+          135deg,
+          color-mix(in oklab, var(--c, var(--blue)) 80%, white),
+          color-mix(in oklab, var(--c, var(--blue)) 40%, black)
+        );
+        box-shadow: -6px 0 12px rgb(0 0 0 / 0.55);
+        transform: rotateY(28deg);
+        transform-origin: left;
+        transition:
+          transform 0.25s,
+          margin 0.25s;
+        display: flex;
+        align-items: flex-end;
+        padding: 6px;
+        font-size: 9px;
+        font-weight: 700;
+        color: rgb(0 0 0 / 0.75);
+        line-height: 1.1;
+        text-transform: uppercase;
+      }
+      .sleeve:first-child {
+        margin-left: 0;
+      }
+      .sleeve.pull {
+        transform: rotateY(0) translateY(-18px);
+        margin-left: -8px;
+        margin-right: 26px;
+        z-index: 3;
+      }
+
+      /* ========== B — Sélecteur d'entrée ampli ========== */
+      .unit {
+        position: relative;
+        padding: 16px 18px;
+        border-radius: 10px;
+        border: 1px solid #2a3140;
+        background: linear-gradient(#1b212c, #10141c);
+        box-shadow: 0 10px 30px rgb(0 0 0 / 0.5);
+      }
+      .btns {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .in {
+        border: 1px solid #2a3140;
+        border-radius: 6px;
+        padding: 8px 4px 7px;
+        text-align: center;
+        background: linear-gradient(#232a37, #151a23);
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+        box-shadow: 0 2px 0 #0a0d12;
+      }
+      .in i {
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin: 0 auto 6px;
+        background: #2a1a14;
+        box-shadow: inset 0 0 0 1px #000;
+      }
+      .in.on {
+        color: var(--fg);
+        transform: translateY(2px);
+        box-shadow: none;
+      }
+      .in.on i {
+        background: var(--c, var(--blue));
+        box-shadow:
+          0 0 10px var(--c, var(--blue)),
+          0 0 2px var(--c, var(--blue));
+      }
+      .lcd {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 14px;
+        border-radius: 6px;
+        background: #061018;
+        box-shadow: inset 0 2px 8px #000;
+        color: var(--blue);
+        text-shadow: 0 0 8px var(--blue);
+        font-size: 13px;
+        letter-spacing: 0.14em;
+        margin-bottom: 14px;
+      }
+      .row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .row .cell {
+        width: 72px;
+        text-align: center;
+        font-size: 10px;
+        color: var(--muted);
+        line-height: 1.2;
+      }
+      .row .cell .d {
+        margin: 0 auto 6px;
+      }
+
+      /* ========== C — Piles de disques ========== */
+      .piles {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .pile {
+        position: relative;
+        padding: 16px 14px 14px;
+        border-radius: 14px;
+        background: radial-gradient(
+          circle at 50% 0,
+          color-mix(in oklab, var(--c, var(--blue)) 22%, var(--sec)),
+          var(--sec) 70%
+        );
+        border: 1px solid color-mix(in oklab, var(--c, var(--blue)) 35%, transparent);
+        overflow: hidden;
+      }
+      .fan {
+        position: relative;
+        height: 84px;
+        margin-bottom: 10px;
+      }
+      .fan .d {
+        position: absolute;
+        top: 6px;
+        width: 60px;
+        height: 60px;
+      }
+      .fan .d:nth-child(1) {
+        left: 6%;
+        transform: rotate(-8deg);
+      }
+      .fan .d:nth-child(2) {
+        left: 28%;
+        z-index: 2;
+        top: 0;
+      }
+      .fan .d:nth-child(3) {
+        left: 52%;
+        transform: rotate(8deg);
+      }
+      .pile h4 {
+        margin: 0;
+        font-size: 14px;
+        font-family: "Archivo Black", Archivo, sans-serif;
+      }
+      .pile .n {
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        font-size: 11px;
+        color: color-mix(in oklab, var(--c, var(--blue)) 70%, white);
+      }
+      .pile p {
+        margin: 2px 0 0;
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .bar {
+        height: 3px;
+        border-radius: 2px;
+        background: rgb(255 255 255 / 0.1);
+        margin-top: 10px;
+      }
+      .bar b {
+        display: block;
+        height: 100%;
+        border-radius: 2px;
+        background: var(--c, var(--blue));
+      }
+
+      /* ========== D — Rack hi-fi ========== */
+      .rack {
+        display: grid;
+        gap: 10px;
+      }
+      .slot {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        gap: 14px;
+        align-items: center;
+        padding: 10px 14px;
+        border-radius: 8px;
+        border: 1px solid #2a3140;
+        background: linear-gradient(#1b212c, #10141c);
+      }
+      .slot .head b {
+        display: block;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .vu {
+        display: flex;
+        gap: 2px;
+        margin-top: 7px;
+      }
+      .vu i {
+        flex: 1;
+        height: 8px;
+        border-radius: 1px;
+        background: #1f2a1a;
+      }
+      .vu i.l {
+        background: var(--c, var(--blue));
+        box-shadow: 0 0 6px var(--c, var(--blue));
+      }
+      .strip {
+        display: flex;
+        gap: 12px;
+        overflow-x: auto;
+        padding: 4px 2px 8px;
+        mask-image: linear-gradient(90deg, #000 88%, transparent);
+      }
+      .strip .d {
+        width: 52px;
+        height: 52px;
+      }
+      .sw {
+        display: inline-block;
+        width: 26px;
+        height: 12px;
+        border-radius: 6px;
+        background: var(--c, var(--blue));
+        position: relative;
+        vertical-align: middle;
+        margin-top: 6px;
+      }
+      .sw::after {
+        content: "";
+        position: absolute;
+        right: 2px;
+        top: 2px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Catégories de thèmes — 4 directions</h1>
+    <p class="sub">
+      Les 6 thèmes réels (Débats 14 · Géopolitique 10 · Sport 4 · Culture 9 ·
+      Histoires 8 · Interviews 3), une teinte chacun. Les pochettes sont des
+      placeholders.
+    </p>
+
+    <div class="grid">
+      <!-- A -->
+      <figure>
+        <div class="stage">
+          <div class="crate-tabs">
+            <span class="tab t-debat on">Débats <small>10/14</small></span>
+            <span class="tab t-geo">Géo <small>10/10</small></span>
+            <span class="tab t-sport">Sport <small>2/4</small></span>
+            <span class="tab t-culture">Culture <small>9/9</small></span>
+            <span class="tab t-histoire">Histoires <small>8/8</small></span>
+            <span class="tab t-interview">Interviews <small>3/3</small></span>
+          </div>
+          <div class="crate">
+            <div class="sleeves t-debat">
+              <span class="sleeve">C dans l'air</span
+              ><span class="sleeve">Les informés</span>
+              <span class="sleeve pull">Code source</span
+              ><span class="sleeve">Le Crayon</span>
+              <span class="sleeve">8h30</span
+              ><span class="sleeve">Décryptage</span
+              ><span class="sleeve">Sur le fil</span>
+              <span class="sleeve">L'édito</span>
+            </div>
+            <p class="lbl" style="margin: 14px 0 0">
+              Clic sur une pochette = exclure / inclure · onglet = changer de
+              bac
+            </p>
+          </div>
+        </div>
+        <figcaption>
+          <b>A · Bac à vinyles.</b> Un bac de disquaire avec onglets séparateurs
+          colorés. Un seul thème ouvert à la fois, les pochettes se «
+          feuillettent » en survol. Très visuel, très disque, mais une seule
+          catégorie visible à la fois.
+        </figcaption>
+      </figure>
+
+      <!-- B -->
+      <figure>
+        <div class="stage">
+          <div class="unit">
+            <div class="btns">
+              <span class="in t-debat on"><i></i>Débats</span>
+              <span class="in t-geo"><i></i>Géo</span>
+              <span class="in t-sport"><i></i>Sport</span>
+              <span class="in t-culture"><i></i>Culture</span>
+              <span class="in t-histoire"><i></i>Histoires</span>
+              <span class="in t-interview"><i></i>Interviews</span>
+            </div>
+            <div class="lcd mono">
+              <span>INPUT : DÉBATS &amp; DÉCRYPTAGE</span><span>10 / 14</span>
+            </div>
+            <div class="row t-debat">
+              <div class="cell"><span class="d spin"></span>C dans l'air</div>
+              <div class="cell"><span class="d spin"></span>Les informés</div>
+              <div class="cell"><span class="d spin"></span>Code source</div>
+              <div class="cell"><span class="d off"></span>Le Crayon</div>
+              <div class="cell"><span class="d spin"></span>8h30</div>
+              <div class="cell"><span class="d off"></span>Sur le fil</div>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <b>B · Sélecteur d'entrée.</b> Rangée de boutons rétro-éclairés avec
+          LED, afficheur LCD du thème actif, puis les disques. Dans la lignée
+          directe de l'ampli des réglages. Compact, cohérent, mais là aussi un
+          thème à la fois.
+        </figcaption>
+      </figure>
+
+      <!-- C -->
+      <figure>
+        <div class="stage">
+          <div class="piles">
+            <div class="pile t-debat">
+              <span class="n mono">10/14</span>
+              <div class="fan">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span>
+              </div>
+              <h4>Débats</h4>
+              <p>Décryptage de l'actu</p>
+              <div class="bar"><b style="width: 71%"></b></div>
+            </div>
+            <div class="pile t-geo">
+              <span class="n mono">10/10</span>
+              <div class="fan">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span>
+              </div>
+              <h4>Géopolitique</h4>
+              <p>International</p>
+              <div class="bar"><b style="width: 100%"></b></div>
+            </div>
+            <div class="pile t-sport">
+              <span class="n mono">2/4</span>
+              <div class="fan">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d off"></span>
+              </div>
+              <h4>Sport</h4>
+              <p>F1, foot, rugby, trail</p>
+              <div class="bar"><b style="width: 50%"></b></div>
+            </div>
+            <div class="pile t-culture">
+              <span class="n mono">9/9</span>
+              <div class="fan">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span>
+              </div>
+              <h4>Culture</h4>
+              <p>Savoirs &amp; société</p>
+              <div class="bar"><b style="width: 100%"></b></div>
+            </div>
+            <div class="pile t-histoire">
+              <span class="n mono">8/8</span>
+              <div class="fan">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span>
+              </div>
+              <h4>Histoires</h4>
+              <p>Enquêtes &amp; reportages</p>
+              <div class="bar"><b style="width: 100%"></b></div>
+            </div>
+            <div class="pile t-interview">
+              <span class="n mono">3/3</span>
+              <div class="fan">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span>
+              </div>
+              <h4>Interviews</h4>
+              <p>Portraits</p>
+              <div class="bar"><b style="width: 100%"></b></div>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <b>C · Piles de disques.</b> Chaque thème = une carte avec 3 disques
+          en éventail (vraies pochettes des shows), compteur et jauge. Tout est
+          visible d'un coup d'œil ; un clic ouvre le thème dans un
+          panneau/tiroir. Le plus « tableau de bord ».
+        </figcaption>
+      </figure>
+
+      <!-- D -->
+      <figure>
+        <div class="stage">
+          <div class="rack">
+            <div class="slot t-debat">
+              <div class="head">
+                <b>Débats</b><span class="mono lbl">10/14</span>
+                <div class="vu">
+                  <i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i><i></i><i></i><i></i>
+                </div>
+              </div>
+              <div class="strip">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span><span class="d off"></span
+                ><span class="d spin"></span><span class="d spin"></span
+                ><span class="d off"></span><span class="d spin"></span>
+              </div>
+            </div>
+            <div class="slot t-geo">
+              <div class="head">
+                <b>Géopolitique</b><span class="mono lbl">10/10</span>
+                <div class="vu">
+                  <i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i>
+                </div>
+              </div>
+              <div class="strip">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span><span class="d spin"></span>
+              </div>
+            </div>
+            <div class="slot t-sport">
+              <div class="head">
+                <b>Sport</b><span class="mono lbl">2/4</span>
+                <div class="vu">
+                  <i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i><i class="l"></i><i></i><i></i><i></i><i></i
+                  ><i></i>
+                </div>
+              </div>
+              <div class="strip">
+                <span class="d spin"></span><span class="d off"></span
+                ><span class="d spin"></span><span class="d off"></span>
+              </div>
+            </div>
+            <div class="slot t-culture">
+              <div class="head">
+                <b>Culture</b><span class="mono lbl">9/9</span>
+                <div class="vu">
+                  <i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i><i class="l"></i><i class="l"></i
+                  ><i class="l"></i>
+                </div>
+              </div>
+              <div class="strip">
+                <span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span><span class="d spin"></span
+                ><span class="d spin"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <figcaption>
+          <b>D · Rack hi-fi.</b> Chaque thème = un module du rack : nom,
+          vu-mètre (proportion de sources actives) et une bande de disques qui
+          défile à l'horizontale. Tous les thèmes visibles, très peu de hauteur,
+          un geste de scroll par bande. Le plus fidèle à l'esprit « home cinéma
+          ».
+        </figcaption>
+      </figure>
+    </div>
+  </body>
+</html>
