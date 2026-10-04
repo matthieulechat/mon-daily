@@ -45,3 +45,6 @@ register: decisions
 | [BDR-037](decisions/BDR-037.md) | 2026-10-04 | Actu classée par moment de la journée | #ui #podcast #actu #france-inter #classification #mon-daily | actif |
 | [BDR-038](decisions/BDR-038.md) | 2026-10-04 | Plafond de 30 s sur le Retry-After Spotify | #spotify #retry-after #edge-functions #rate-limit #resilience #mon-daily | actif |
 | [BDR-039](decisions/BDR-039.md) | 2026-10-04 | Show à flux mixte : catégorie par épisode | #podcast #categorization #slate #mixed-feed #ui #mon-daily | actif |
+| [BDR-040](decisions/BDR-040.md) | 2026-10-05 | Animations CSS pures, pas de lib (GSAP écarté) | #ui #animation #css #gsap #reduced-motion #mon-daily | actif |
+| [BDR-041](decisions/BDR-041.md) | 2026-10-05 | Bac ouvert dans la grille, sous la rangée de sa pile | #ui #css-grid #settings #ux #mon-daily | actif |
+| [BDR-042](decisions/BDR-042.md) | 2026-10-05 | Bouton Enregistrer : confirmation intégrée, durée mini 0,9 s | #ui #feedback #save #zustand #mon-daily | actif |

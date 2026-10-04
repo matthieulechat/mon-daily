@@ -320,6 +320,15 @@ Actualisation du pool de podcasts : 48 sources ajoutées (RTL, Europe 1, francei
 **Entrées clés :**
 
 - [BDR-039](decisions/BDR-039.md) — Show à flux mixte : catégorie par épisode
-- [BLK-026](blockers/BLK-026.md) — Noms et pochettes introuvables sous 429
+- [ZBLK-026](archive/blockers/ZBLK-026.md) — Noms et pochettes introuvables sous 429
 - [LRN-050](learnings/LRN-050.md) — Script générateur : ne pas écraser avec 0 résultat
 
+## 2026-10-05
+
+Animations de l'interface web. Recherche d'opportunités (7 propositions filtrées), maquette interactive pour les valider (voir [BLK-027](blockers/BLK-027.md) pour les ratés d'affichage), puis implémentation en CSS pur : entrée de page en cascade, bac qui s'ouvre sous la rangée de sa pile avec animation de fermeture, pochettes en cascade ralentie, retour au clic, « tick » des compteurs, apparition du vinyle et du bras de platine, page de connexion séquencée, et bouton Enregistrer qui porte lui-même la confirmation (spinner, flash vert, coche). Question GSAP tranchée : inutile ici. Commit `3000471` poussé sur main.
+
+**Entrées clés :**
+
+- [BDR-040](decisions/BDR-040.md) — Animations CSS pures, pas de lib (GSAP écarté)
+- [BDR-041](decisions/BDR-041.md) — Bac ouvert dans la grille, sous la rangée de sa pile
+- [LRN-051](learnings/LRN-051.md) — `scale`/`translate`/`rotate` se composent avec `transform`

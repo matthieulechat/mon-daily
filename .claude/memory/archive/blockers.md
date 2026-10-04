@@ -29,3 +29,4 @@ register: archive_blockers
 | [ZBLK-022](blockers/ZBLK-022.md) | 2026-10-02 | Login OAuth Spotify : `over_email_send_rate_limit` | #supabase-auth #spotify #oauth #email #rate-limit #mon-daily | résolu |
 | [ZBLK-023](blockers/ZBLK-023.md) | 2026-10-03 | `vite-plugin-pwa` 1.3.0 refuse `assets-generator` 2.0 | #pnpm #peer-deps #vite-pwa #eperm #mon-daily | résolu |
 | [ZBLK-025](blockers/ZBLK-025.md) | 2026-10-04 | Génération sans résultat : 546 sur generate-daily | #spotify #retry-after #edge-functions #pg-net #546 #mon-daily | résolu |
+| [ZBLK-026](blockers/ZBLK-026.md) | 2026-10-04 | Noms et pochettes des nouveaux shows introuvables sous 429 | #spotify #429 #covers #show-names #mon-daily | résolu |

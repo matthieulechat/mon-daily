@@ -56,3 +56,7 @@ register: learnings
 | [LRN-048](learnings/LRN-048.md) | 2026-10-04 | Requête pg_net « bloquée » : en vol, pas coincée | #supabase #pg-net #edge-functions #queue #debugging #mon-daily |
 | [LRN-049](learnings/LRN-049.md) | 2026-10-04 | Nom et pochette d'un show sans l'API Spotify | #spotify #covers #og-image #oembed #rate-limit #mon-daily |
 | [LRN-050](learnings/LRN-050.md) | 2026-10-04 | Script générateur : ne pas écraser avec 0 résultat | #covers #script #rate-limit #guard #mon-daily |
+| [LRN-051](learnings/LRN-051.md) | 2026-10-05 | `scale`/`translate`/`rotate` se composent avec `transform` | #css #animation #transform #keyframes |
+| [LRN-052](learnings/LRN-052.md) | 2026-10-05 | Entrée de page séquencée par `animation-delay` | #animation #css #stagger #login #mon-daily |
+| [LRN-053](learnings/LRN-053.md) | 2026-10-05 | Rejouer par `key`, sortir par classe + `onAnimationEnd` | #react #css #animation #key #onanimationend |
+| [LRN-054](learnings/LRN-054.md) | 2026-10-05 | Durée minimale d'un état « en cours » | #ux #loading #feedback #promise-all #zustand |
