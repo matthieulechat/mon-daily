@@ -35,6 +35,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Génération quotidienne qui plantait sans résultat (erreur 546) quand Spotify imposait une très longue attente (ex. ~12 h) après trop de requêtes : au-delà de 30 s d'attente demandée, les podcasts concernés sont ignorés et la playlist est quand même générée (musique seule)
 - « La semaine européenne » (hebdomadaire) était presque toujours ignorée car son dernier épisode dépassait 2 jours : sa fraîcheur maximale passe à 7 jours
 - Doublons de titres dans le mix généré (ex. "Titre" et "Titre (Music Video)" comptés comme deux titres différents)
 - Un podcast pouvait être ignoré à tort ("aucun épisode disponible") quand Spotify renvoyait un épisode inexploitable en première position alors qu'un épisode valide existait juste après

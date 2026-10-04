@@ -6,6 +6,9 @@
 // rafale retentent toutes au même instant).
 const MAX_RETRIES = 3;
 const BASE_DELAY_MS = 1000;
+// Au-delà, on abandonne : un Retry-After de plusieurs minutes ferait dormir
+// l'Edge Function jusqu'à WORKER_RESOURCE_LIMIT (546) sans rien produire.
+const MAX_RETRY_AFTER_MS = 30_000;
 
 const wait = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
@@ -25,6 +28,13 @@ export const fetchSpotifyWithRetry = async (
     const delayMs = retryAfterHeader
       ? Number(retryAfterHeader) * 1000
       : BASE_DELAY_MS * 2 ** attempt + Math.random() * 500;
+
+    if (delayMs > MAX_RETRY_AFTER_MS) {
+      console.error(
+        `Spotify 429 : Retry-After ${Math.round(delayMs / 1000)}s > plafond, abandon (${url})`,
+      );
+      return response;
+    }
 
     await wait(delayMs);
     response = await fetch(url, init);
