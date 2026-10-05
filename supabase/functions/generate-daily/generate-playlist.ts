@@ -151,7 +151,12 @@ export const generatePlaylistForUser = async (
     thematic: shuffle(eligibleThematic),
   };
 
-  const { tracks: mixTracks, picks } = buildMix(musicMix, queues);
+  const { tracks: mixTracks, picks } = buildMix(
+    musicMix,
+    queues,
+    maxDurationMs,
+    JINGLE_DURATION_MS,
+  );
   const fullMix: Track[] = [
     {
       id: "jingle",

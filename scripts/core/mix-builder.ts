@@ -116,39 +116,67 @@ export const selectMusic = (
   return shuffle(selected);
 };
 
+// Premier épisode de la file qui tient dans le budget restant (file primaire
+// d'abord, puis secondaire = fallback croisé) : un épisode trop long est
+// laissé de côté et un plus court est repioché à sa place.
 const takePick = (
   primary: PodcastPick[],
   secondary: PodcastPick[],
-): PodcastPick | undefined => primary.shift() ?? secondary.shift();
+  fits: (pick: PodcastPick) => boolean,
+): PodcastPick | undefined => {
+  for (const queue of [primary, secondary]) {
+    const index = queue.findIndex(fits);
+    if (index >= 0) return queue.splice(index, 1)[0];
+  }
+  return undefined;
+};
 
+// `maxDurationMs` / `usedMs` : budget total et durée déjà consommée (jingle).
+// Un podcast qui ferait dépasser le budget n'est jamais posé ; la musique ne
+// comble pas la place, le gabarit continue tel quel.
 export const buildMix = (
   music: Track[],
   queues: MixQueues,
+  maxDurationMs = Infinity,
+  usedMs = 0,
 ): { tracks: Track[]; picks: PodcastPick[] } => {
   const tracks: Track[] = [];
   const picks: PodcastPick[] = [];
   let musicIndex = 0;
+  let elapsedMs = usedMs;
 
+  const fits = (pick: PodcastPick): boolean =>
+    elapsedMs + pick.track.durationMs <= maxDurationMs;
   const addMusic = (count: number): void => {
     const end = Math.min(musicIndex + count, music.length);
-    tracks.push(...music.slice(musicIndex, end));
+    for (const track of music.slice(musicIndex, end)) {
+      tracks.push(track);
+      elapsedMs += track.durationMs;
+    }
     musicIndex = end;
   };
   const addPick = (pick: PodcastPick | undefined): void => {
     if (!pick) return;
     tracks.push(pick.track);
     picks.push(pick);
+    elapsedMs += pick.track.durationMs;
   };
 
-  addPick(takePick(queues.actu, queues.thematic));
-  addPick(queues.meteo.shift());
+  addPick(takePick(queues.actu, queues.thematic, fits));
+  addPick(takePick(queues.meteo, [], fits));
   addMusic(OPENING_MUSIC_COUNT);
 
-  while (queues.actu.length > 0 || queues.thematic.length > 0) {
-    addPick(takePick(queues.thematic, queues.actu));
+  // Arrêt sans progrès (musique épuisée et plus aucun podcast ne tient).
+  while (
+    (queues.actu.length > 0 || queues.thematic.length > 0) &&
+    elapsedMs < maxDurationMs
+  ) {
+    const before = tracks.length;
+    addPick(takePick(queues.thematic, queues.actu, fits));
     addMusic(MUSIC_BLOCK_COUNT);
-    addPick(takePick(queues.actu, queues.thematic));
+    addPick(takePick(queues.actu, queues.thematic, fits));
     addMusic(MUSIC_BLOCK_COUNT);
+    if (tracks.length === before) break;
   }
 
   addMusic(music.length - musicIndex);

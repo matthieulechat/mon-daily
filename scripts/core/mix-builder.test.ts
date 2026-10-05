@@ -46,6 +46,36 @@ test("buildMix conserve toute la musique restante", () => {
   assert.equal(musicCount, music.length);
 });
 
+test("buildMix repioche un podcast plus court quand le tirage ne tient pas", () => {
+  const q: MixQueues = {
+    actu: [pick("long", 60, "actu"), pick("court", 10, "actu")],
+    meteo: [],
+    thematic: [],
+  };
+  const { picks } = buildMix(music, q, 30 * MIN);
+  assert.deepEqual(
+    picks.map((p) => p.showId),
+    ["court"],
+  );
+});
+
+test("buildMix ne pose aucun podcast qui dépasse et garde le gabarit", () => {
+  const q: MixQueues = {
+    actu: [pick("a1", 10, "actu")],
+    meteo: [],
+    thematic: [pick("t1", 90, "thematique")],
+  };
+  const { tracks, picks } = buildMix(music, q, 60 * MIN);
+  assert.deepEqual(
+    picks.map((p) => p.showId),
+    ["a1"],
+  );
+  assert.deepEqual(
+    tracks.slice(0, 3).map((t) => t.id),
+    ["a1", "m0", "m1"],
+  );
+});
+
 test("musicTargetCount suit la durée max", () => {
   assert.equal(musicTargetCount(240 * MIN), 79);
   assert.ok(musicTargetCount(480 * MIN) > musicTargetCount(240 * MIN));

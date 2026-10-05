@@ -45,6 +45,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Playlist plus courte que la durée maximale réglée (ex. 208 min au lieu de 240) : un podcast trop long pour la place restante coupait toute la fin de la playlist. Il est désormais remplacé par un épisode plus court tiré dans la même file, sans toucher à l'alternance musique/podcast
 - Génération quotidienne qui plantait sans résultat (erreur 546) quand Spotify imposait une très longue attente (ex. ~12 h) après trop de requêtes : au-delà de 30 s d'attente demandée, les podcasts concernés sont ignorés et la playlist est quand même générée (musique seule)
 - Doublons de titres dans le mix généré (ex. "Titre" et "Titre (Music Video)" comptés comme deux titres différents)
 - Un podcast pouvait être ignoré à tort ("aucun épisode disponible") quand Spotify renvoyait un épisode inexploitable en première position alors qu'un épisode valide existait juste après

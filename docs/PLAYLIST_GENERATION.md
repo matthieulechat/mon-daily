@@ -106,7 +106,7 @@ Un slot "podcast" sans pick disponible ce jour-là (pool épuisé même après l
 | 3   | Sélection podcasts | `generate.ts` + `core/podcast-source.ts` | Voir sections dédiées ci-dessus                                                                                                                          |
 | 4   | Assemblage         | `generate.ts` (`buildMix`)               | Suit `MIX_TEMPLATE` (ci-dessus) ; le reste de la musique non consommée suit en continu                                                                   |
 | 5   | Jingle             | `config/jingles.ts`                      | 1 des 7 jingles officiels "C'est {jour}", calculé sur le fuseau `Europe/Paris`                                                                           |
-| 6   | **Coupe durée**    | `generate.ts`                            | La playlist assemblée est tronquée dès que le titre suivant ferait dépasser **4h** — les titres en tête survivent, ceux de fin sont sacrifiés en premier |
+| 6   | **Coupe durée**    | `generate.ts`                            | Un podcast qui ne tient pas dans le budget restant n'est pas posé : un plus court est repioché (le gabarit est conservé, la musique ne comble pas). La playlist assemblée est ensuite tronquée dès que le titre suivant ferait dépasser **4h** — les titres en tête survivent, ceux de fin sont sacrifiés en premier |
 | 7   | Publication        | `providers/spotify.provider.ts`          | Playlist "Mon Daily" trouvée ou créée (+ pochette), forcée en privée, titres remplacés                                                                   |
 
 ## ⚠️ Limitations connues (playlists éditoriales Spotify)
