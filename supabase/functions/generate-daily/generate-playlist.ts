@@ -1,5 +1,9 @@
 import { todaysJingleUri } from "./config/jingles.ts";
-import { PODCAST_SHOWS, type PodcastShow } from "./config/podcast-shows.ts";
+import {
+  PODCAST_SHOWS,
+  isShowEnabled,
+  type PodcastShow,
+} from "./config/podcast-shows.ts";
 import {
   buildMix,
   musicTargetCount,
@@ -102,11 +106,11 @@ export const generatePlaylistForUser = async (
     await supabaseStorage.saveTokens(userId, tokens);
   }
 
-  // Réglages de l'interface web (durée max, sources désactivées) — valeurs historiques si jamais enregistrés.
+  // Réglages de l'interface web (durée max, sources activées ou désactivées) — valeurs historiques si jamais enregistrés.
   const settings = await supabaseStorage.getSettings(userId);
   const maxDurationMs = settings.maxDurationMinutes * 60_000;
   const enabledShows = PODCAST_SHOWS.filter(
-    (s) => !settings.disabledShowIds.includes(s.id),
+    (s) => isShowEnabled(s, settings),
   );
   const actuShows = enabledShows.filter((s) => s.category === "actu");
   const thematicShows = enabledShows.filter((s) => s.category === "thematique");

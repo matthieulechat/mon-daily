@@ -22,6 +22,9 @@ export interface PodcastShow {
   // Flux mixte classé "actu" : les épisodes hors actu sont thématiques
   // (détection dédiée dans podcast-source.ts, ex. interviews de HugoDécrypte).
   alsoThematic?: boolean;
+  // Désactivé par défaut (ex. journal d'une autre région) : n'entre dans le
+  // mix que si l'utilisateur l'active (`enabledShowIds`).
+  optIn?: boolean;
 }
 
 const JOURNAL_HORAIRE = "journal-horaire";
@@ -345,4 +348,37 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   { id: "5mHgwovq7vwh1hw88tidWS", name: "Les chroniques d'Arnaud Demanche", category: "thematique" },
   { id: "0oEyqaLqs3WCbnLMqUAj3S", name: "Les chroniques de Daniel Morin", category: "thematique" },
   { id: "5jZmbWSaEIQMPOjbarGxWB", name: "Laurent Baffie", category: "thematique" },
+  // Régional (ajout 2026-10-05, réseau « ici », ex-France Bleu). Les journaux
+  // sortent 5+ fois par jour avec un titre sans date ("Le journal de 18h, ICI
+  // Loire Océan") : `latestOnly` retombe donc sur l'ordre de l'API (le plus
+  // récent d'abord).
+  { id: "2xfCK1UISERLjN4HMXwB2m", name: "Les journaux, ICI Loire Océan", category: "actu", latestOnly: true },
+  { id: "7hm5teveGMjMgNPvNLsCvU", name: "Les journaux, ICI Mayenne", category: "actu", latestOnly: true },
+  { id: "6xXDCGTq81fUSk7lYhPkvw", name: "L'invité d'ICI Matin, ICI Loire Océan", category: "thematique" },
+  { id: "3DzEtV607XVppyShCDyKl6", name: "Ça va faire du reuz !", category: "thematique" },
+  // Autres régions et outre-mer (ajout 2026-10-05) : `optIn`, chacun active
+  // sa région dans les réglages.
+  { id: "6zWxz8E6o3QXME1GdQkwO9", name: "Les journaux, ICI Nord", category: "actu", latestOnly: true, optIn: true },
+  { id: "45Ze3aSXRpJgz2l5gZpFyk", name: "Les journaux, ICI Normandie (Caen)", category: "actu", latestOnly: true, optIn: true },
+  { id: "678EXSIQfJ1YybipTqCmhL", name: "Les journaux, ICI Azur", category: "actu", latestOnly: true, optIn: true },
+  { id: "2cjg3APakIO4pbsEdjku6h", name: "Les journaux d'ici RCFM", category: "actu", latestOnly: true, optIn: true },
+  { id: "1PB2neF1R8EbafMf3y2TfS", name: "Les journaux de ICI Pays Basque", category: "actu", latestOnly: true, optIn: true },
+  { id: "5UXnuk8lgdG3HSWBZKkePK", name: "Les journaux, ICI Lorraine", category: "actu", latestOnly: true, optIn: true },
+  { id: "2nz1unZajRUmKeBSK7t1pU", name: "Le journal d'Outre-mer La 1ère", category: "actu", optIn: true },
+  { id: "57sxwMWhN1cYYicDm2girK", name: "Le journal de 18h - Outre-mer", category: "actu", optIn: true },
+  { id: "6FIoE8dUJZhmJddF5wmuUH", name: "Le journal de 7h - Martinique", category: "actu", optIn: true },
+  { id: "6FBeoQTz1mq87x6YRG3d5G", name: "Le journal de 7h - Guadeloupe", category: "actu", optIn: true },
+  { id: "0Vuq8hhBh2rUl4KGRiLHhx", name: "Journal de 7h - Guyane", category: "actu", optIn: true },
+  { id: "3WBk9MxsVc8XIgo36CTRNl", name: "Le journal de 06h30 - Nouvelle-Calédonie", category: "actu", optIn: true },
+  { id: "4DHHgaMgj8lse5mw1iaFIL", name: "Le journal de 7h - Polynésie", category: "actu", optIn: true },
 ];
+
+// Un show `optIn` n'est actif que si l'utilisateur l'a activé ; les autres
+// le sont tant qu'il ne les a pas désactivés.
+export const isShowEnabled = (
+  show: PodcastShow,
+  settings: { disabledShowIds: string[]; enabledShowIds: string[] },
+): boolean =>
+  show.optIn
+    ? settings.enabledShowIds.includes(show.id)
+    : !settings.disabledShowIds.includes(show.id);

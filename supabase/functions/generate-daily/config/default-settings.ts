@@ -9,4 +9,5 @@ export const SETTINGS_LIMITS = {
 export const DEFAULT_SETTINGS: UserSettings = {
   maxDurationMinutes: 240,
   disabledShowIds: [],
+  enabledShowIds: [],
 };

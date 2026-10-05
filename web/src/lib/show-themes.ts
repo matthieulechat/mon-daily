@@ -144,6 +144,15 @@ export const SHOW_THEMES: ShowTheme[] = [
       "0oEyqaLqs3WCbnLMqUAj3S", // Les chroniques de Daniel Morin
     ],
   },
+  {
+    title: "Régions",
+    hint: "Près de chez vous",
+    color: "#34d399",
+    ids: [
+      "6xXDCGTq81fUSk7lYhPkvw", // L'invité d'ICI Matin, ICI Loire Océan
+      "3DzEtV607XVppyShCDyKl6", // Ça va faire du reuz ! (ICI Breizh Izel)
+    ],
+  },
 ];
 
 // Actu du jour — ids dans l'ordre d'affichage (journaux classés par heure).
@@ -207,6 +216,35 @@ export const ACTU_THEMES: ShowTheme[] = [
       "5IIX7ZPalhtTKt4esRHer3", // Revue de presse internationale (Europe 1)
       "1UqC9vb9bmugCK23m14MLs", // La Revue de presse internationale (France Culture)
       "1vZVfukC3QBbZWg7hG1dqU", // La Revue de Presse (Radio Classique)
+    ],
+  },
+  {
+    title: "Régions",
+    hint: "Journaux locaux, à activer",
+    color: "#c084fc",
+    ids: [
+      "2xfCK1UISERLjN4HMXwB2m", // Les journaux, ICI Loire Océan
+      "7hm5teveGMjMgNPvNLsCvU", // Les journaux, ICI Mayenne
+      "6zWxz8E6o3QXME1GdQkwO9", // Les journaux, ICI Nord
+      "45Ze3aSXRpJgz2l5gZpFyk", // Les journaux, ICI Normandie (Caen)
+      "5UXnuk8lgdG3HSWBZKkePK", // Les journaux, ICI Lorraine
+      "1PB2neF1R8EbafMf3y2TfS", // Les journaux de ICI Pays Basque
+      "678EXSIQfJ1YybipTqCmhL", // Les journaux, ICI Azur
+      "2cjg3APakIO4pbsEdjku6h", // Les journaux d'ici RCFM (Corse)
+    ],
+  },
+  {
+    title: "Outre-mer",
+    hint: "La 1ère, à activer",
+    color: "#22d3ee",
+    ids: [
+      "2nz1unZajRUmKeBSK7t1pU", // Le journal d'Outre-mer La 1ère
+      "57sxwMWhN1cYYicDm2girK", // Le journal de 18h - Outre-mer
+      "6FIoE8dUJZhmJddF5wmuUH", // Le journal de 7h - Martinique
+      "6FBeoQTz1mq87x6YRG3d5G", // Le journal de 7h - Guadeloupe
+      "0Vuq8hhBh2rUl4KGRiLHhx", // Journal de 7h - Guyane
+      "3WBk9MxsVc8XIgo36CTRNl", // Le journal de 06h30 - Nouvelle-Calédonie
+      "4DHHgaMgj8lse5mw1iaFIL", // Le journal de 7h - Polynésie
     ],
   },
 ];

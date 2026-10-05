@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { PODCAST_SHOWS } from "@shared/config/podcast-shows";
+import { PODCAST_SHOWS, isShowEnabled } from "@shared/config/podcast-shows";
 import { ThemeSection, normalize } from "@/components/ThemeSection";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -16,11 +16,20 @@ const THEMATIC_SHOWS = PODCAST_SHOWS.filter(
 );
 
 export const ShowsPicker = () => {
-  const disabled = useSettingsStore((s) => s.settings.disabledShowIds);
+  const settings = useSettingsStore((s) => s.settings);
   const setShowsEnabled = useSettingsStore((s) => s.setShowsEnabled);
   const [query, setQuery] = useState("");
 
-  const disabledSet = useMemo(() => new Set(disabled), [disabled]);
+  // Inactifs effectifs : désactivés à la main + `optIn` jamais activés.
+  const disabledSet = useMemo(
+    () =>
+      new Set(
+        PODCAST_SHOWS.filter((s) => !isShowEnabled(s, settings)).map(
+          (s) => s.id,
+        ),
+      ),
+    [settings],
+  );
   const common = {
     needle: normalize(query),
     disabledSet,

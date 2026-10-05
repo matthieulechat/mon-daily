@@ -9,6 +9,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Sources régionales : journaux locaux « ICI Loire Océan » et « ICI Mayenne » en actu (seul le journal le plus récent est retenu), « L'invité d'ICI Matin, ICI Loire Océan » et « Ça va faire du reuz ! » (Bretagne) en thématique. Nouveau thème « Régions » dans l'interface de réglages
+- Journaux d'autres régions (Nord, Normandie, Lorraine, Pays Basque, Azur, Corse) et d'outre-mer (Martinique, Guadeloupe, Guyane, Nouvelle-Calédonie, Polynésie, journaux d'Outre-mer La 1ère) : désactivés par défaut, à activer un par un dans les thèmes « Régions » et « Outre-mer » des réglages
 - Interface de réglages : ta photo de profil et ton nom Spotify s'affichent en haut à droite (une pastille avec ton initiale si le compte n'a pas de photo)
 - Animations de l'interface de réglages : entrée de page en cascade, ouverture et fermeture du bac sous la rangée de sa pile (la page défile pour le montrer si besoin), pochettes qui arrivent une à une, vinyle de fond qui se pose avec son bras de platine, retour visuel au clic, compteurs qui « tickent » à chaque changement. Les utilisateurs qui réduisent les animations dans leur système n'ont que des fondus
 - Page de connexion animée (carte, logo aux ondes qui se propagent) et bouton « Se connecter avec Spotify » qui passe en attente pendant la redirection

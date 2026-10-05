@@ -21,4 +21,6 @@ export interface User {
 export interface UserSettings {
   maxDurationMinutes: number;
   disabledShowIds: string[];
+  // Shows `optIn` (désactivés par défaut) que l'utilisateur a activés.
+  enabledShowIds: string[];
 }

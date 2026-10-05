@@ -11,9 +11,11 @@ export const settingsSchema = z.object({
     .min(maxDurationMinutes.min)
     .max(maxDurationMinutes.max),
   disabledShowIds: z.array(z.string()),
+  enabledShowIds: z.array(z.string()),
 });
 
 export const settingsRowSchema = z.object({
   max_duration_minutes: z.number(),
   disabled_show_ids: z.array(z.string()),
+  enabled_show_ids: z.array(z.string()),
 });
