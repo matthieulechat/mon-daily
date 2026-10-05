@@ -19,6 +19,9 @@ export interface PodcastShow {
   // sous-chaîne (insensible à la casse) est de l'actu, les autres restent
   // thématiques (ex. "La quotidienne" de Slate Infos).
   actuTitleIncludes?: string;
+  // Flux mixte classé "actu" : les épisodes hors actu sont thématiques
+  // (détection dédiée dans podcast-source.ts, ex. interviews de HugoDécrypte).
+  alsoThematic?: boolean;
 }
 
 const JOURNAL_HORAIRE = "journal-horaire";
@@ -57,6 +60,7 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     id: "6y1PloEyNsCNJH9vHias4T",
     name: "HugoDécrypte - Actus et interviews",
     category: "actu",
+    alsoThematic: true,
   },
   {
     id: "3YCFNohB2PpHNY41qNsc5Q",

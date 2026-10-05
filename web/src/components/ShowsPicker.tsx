@@ -6,12 +6,14 @@ import { Card } from "@/components/ui/card";
 import { useSettingsStore } from "@/lib/settings.store";
 import { ACTU_THEMES, SHOW_THEMES } from "@/lib/show-themes";
 
-// Un flux mixte (actuTitleIncludes) apparaît aussi dans l'actu : même id, donc
-// même case activée dans les deux sections.
+// Un flux mixte (actuTitleIncludes / alsoThematic) apparaît dans les deux
+// sections : même id, donc même case activée des deux côtés.
 const ACTU_SHOWS = PODCAST_SHOWS.filter(
   (s) => s.category === "actu" || s.actuTitleIncludes,
 );
-const THEMATIC_SHOWS = PODCAST_SHOWS.filter((s) => s.category === "thematique");
+const THEMATIC_SHOWS = PODCAST_SHOWS.filter(
+  (s) => s.category === "thematique" || s.alsoThematic,
+);
 
 export const ShowsPicker = () => {
   const disabled = useSettingsStore((s) => s.settings.disabledShowIds);

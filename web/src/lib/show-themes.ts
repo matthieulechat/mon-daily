@@ -130,6 +130,7 @@ export const SHOW_THEMES: ShowTheme[] = [
       "52nCR9jqRKsiN1Ve0aZiGA", // Le Club Le Figaro Politique
       "50GTqIdUIvw0nxFMdPBGrB", // Le Club Le Figaro Culture
       "5jZmbWSaEIQMPOjbarGxWB", // Laurent Baffie
+      "6y1PloEyNsCNJH9vHias4T", // HugoDécrypte (interviews)
     ],
   },
   {

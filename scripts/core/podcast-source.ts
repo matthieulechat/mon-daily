@@ -248,7 +248,7 @@ export const getEligibleEpisodes = async (
         ({ episode, category }) =>
           !isTooOld(
             episode.release_date,
-            show.maxAgeDays ?? EPISODE_MAX_AGE_DAYS[category],
+            EPISODE_MAX_AGE_DAYS[category],
           ),
       );
     if (eligible.length === 0) {

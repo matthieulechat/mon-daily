@@ -130,11 +130,12 @@ export const generatePlaylistForUser = async (
   // météo (catégorisation par titre d'épisode, cf. podcast-source.ts) —
   // séparation ici, avant tirage au sort.
   // Un show "thématique" à flux mixte (actuTitleIncludes) peut aussi livrer
-  // de l'actu : on trie par catégorie effective de l'épisode.
+  // de l'actu, et un show "actu" à flux mixte (alsoThematic) du thématique :
+  // on trie par catégorie effective de l'épisode.
   const eligibleActu = [...actuPoolPicks, ...thematicPoolPicks].filter(
     (p) => p.category === "actu",
   );
-  const eligibleThematic = thematicPoolPicks.filter(
+  const eligibleThematic = [...actuPoolPicks, ...thematicPoolPicks].filter(
     (p) => p.category === "thematique",
   );
   const eligibleMeteo = actuPoolPicks.filter((p) => p.category === "meteo");
