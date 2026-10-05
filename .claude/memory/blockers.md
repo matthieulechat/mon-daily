@@ -7,4 +7,4 @@ register: blockers
 | ID                             | Date       | Friction                                                | Tags                                                                           | Statut |
 | ------------------------------ | ---------- | ------------------------------------------------------- | ------------------------------------------------------------------------------ | ------ |
 | [BLK-020](blockers/BLK-020.md) | 2026-10-01 | Playlists lues `public: true` malgré `public: false` | #spotify #playlist #privacy #api #public-flag #mon-daily | ouvert |
-| [BLK-024](blockers/BLK-024.md) | 2026-10-04 | Spotify bloque l'app après ~2 000 requêtes (429 ≈ 23 h) | #spotify #rate-limit #429 #search #mon-daily | ouvert |
+| [BLK-030](blockers/BLK-030.md) | 2026-10-05 | Script d'ajout cassé 3 fois (échappements, CRLF) | #bash #node #escaping #crlf #script #tooling #mon-daily | résolu |

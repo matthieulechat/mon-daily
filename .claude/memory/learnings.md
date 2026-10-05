@@ -70,3 +70,7 @@ register: learnings
 | [LRN-062](learnings/LRN-062.md) | 2026-10-05 | `pg_cron` UTC : heure locale fixe par double horaire filtré | #pg-cron #supabase #timezone #dst #postgres #tzdata |
 | [LRN-063](learnings/LRN-063.md) | 2026-10-05 | Profil Spotify déjà dans `session.user.user_metadata` | #supabase #auth #oauth #spotify #user-metadata #avatar #web |
 | [LRN-064](learnings/LRN-064.md) | 2026-10-05 | Vérifier la planification avant d'écrire une heure dans l'UI | #ui #copy #schedule #verification #cron #requirements |
+| [LRN-065](learnings/LRN-065.md) | 2026-10-05 | Shows « ici » : chercher `ICI <antenne>`, pas la marque | #spotify #search #podcast #regional #ici #outre-mer #mon-daily |
+| [LRN-066](learnings/LRN-066.md) | 2026-10-05 | Journal au titre sans date : `latestOnly` suit l'ordre API | #podcast #title-parsing #latest-only #ici #freshness #mon-daily |
+| [LRN-067](learnings/LRN-067.md) | 2026-10-05 | Edge Function et Vercel : deux déploiements distincts | #deploy #edge-functions #vercel #supabase #git #verification #mon-daily |
+| [LRN-068](learnings/LRN-068.md) | 2026-10-05 | Hook de formatage : tout le fichier reformaté à chaque `Edit` | #hooks #formatter #edit-tool #diff #crlf #git #tooling |

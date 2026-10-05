@@ -14,5 +14,5 @@ tags: [spotify, retry-after, edge-functions, pg-net, 546, mon-daily]
 ## Références
 
 - [BDR-038](../../decisions/BDR-038.md) — plafond du `Retry-After`
-- [BLK-024](../../blockers/BLK-024.md) — le rate limit Spotify qui reste actif
+- [ZBLK-024](ZBLK-024.md) — le rate limit Spotify qui reste actif
 - [LRN-048](../../learnings/LRN-048.md) — requête `pg_net` en vol, pas coincée

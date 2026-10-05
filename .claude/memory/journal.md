@@ -299,13 +299,13 @@ Section « Sources » de l'interface de réglages rendue moins dense : les ~50 p
 
 - [BDR-036](decisions/BDR-036.md) — Sources en thèmes : piles + bac, repliés par défaut
 - [BDR-037](decisions/BDR-037.md) — Actu classée par moment de la journée
-- [BLK-024](blockers/BLK-024.md) — Spotify bloque l'app après ~2 000 requêtes
+- [ZBLK-024](archive/blockers/ZBLK-024.md) — Spotify bloque l'app après ~2 000 requêtes
 - [LRN-046](learnings/LRN-046.md) — Pas de gros lot Spotify sans plafond
 
 
 ---
 
-Relance de la génération du Daily pour les deux comptes Supabase en rejouant le `net.http_post` du cron. Deux runs (n°13, n°14) sont restés sans réponse puis ont fini en 546 `WORKER_RESOURCE_LIMIT` ; la file `pg_net` a d'abord été prise pour bloquée (purge refusée par les permissions, faite à la main dans le SQL Editor), alors que les requêtes étaient en vol. Les logs ont montré la fonction figée sur « Récupération des podcasts... » : Spotify renvoyait un `Retry-After` de 44 963 s (~12 h 30, suite du rate limit de [BLK-024](blockers/BLK-024.md)) et le backoff l'attendait sans plafond. Plafond de 30 s ajouté, Edge Function redéployée en v10 (commit `c9895ed`), rejeu n°15 réussi pour les deux comptes (65 et 71 titres) mais sans aucun podcast. Le cron de 5h UTC de demain peut encore produire des playlists sans podcasts, le rate limit tombant vers 05h UTC ; décision de ne rien relancer d'autre.
+Relance de la génération du Daily pour les deux comptes Supabase en rejouant le `net.http_post` du cron. Deux runs (n°13, n°14) sont restés sans réponse puis ont fini en 546 `WORKER_RESOURCE_LIMIT` ; la file `pg_net` a d'abord été prise pour bloquée (purge refusée par les permissions, faite à la main dans le SQL Editor), alors que les requêtes étaient en vol. Les logs ont montré la fonction figée sur « Récupération des podcasts... » : Spotify renvoyait un `Retry-After` de 44 963 s (~12 h 30, suite du rate limit de [ZBLK-024](archive/blockers/ZBLK-024.md)) et le backoff l'attendait sans plafond. Plafond de 30 s ajouté, Edge Function redéployée en v10 (commit `c9895ed`), rejeu n°15 réussi pour les deux comptes (65 et 71 titres) mais sans aucun podcast. Le cron de 5h UTC de demain peut encore produire des playlists sans podcasts, le rate limit tombant vers 05h UTC ; décision de ne rien relancer d'autre.
 
 **Entrées clés :**
 
@@ -362,3 +362,20 @@ En-tête de l'interface de réglages : photo de profil et nom Spotify affichés 
 - [BDR-045](decisions/BDR-045.md) — Génération à 7h Paris : cron `0 5,6` + filtre SQL
 - [LRN-062](learnings/LRN-062.md) — `pg_cron` UTC : heure locale fixe par double horaire filtré
 - [LRN-064](learnings/LRN-064.md) — Vérifier la planification avant d'écrire une heure dans l'UI
+
+---
+
+Session du soir : reprise de la recherche de sources podcast après la levée du blocage Spotify. Vérification d'abord (logs du cron de 7h, puis test direct en 200 sans `Retry-After`) : le blocage est levé, mais le cron de 05:00 UTC a encore pris quelques 429 à 05:00:17.
+
+Trois lots de recherche bornés (script jetable : plafond de 30 requêtes, 1,2 s d'écart, arrêt au premier 429), soit 85 requêtes sans aucun 429. Le lot 1, par noms de marques de presse régionale, n'a rien donné : flux abandonnés et bruit. Le lot 2 (Pays de la Loire et Bretagne) a révélé le nommage du réseau « ici » et trouvé 8 shows frais ; le lot 3 (autres régions et outre-mer) en a trouvé 13 de plus.
+
+Ajout de 4 shows actifs par défaut (journaux ICI Loire Océan et Mayenne, « L'invité d'ICI Matin », « Ça va faire du reuz ! ») et de 13 journaux désactivés par défaut, avec une colonne `enabled_show_ids`, la règle `isShowEnabled` et deux thèmes « Régions » et « Outre-mer » dans l'interface. Typecheck, tests (12/12), build web et react-doctor (100/100) passent ; interface vérifiée en aperçu local. Edge Function déployée (v14), commit `1e53fde` poussé sur `main`. Aucune génération réelle lancée : le premier vrai test est le cron du lendemain.
+
+Friction : le hook de formatage a reformaté en entier deux fichiers de configuration, et le script écrit pour réappliquer les ajouts proprement a cassé trois fois.
+
+**Entrées clés :**
+
+- [BDR-046](decisions/BDR-046.md) — sources régionales `optIn`, colonne `enabled_show_ids`
+- [LRN-065](learnings/LRN-065.md) — chercher `ICI <antenne>`, pas la marque
+- [ZBLK-024](archive/blockers/ZBLK-024.md) — blocage Spotify levé et archivé
+- [BLK-030](blockers/BLK-030.md) — script d'ajout cassé trois fois
