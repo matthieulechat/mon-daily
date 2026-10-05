@@ -9,6 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Interface de réglages : ta photo de profil et ton nom Spotify s'affichent en haut à droite (une pastille avec ton initiale si le compte n'a pas de photo)
 - Animations de l'interface de réglages : entrée de page en cascade, ouverture et fermeture du bac sous la rangée de sa pile (la page défile pour le montrer si besoin), pochettes qui arrivent une à une, vinyle de fond qui se pose avec son bras de platine, retour visuel au clic, compteurs qui « tickent » à chaque changement. Les utilisateurs qui réduisent les animations dans leur système n'ont que des fondus
 - Page de connexion animée (carte, logo aux ondes qui se propagent) et bouton « Se connecter avec Spotify » qui passe en attente pendant la redirection
 - Bouton « Enregistrer » qui raconte l'enregistrement : spinner pendant la sauvegarde (visible au moins 0,9 s), puis flash vert avec coche tracée, puis retour à l'état grisé
@@ -27,6 +28,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
+- La génération quotidienne tourne à 7h heure de Paris toute l'année, été comme hiver (elle glissait à 6h en heure d'hiver). L'interface de réglages indique quand tes changements seront pris en compte (« demain à 7h »)
+- Interface de réglages : « Se déconnecter » est rangé sous ton nom et l'onglet « Réglages », seul de son espèce, disparaît de l'en-tête
 - Interface de réglages : une catégorie dont toutes les sources sont désactivées est grisée, comme les pochettes exclues
 - Interface de réglages : les sources podcast sont rangées en thèmes (Actu : Matin, Midi & soir, Autres stations, Flashs ; Thématiques : Débats, Géopolitique, Sport, Culture, Histoires, Interviews). Chaque thème est une pile de pochettes colorée avec compteur et jauge de sources actives ; un clic ouvre son bac de disques, un second le referme. La recherche affiche les résultats de tous les thèmes
 - Interface de réglages en style « home cinéma » : façade d'ampli noir et néon, afficheur de la durée maximale avec potard à glisser (clavier toujours possible), LED d'état, disque vinyle en fond avec bras de platine et icône radio ; les sources podcast sont des pochettes rondes qui tournent quand elles sont dans le mix, grisées et à l'arrêt quand elles sont exclues

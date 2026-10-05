@@ -278,6 +278,10 @@
 .brand-wave-outer {
   animation-delay: 0.95s;
 }
+/* Profil : arrive juste après les cartes, sans voler la vedette */
+.user-chip {
+  animation: rise-sm 0.4s var(--ease-snap) 120ms backwards;
+}
 .tick {
   display: inline-block;
   animation: tick 0.15s var(--ease-snap);
@@ -336,6 +340,7 @@
   .enter > *,
   .login-card,
   .login-card > *,
+  .user-chip,
   .show-item,
   .pile,
   .crate,

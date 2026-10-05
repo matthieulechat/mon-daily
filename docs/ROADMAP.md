@@ -123,7 +123,7 @@ Limites, coût (gratuit) et points de vigilance : cf. [docs/AUTOMATION.md](AUTOM
 - [x] Implémenter `supabase-storage.ts` (même interface `Storage`) — fait dès la Phase 1
 - [x] ~~Migrer les tokens vers Supabase Vault~~ — **écart assumé** : Vault stocke la clé `service_role` utilisée par `pg_cron` pour authentifier l'appel HTTP (`generate_daily_key`), pas les tokens OAuth eux-mêmes, qui restent dans `oauth_tokens` (déjà protégée par RLS, accès uniquement `service_role`)
 - [x] Porter la logique de génération (`generate.ts`) en Edge Function — `supabase/functions/generate-daily/`, boucle sur tous les comptes Spotify connectés (`oauth_tokens` où `platform = 'spotify'`), un compte en échec n'empêche pas les autres. Portage Deno : imports internes `.js` → `.ts` (Deno ne fait pas la résolution `.js`→`.ts` de `tsc`/NodeNext, contrairement à l'hypothèse initiale de [docs/AUTOMATION.md](AUTOMATION.md)), specifiers npm réécrits en `npm:paquet@version`, `config/env.ts` dupliqué en version `Deno.env.get()` (reste du code réutilisé tel quel)
-- [x] Programmer le déclenchement quotidien via `pg_cron` + `pg_net` — job `generate-daily`, `0 5 * * *` UTC (6h/7h Paris selon la saison)
+- [x] Programmer le déclenchement quotidien via `pg_cron` + `pg_net` — job `generate-daily`, `0 5,6 * * *` UTC filtré sur 7h `Europe/Paris` (7h toute l'année, cf. `docs/AUTOMATION.md`)
 - [x] Gérer le refresh automatique du token OAuth expiré (sans intervention manuelle) — déjà géré par `refreshTokenIfNeeded` (repris tel quel dans l'Edge Function), validé en conditions réelles au premier appel curl
 
 **Livrable** : le "Daily Drive maison" tourne seul, chaque jour, sans que tu aies à lancer quoi que ce soit.
@@ -153,7 +153,7 @@ Limites, coût (gratuit) et points de vigilance : cf. [docs/AUTOMATION.md](AUTOM
 ## Phase 6 — Améliorations (optionnel, post-V1)
 
 - [ ] **PROCHAINE TÂCHE — Étoffer les sources podcast** (hors France Inter, trop présent). Ne démarrer qu'**après le 2026-10-05 17h** : le 2026-10-04, ~2 000 requêtes de recherche en rafale ont déclenché un 429 sur l'app Spotify avec `Retry-After` ≈ 82 000 s (~23 h), cf. [LRN-046](../.claude/memory/learnings/LRN-046.md).
-  - [ ] Vérifier que la génération marche (logs du cron 05h UTC ou `pnpm generate <platform_user_id>` — l'id est `oauth_tokens.platform_user_id`, pas `user_id`)
+  - [ ] Vérifier que la génération marche (logs du cron de 7h Paris ou `pnpm generate <platform_user_id>` — l'id est `oauth_tokens.platform_user_id`, pas `user_id`)
   - [ ] Valider les 61 candidats listés dans [docs/podcast-review.html](podcast-review.html) (RTL, Europe 1, franceinfo, presse papier, humour…) puis les ajouter à `PODCAST_SHOWS` (src + copie Edge Function), aux thèmes de `web/src/lib/show-themes.ts`, relancer `pnpm covers`
   - [ ] Chercher le **régional** (ici/France Bleu, presse régionale) et l'**international** (RFI, France 24, Radio-Canada, RTBF…) — par petits lots (≤ 30 requêtes, 1 s d'écart), en s'arrêtant au premier 429
   - [ ] Garder l'humour (cf. « L'œil de Philippe Caverivière »)

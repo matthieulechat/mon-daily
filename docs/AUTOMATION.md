@@ -43,7 +43,7 @@ Dépassement de durée ou de CPU → réponse **546**.
 
 1. **Pause d'inactivité (7 jours)** : un projet Free est mis en pause après une semaine sans activité. Le cron appelle l'Edge Function chaque jour, qui lit/écrit en base via l'API — ça devrait compter comme activité, mais la doc ne le garantit pas explicitement. Vérifier dans le dashboard après quelques jours de run réel que le projet ne passe pas en pause.
 2. **Limite de 2 projets actifs** ([GLRN-284](../../baptistelechat-setup/settings/Claude/global-memory/learnings/GLRN-284.md)) : aucun autre projet Supabase ne peut être actif en parallèle sans en mettre un en pause.
-3. **`pg_cron` tourne en UTC** : pas de suivi de l'heure d'été. `0 5 * * *` = 6h l'hiver, 7h l'été à Paris. Choisir une heure tolérante. Le jour du jingle (`scripts/config/jingles.ts`) reste calculé sur `Europe/Paris`, pas sur l'heure serveur.
+3. **`pg_cron` tourne en UTC** : pas de suivi de l'heure d'été. Pour générer à **7h Europe/Paris toute l'année**, le job est planifié sur `0 5,6 * * *` et sa commande se termine par `where extract(hour from now() at time zone 'Europe/Paris') = 7` — un seul des deux passages appelle la fonction (5h UTC l'été, 6h UTC l'hiver). Le jour du jingle (`scripts/config/jingles.ts`) reste calculé sur `Europe/Paris`, pas sur l'heure serveur.
 4. **Rétention `cron.job_run_details`** : non purgée automatiquement, à nettoyer périodiquement (job `cron` de suppression) pour ne pas gonfler la base.
 
 ## Points de portage Node → Deno
