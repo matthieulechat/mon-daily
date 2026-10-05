@@ -30,3 +30,5 @@ register: archive_blockers
 | [ZBLK-023](blockers/ZBLK-023.md) | 2026-10-03 | `vite-plugin-pwa` 1.3.0 refuse `assets-generator` 2.0 | #pnpm #peer-deps #vite-pwa #eperm #mon-daily | résolu |
 | [ZBLK-025](blockers/ZBLK-025.md) | 2026-10-04 | Génération sans résultat : 546 sur generate-daily | #spotify #retry-after #edge-functions #pg-net #546 #mon-daily | résolu |
 | [ZBLK-026](blockers/ZBLK-026.md) | 2026-10-04 | Noms et pochettes des nouveaux shows introuvables sous 429 | #spotify #429 #covers #show-names #mon-daily | résolu |
+| [ZBLK-027](blockers/ZBLK-027.md) | 2026-10-05 | Maquette d'animations invisible dans le panneau | #visualize #preview #html #browser-pane #mon-daily | résolu |
+| [ZBLK-028](blockers/ZBLK-028.md) | 2026-10-05 | Playlist de Matthieu à 208 min au lieu de 240 | #playlist #duration #truncate #podcast #mix #mon-daily | résolu |

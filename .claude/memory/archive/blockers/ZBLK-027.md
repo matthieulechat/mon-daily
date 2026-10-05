@@ -1,11 +1,11 @@
 ---
-id: BLK-027
+id: ZBLK-027
 type: blocker
 date: 2026-10-05
 tags: [visualize, preview, html, browser-pane, mon-daily]
 ---
 
-# BLK-027 — Maquette d'animations invisible dans le panneau
+# ZBLK-027 — Maquette d'animations invisible dans le panneau
 
 | Friction                                                                                   | Cause réelle                                                                                                                        | Solution                                                                             | Statut |
 | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | ------ |

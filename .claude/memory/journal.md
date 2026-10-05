@@ -325,10 +325,30 @@ Actualisation du pool de podcasts : 48 sources ajoutées (RTL, Europe 1, francei
 
 ## 2026-10-05
 
-Animations de l'interface web. Recherche d'opportunités (7 propositions filtrées), maquette interactive pour les valider (voir [BLK-027](blockers/BLK-027.md) pour les ratés d'affichage), puis implémentation en CSS pur : entrée de page en cascade, bac qui s'ouvre sous la rangée de sa pile avec animation de fermeture, pochettes en cascade ralentie, retour au clic, « tick » des compteurs, apparition du vinyle et du bras de platine, page de connexion séquencée, et bouton Enregistrer qui porte lui-même la confirmation (spinner, flash vert, coche). Question GSAP tranchée : inutile ici. Commit `3000471` poussé sur main.
+Animations de l'interface web. Recherche d'opportunités (7 propositions filtrées), maquette interactive pour les valider (voir [ZBLK-027](archive/blockers/ZBLK-027.md) pour les ratés d'affichage), puis implémentation en CSS pur : entrée de page en cascade, bac qui s'ouvre sous la rangée de sa pile avec animation de fermeture, pochettes en cascade ralentie, retour au clic, « tick » des compteurs, apparition du vinyle et du bras de platine, page de connexion séquencée, et bouton Enregistrer qui porte lui-même la confirmation (spinner, flash vert, coche). Question GSAP tranchée : inutile ici. Commit `3000471` poussé sur main.
 
 **Entrées clés :**
 
 - [BDR-040](decisions/BDR-040.md) — Animations CSS pures, pas de lib (GSAP écarté)
 - [BDR-041](decisions/BDR-041.md) — Bac ouvert dans la grille, sous la rangée de sa pile
 - [LRN-051](learnings/LRN-051.md) — `scale`/`translate`/`rotate` se composent avec `transform`
+
+---
+
+Playlist de Matthieu à 208 min malgré le réglage à 4 h. Enquête : le cron et le réglage étaient corrects, puis l'hypothèse « pool de musique trop petit » a été écartée par une mesure sur ses vrais top tracks. Vraie cause : le `break` de `truncateToDuration` face à un podcast long. Correctif : `buildMix` tient compte du budget et repioche un épisode plus court sans combler avec de la musique. Validé par 300 tirages simulés sur les vrais épisodes (20 % des playlists sous 230 min avant, 0 après), déployé, commit `b36aa95` poussé.
+
+**Entrées clés :**
+
+- [BDR-043](decisions/BDR-043.md) — Podcast trop long : repiocher plus court, pas de comblage musique
+- [LRN-055](learnings/LRN-055.md) — Playlist trop courte : mesurer le pool avant de corriger
+- [ZBLK-028](archive/blockers/ZBLK-028.md) — Playlist de Matthieu à 208 min au lieu de 240
+
+---
+
+Serveur de dev lancé : page blanche, causée par `SUPABASE_PUBLISHABLE_KEY` absente de `.env.local` (clé publique ajoutée). Puis demande de classer les podcasts à la fois actu et thématiques dans les deux sections, comme Slate : HugoDécrypte reçoit `alsoThematic` et apparaît dans « Flashs & magazines » et « Interviews ». En suivant le tri, constat que ses interviews n'avaient jamais pu être jouées : la file thématique ne lisait que le pool thématique. Elle lit maintenant les deux pools. Au passage, `pnpm typecheck` cassait depuis le retrait de `maxAgeDays` (référence morte supprimée). Edge Function redéployée, commit `3f3899a` poussé. Pas de génération réelle lancée pour observer une interview d'Hugo dans la playlist.
+
+**Entrées clés :**
+
+- [BDR-044](decisions/BDR-044.md) — HugoDécrypte en double classement (`alsoThematic`)
+- [LRN-059](learnings/LRN-059.md) — Catégorie par épisode : vérifier qu'une file la consomme
+- [BLK-029](blockers/BLK-029.md) — Page blanche au lancement du serveur de dev

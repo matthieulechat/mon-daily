@@ -60,3 +60,10 @@ register: learnings
 | [LRN-052](learnings/LRN-052.md) | 2026-10-05 | Entrée de page séquencée par `animation-delay` | #animation #css #stagger #login #mon-daily |
 | [LRN-053](learnings/LRN-053.md) | 2026-10-05 | Rejouer par `key`, sortir par classe + `onAnimationEnd` | #react #css #animation #key #onanimationend |
 | [LRN-054](learnings/LRN-054.md) | 2026-10-05 | Durée minimale d'un état « en cours » | #ux #loading #feedback #promise-all #zustand |
+| [LRN-055](learnings/LRN-055.md) | 2026-10-05 | Playlist courte : mesurer le pool avant de corriger | #diagnostic #measurement #spotify #top-tracks #mon-daily |
+| [LRN-056](learnings/LRN-056.md) | 2026-10-05 | `break` dans une coupe par budget sacrifie la fin | #truncate #budget #break #greedy #algorithm |
+| [LRN-057](learnings/LRN-057.md) | 2026-10-05 | `oauth_tokens.expires_at` révèle l'ordre du cron | #supabase #logs #oauth #cron #attribution #mon-daily |
+| [LRN-058](learnings/LRN-058.md) | 2026-10-05 | Valider un algo aléatoire : N tirages, données figées | #testing #simulation #random #rate-limit #before-after #mon-daily |
+| [LRN-059](learnings/LRN-059.md) | 2026-10-05 | Catégorie par épisode : vérifier qu'une file la consomme | #categorization #mixed-feed #pipeline #podcast #mix #data-flow #mon-daily |
+| [LRN-060](learnings/LRN-060.md) | 2026-10-05 | `web:build` ne type-check pas `scripts/` | #typescript #typecheck #build #scripts #monorepo #verification #mon-daily |
+| [LRN-061](learnings/LRN-061.md) | 2026-10-05 | Page blanche Vite : console, puis noms des clés d'env | #vite #env #debugging #blank-page #supabase #console #mon-daily |

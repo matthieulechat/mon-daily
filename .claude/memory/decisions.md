@@ -48,3 +48,5 @@ register: decisions
 | [BDR-040](decisions/BDR-040.md) | 2026-10-05 | Animations CSS pures, pas de lib (GSAP écarté) | #ui #animation #css #gsap #reduced-motion #mon-daily | actif |
 | [BDR-041](decisions/BDR-041.md) | 2026-10-05 | Bac ouvert dans la grille, sous la rangée de sa pile | #ui #css-grid #settings #ux #mon-daily | actif |
 | [BDR-042](decisions/BDR-042.md) | 2026-10-05 | Bouton Enregistrer : confirmation intégrée, durée mini 0,9 s | #ui #feedback #save #zustand #mon-daily | actif |
+| [BDR-043](decisions/BDR-043.md) | 2026-10-05 | Podcast trop long : repiocher plus court, pas de comblage musique | #mix #podcast #duration #truncate #gabarit #mon-daily | actif |
+| [BDR-044](decisions/BDR-044.md) | 2026-10-05 | HugoDécrypte en double classement (`alsoThematic`) | #podcast #categorization #hugodecrypte #mixed-feed #mix #ui #mon-daily | actif |
