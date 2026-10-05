@@ -351,4 +351,14 @@ Serveur de dev lancé : page blanche, causée par `SUPABASE_PUBLISHABLE_KEY` abs
 
 - [BDR-044](decisions/BDR-044.md) — HugoDécrypte en double classement (`alsoThematic`)
 - [LRN-059](learnings/LRN-059.md) — Catégorie par épisode : vérifier qu'une file la consomme
-- [BLK-029](blockers/BLK-029.md) — Page blanche au lancement du serveur de dev
+- [ZBLK-029](archive/blockers/ZBLK-029.md) — Page blanche au lancement du serveur de dev
+
+---
+
+En-tête de l'interface de réglages : photo de profil et nom Spotify affichés à droite (lus dans la session Supabase, sans appel API), « Se déconnecter » rangé sous le nom, onglet « Réglages » retiré, apparition du bloc adoucie par une animation. Le pied de page annonce la prochaine génération (« demain à 7h »). La demande d'écrire « 7h » a révélé que le cron tournait à 6h en hiver : Matthieu veut 7h toute l'année, donc le job de production passe à `0 5,6 * * *` avec un filtre sur l'heure de Paris. Docs et changelog mis à jour, react-doctor à 100, commit `7211a4f` poussé. Non vérifié : le rendu de l'en-tête une fois connecté (pas de session Spotify dans le panneau navigateur) et le premier passage réel du cron à 7h.
+
+**Entrées clés :**
+
+- [BDR-045](decisions/BDR-045.md) — Génération à 7h Paris : cron `0 5,6` + filtre SQL
+- [LRN-062](learnings/LRN-062.md) — `pg_cron` UTC : heure locale fixe par double horaire filtré
+- [LRN-064](learnings/LRN-064.md) — Vérifier la planification avant d'écrire une heure dans l'UI

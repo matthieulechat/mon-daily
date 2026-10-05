@@ -67,3 +67,6 @@ register: learnings
 | [LRN-059](learnings/LRN-059.md) | 2026-10-05 | Catégorie par épisode : vérifier qu'une file la consomme | #categorization #mixed-feed #pipeline #podcast #mix #data-flow #mon-daily |
 | [LRN-060](learnings/LRN-060.md) | 2026-10-05 | `web:build` ne type-check pas `scripts/` | #typescript #typecheck #build #scripts #monorepo #verification #mon-daily |
 | [LRN-061](learnings/LRN-061.md) | 2026-10-05 | Page blanche Vite : console, puis noms des clés d'env | #vite #env #debugging #blank-page #supabase #console #mon-daily |
+| [LRN-062](learnings/LRN-062.md) | 2026-10-05 | `pg_cron` UTC : heure locale fixe par double horaire filtré | #pg-cron #supabase #timezone #dst #postgres #tzdata |
+| [LRN-063](learnings/LRN-063.md) | 2026-10-05 | Profil Spotify déjà dans `session.user.user_metadata` | #supabase #auth #oauth #spotify #user-metadata #avatar #web |
+| [LRN-064](learnings/LRN-064.md) | 2026-10-05 | Vérifier la planification avant d'écrire une heure dans l'UI | #ui #copy #schedule #verification #cron #requirements |

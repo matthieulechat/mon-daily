@@ -32,3 +32,4 @@ register: archive_blockers
 | [ZBLK-026](blockers/ZBLK-026.md) | 2026-10-04 | Noms et pochettes des nouveaux shows introuvables sous 429 | #spotify #429 #covers #show-names #mon-daily | résolu |
 | [ZBLK-027](blockers/ZBLK-027.md) | 2026-10-05 | Maquette d'animations invisible dans le panneau | #visualize #preview #html #browser-pane #mon-daily | résolu |
 | [ZBLK-028](blockers/ZBLK-028.md) | 2026-10-05 | Playlist de Matthieu à 208 min au lieu de 240 | #playlist #duration #truncate #podcast #mix #mon-daily | résolu |
+| [ZBLK-029](blockers/ZBLK-029.md) | 2026-10-05 | Page blanche au lancement du serveur de dev | #vite #env #blank-page #supabase #dev-server #mon-daily | résolu |

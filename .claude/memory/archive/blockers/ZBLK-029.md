@@ -1,11 +1,11 @@
 ---
-id: BLK-029
+id: ZBLK-029
 type: blocker
 date: 2026-10-05
 tags: [vite, env, blank-page, supabase, dev-server, mon-daily]
 ---
 
-# BLK-029 — Page blanche au lancement du serveur de dev
+# ZBLK-029 — Page blanche au lancement du serveur de dev
 
 | Friction | Cause réelle | Solution | Statut |
 | -------- | ------------ | -------- | ------ |
@@ -13,4 +13,4 @@ tags: [vite, env, blank-page, supabase, dev-server, mon-daily]
 
 ## Références
 
-- [LRN-061](../learnings/LRN-061.md) — pattern de diagnostic
+- [LRN-061](../../learnings/LRN-061.md) — pattern de diagnostic
