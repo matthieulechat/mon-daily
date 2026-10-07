@@ -242,23 +242,33 @@ export const getEligibleEpisodes = async (
       return [];
     }
 
-    const eligible = episodes
+    const fresh = episodes
       .map((episode) => ({
         episode,
         category: detectEpisodeCategory(show, episode),
       }))
       .filter(
         ({ episode, category }) =>
-          (maxEpisodeMinutes === null ||
-            episode.duration_ms <= maxEpisodeMinutes * 60_000) &&
-          !isTooOld(
-            episode.release_date,
-            EPISODE_MAX_AGE_DAYS[category],
-          ),
+          !isTooOld(episode.release_date, EPISODE_MAX_AGE_DAYS[category]),
       );
-    if (eligible.length === 0) {
+    if (fresh.length === 0) {
       console.warn(
-        `Podcast "${show.name}" ignoré (aucun épisode frais sous la durée max, dernier du ${episodes[0]!.release_date})`,
+        `Podcast "${show.name}" ignoré (dernier épisode du ${episodes[0]!.release_date}, trop ancien)`,
+      );
+      return [];
+    }
+
+    const eligible = fresh.filter(
+      ({ episode }) =>
+        maxEpisodeMinutes === null ||
+        episode.duration_ms <= maxEpisodeMinutes * 60_000,
+    );
+    if (eligible.length === 0) {
+      const shortest = Math.round(
+        Math.min(...fresh.map(({ episode }) => episode.duration_ms)) / 60_000,
+      );
+      console.warn(
+        `Podcast "${show.name}" ignoré (${fresh.length} épisode(s) frais, tous au-delà de ${maxEpisodeMinutes} min, le plus court : ${shortest} min)`,
       );
       return [];
     }
