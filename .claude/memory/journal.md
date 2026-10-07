@@ -394,3 +394,13 @@ Edge Function redéployée (v15), commit `1d08e6d` poussé sur `main`. Le daily 
 
 - [BDR-047](decisions/BDR-047.md) — durée max par épisode : réglage utilisateur à paliers
 - [LRN-069](learnings/LRN-069.md) — mesurer la distribution avant de fixer les paliers
+
+---
+
+Suite de la journée : daily de Matthieu régénéré à la main (63 titres, environ 238 min sur 240, 14 podcasts, pool de 30 épisodes actu, 1 météo et 220 thématiques). C'était la première génération réelle avec le réglage : lecture en base et filtre fonctionnent de bout en bout.
+
+Les logs de ce run ont montré que le message d'exclusion était devenu commun aux épisodes trop anciens et trop longs. Les deux cas sont de nouveau séparés dans `podcast-source.ts` (script et copie Edge Function), le second message donnant le nombre d'épisodes frais et la durée du plus court. Commit `d2d35f2` poussé. L'Edge Function en production (v15) garde l'ancien message tant qu'elle n'est pas redéployée.
+
+**Entrées clés :**
+
+- [LRN-072](learnings/LRN-072.md) — un message de log par cause d'exclusion
