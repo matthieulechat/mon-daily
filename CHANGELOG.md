@@ -9,6 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Réglage « durée max d'un épisode » dans l'interface : six touches d'ampli à voyant (15 min, 30 min, 45 min, 1 h, 1 h 30, sans limite), 1 h 30 par défaut. La valeur choisie s'affiche à côté de la durée maximale de la playlist ; un épisode plus long n'entre plus dans le mix
 - Sources régionales : journaux locaux « ICI Loire Océan » et « ICI Mayenne » en actu (seul le journal le plus récent est retenu), « L'invité d'ICI Matin, ICI Loire Océan » et « Ça va faire du reuz ! » (Bretagne) en thématique. Nouveau thème « Régions » dans l'interface de réglages
 - Journaux d'autres régions (Nord, Normandie, Lorraine, Pays Basque, Azur, Corse) et d'outre-mer (Martinique, Guadeloupe, Guyane, Nouvelle-Calédonie, Polynésie, journaux d'Outre-mer La 1ère) : désactivés par défaut, à activer un par un dans les thèmes « Régions » et « Outre-mer » des réglages
 - Interface de réglages : ta photo de profil et ton nom Spotify s'affichent en haut à droite (une pastille avec ton initiale si le compte n'a pas de photo)
@@ -50,6 +51,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Un seul podcast très long pouvait occuper l'essentiel de la playlist (ex. une intégrale radio de 3 h 07 dans un mix de 4 h) : les épisodes de plus de 1 h 30 sont désormais écartés, seuil réglable dans l'interface
 - HugoDécrypte : ses interviews n'étaient jamais jouées (reconnues comme thématiques mais écartées du mix). Elles alimentent désormais les thématiques, et le podcast apparaît dans les deux sections de l'interface de réglages (« Flashs & magazines » et « Interviews »), comme Slate Infos
 - Playlist plus courte que la durée maximale réglée (ex. 208 min au lieu de 240) : un podcast trop long pour la place restante coupait toute la fin de la playlist. Il est désormais remplacé par un épisode plus court tiré dans la même file, sans toucher à l'alternance musique/podcast
 - Génération quotidienne qui plantait sans résultat (erreur 546) quand Spotify imposait une très longue attente (ex. ~12 h) après trop de requêtes : au-delà de 30 s d'attente demandée, les podcasts concernés sont ignorés et la playlist est quand même générée (musique seule)

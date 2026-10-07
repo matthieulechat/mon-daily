@@ -20,6 +20,8 @@ export interface User {
 
 export interface UserSettings {
   maxDurationMinutes: number;
+  // Durée max d'un épisode de podcast, `null` = sans limite.
+  maxEpisodeMinutes: number | null;
   disabledShowIds: string[];
   // Shows `optIn` (désactivés par défaut) que l'utilisateur a activés.
   enabledShowIds: string[];

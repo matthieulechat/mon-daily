@@ -128,6 +128,7 @@ Aucun contournement officiel identifié (pas de "charts" public dans le Web API)
 Lus à chaque run via `Storage.getSettings` (table `user_settings`, valeurs par défaut dans `scripts/config/default-settings.ts`) :
 
 - **Durée max** (60-480 min, défaut 240) : remplace la constante 4h de la coupe finale (`truncateToDuration`).
+- **Durée max d'un épisode** (15, 30, 45, 60 ou 90 min, ou sans limite ; défaut 90) : un épisode plus long n'entre pas dans le pool éligible (`getEligibleEpisodes`), quel que soit le show.
 - **Sources** (`disabled_show_ids`) : les shows décochés sont retirés des pools `actu`/`thematique` avant le fetch Spotify (moins d'appels API). Décocher le « journal d'Europe 1 » supprime aussi la météo.
 - **Pool musique** : `musicTargetCount` = durée max / 3,5 min + marge de 10 titres (min 20), piochés dans les 3 fenêtres d'écoute avec le plafond de 5 titres par artiste.
 - **Pas de réglage de proportion musique/podcasts** (retiré le jour même) : le gabarit fixe (`buildMix`, `scripts/core/mix-builder.ts`) est respecté tel quel jusqu'à la coupe de durée.

@@ -14,6 +14,7 @@ interface OAuthTokensRow {
 
 interface UserSettingsRow {
   max_duration_minutes: number;
+  max_episode_minutes: number | null;
   disabled_show_ids: string[];
   enabled_show_ids: string[];
 }
@@ -65,7 +66,7 @@ export const supabaseStorage: Storage = {
   getSettings: async (userId) => {
     const { data, error } = await supabase
       .from("user_settings")
-      .select("max_duration_minutes, disabled_show_ids, enabled_show_ids")
+      .select("max_duration_minutes, max_episode_minutes, disabled_show_ids, enabled_show_ids")
       .eq("platform", "spotify")
       .eq("platform_user_id", userId)
       .maybeSingle<UserSettingsRow>();
@@ -75,6 +76,7 @@ export const supabaseStorage: Storage = {
 
     return {
       maxDurationMinutes: data.max_duration_minutes,
+      maxEpisodeMinutes: data.max_episode_minutes,
       disabledShowIds: data.disabled_show_ids,
       enabledShowIds: data.enabled_show_ids,
     };

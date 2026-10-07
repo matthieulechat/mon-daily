@@ -67,10 +67,15 @@ const buildMusicMix = async (
 const fetchEligibleEpisodes = async (
   accessToken: string,
   shows: PodcastShow[],
+  maxEpisodeMinutes: number | null,
 ): Promise<PodcastPick[]> => {
   const results = await Promise.all(
     shows.map(async (show) => {
-      const episodes = await getEligibleEpisodes(accessToken, show);
+      const episodes = await getEligibleEpisodes(
+        accessToken,
+        show,
+        maxEpisodeMinutes,
+      );
       return episodes.map(({ track, category }) => ({
         showId: show.id,
         track,
@@ -106,7 +111,7 @@ export const generatePlaylistForUser = async (
     await supabaseStorage.saveTokens(userId, tokens);
   }
 
-  // Réglages de l'interface web (durée max, sources activées ou désactivées) — valeurs historiques si jamais enregistrés.
+  // Réglages de l'interface web (durée max, durée max par épisode, sources activées ou désactivées) — valeurs historiques si jamais enregistrés.
   const settings = await supabaseStorage.getSettings(userId);
   const maxDurationMs = settings.maxDurationMinutes * 60_000;
   const enabledShows = PODCAST_SHOWS.filter(
@@ -127,8 +132,16 @@ export const generatePlaylistForUser = async (
 
   console.log("Récupération des podcasts...");
   const [actuPoolPicks, thematicPoolPicks] = await Promise.all([
-    fetchEligibleEpisodes(tokens.accessToken, actuShows),
-    fetchEligibleEpisodes(tokens.accessToken, thematicShows),
+    fetchEligibleEpisodes(
+      tokens.accessToken,
+      actuShows,
+      settings.maxEpisodeMinutes,
+    ),
+    fetchEligibleEpisodes(
+      tokens.accessToken,
+      thematicShows,
+      settings.maxEpisodeMinutes,
+    ),
   ]);
   // Le pool "actu" fetché (catégorisation par show) contient aussi la
   // météo (catégorisation par titre d'épisode, cf. podcast-source.ts) —

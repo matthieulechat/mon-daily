@@ -17,7 +17,7 @@ export const fetchSettings = async (
 ): Promise<UserSettings> => {
   const { data, error } = await supabase
     .from("user_settings")
-    .select("max_duration_minutes, disabled_show_ids, enabled_show_ids")
+    .select("max_duration_minutes, max_episode_minutes, disabled_show_ids, enabled_show_ids")
     .eq("platform", "spotify")
     .eq("platform_user_id", platformUserId)
     .maybeSingle();
@@ -28,6 +28,7 @@ export const fetchSettings = async (
   const row = settingsRowSchema.parse(data);
   return {
     maxDurationMinutes: row.max_duration_minutes,
+    maxEpisodeMinutes: row.max_episode_minutes,
     disabledShowIds: row.disabled_show_ids,
     enabledShowIds: row.enabled_show_ids,
   };
@@ -43,6 +44,7 @@ export const saveSettings = async (
       platform: "spotify",
       platform_user_id: platformUserId,
       max_duration_minutes: valid.maxDurationMinutes,
+      max_episode_minutes: valid.maxEpisodeMinutes,
       disabled_show_ids: valid.disabledShowIds,
       enabled_show_ids: valid.enabledShowIds,
       updated_at: new Date().toISOString(),

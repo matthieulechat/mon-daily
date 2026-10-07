@@ -22,6 +22,9 @@ export const MixCard = () => {
   const maxDurationMinutes = useSettingsStore(
     (s) => s.settings.maxDurationMinutes,
   );
+  const maxEpisodeMinutes = useSettingsStore(
+    (s) => s.settings.maxEpisodeMinutes,
+  );
   const status = useSettingsStore((s) => s.status);
   const dirty = useSettingsStore(selectIsDirty);
   const patch = useSettingsStore((s) => s.patch);
@@ -29,15 +32,36 @@ export const MixCard = () => {
   return (
     <Card className="flex items-center gap-5">
       <div className="amp-display min-w-0 flex-1">
-        <p className="text-[9px] tracking-[0.2em] opacity-70">DURÉE MAXIMALE</p>
-        <p
-          className="font-mono text-4xl leading-tight font-bold tracking-wider"
-          aria-live="polite"
-        >
-          <span key={maxDurationMinutes} className="tick">
-            {formatDuration(maxDurationMinutes)}
-          </span>
-        </p>
+        <div className="flex flex-wrap items-end gap-x-4 gap-y-1">
+          <div>
+            <p className="text-[9px] tracking-[0.2em] opacity-70">
+              DURÉE MAXIMALE
+            </p>
+            <p
+              className="font-mono text-4xl leading-tight font-bold tracking-wider whitespace-nowrap"
+              aria-live="polite"
+            >
+              <span key={maxDurationMinutes} className="tick">
+                {formatDuration(maxDurationMinutes)}
+              </span>
+            </p>
+          </div>
+          <div className="sm:border-l sm:border-current/25 sm:pl-4">
+            <p className="text-[9px] tracking-[0.2em] opacity-70">
+              ÉPISODE MAX
+            </p>
+            <p
+              className="font-mono text-2xl leading-tight font-bold tracking-wider whitespace-nowrap"
+              aria-live="polite"
+            >
+              <span key={String(maxEpisodeMinutes)} className="tick">
+                {maxEpisodeMinutes === null
+                  ? "SANS"
+                  : formatDuration(maxEpisodeMinutes)}
+              </span>
+            </p>
+          </div>
+        </div>
         <Waveform className="mt-2 mb-1 h-4" />
         <p className="flex justify-between text-[10px] tracking-[0.2em] opacity-85">
           <span>

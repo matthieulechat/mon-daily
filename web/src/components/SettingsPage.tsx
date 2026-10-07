@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { selectIsDirty, useSettingsStore } from "@/lib/settings.store";
 import { spotifyIdOf } from "@/lib/settings-api";
 import { Brand } from "./Brand";
+import { EpisodePresets } from "./EpisodePresets";
 import { MixCard } from "./MixCard";
 import { SaveButton } from "./SaveButton";
 import { ShowsPicker } from "./ShowsPicker";
@@ -75,6 +76,7 @@ export const SettingsPage =({ session }: { session: Session }) => {
         </header>
         <div className="enter space-y-4">
           <MixCard />
+          <EpisodePresets />
           <ShowsPicker />
         </div>
 

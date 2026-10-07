@@ -206,9 +206,12 @@ export interface EligibleEpisode {
 // Un show sans épisode éligible (flux à l'arrêt, trop vieux, erreur API) ne
 // doit pas faire échouer toute la génération — on le log et on continue
 // sans lui.
+// `maxEpisodeMinutes` (réglage utilisateur, `null` = sans limite) : au-delà,
+// un seul épisode mange le mix (ex. une intégrale radio de 3 h).
 export const getEligibleEpisodes = async (
   accessToken: string,
   show: PodcastShow,
+  maxEpisodeMinutes: number | null,
 ): Promise<EligibleEpisode[]> => {
   try {
     const response = await fetchSpotifyWithRetry(
@@ -246,6 +249,8 @@ export const getEligibleEpisodes = async (
       }))
       .filter(
         ({ episode, category }) =>
+          (maxEpisodeMinutes === null ||
+            episode.duration_ms <= maxEpisodeMinutes * 60_000) &&
           !isTooOld(
             episode.release_date,
             EPISODE_MAX_AGE_DAYS[category],
@@ -253,7 +258,7 @@ export const getEligibleEpisodes = async (
       );
     if (eligible.length === 0) {
       console.warn(
-        `Podcast "${show.name}" ignoré (dernier épisode du ${episodes[0]!.release_date}, trop ancien)`,
+        `Podcast "${show.name}" ignoré (aucun épisode frais sous la durée max, dernier du ${episodes[0]!.release_date})`,
       );
       return [];
     }
