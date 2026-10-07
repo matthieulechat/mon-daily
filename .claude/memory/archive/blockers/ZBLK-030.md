@@ -1,11 +1,11 @@
 ---
-id: BLK-030
+id: ZBLK-030
 type: blocker
 date: 2026-10-05
 tags: [bash, node, escaping, crlf, script, tooling, mon-daily]
 ---
 
-# BLK-030 — Script d'ajout de shows cassé trois fois (échappements shell, CRLF)
+# ZBLK-030 — Script d'ajout de shows cassé trois fois (échappements shell, CRLF)
 
 | Friction | Cause réelle | Solution | Statut |
 | --- | --- | --- | --- |
@@ -13,4 +13,4 @@ tags: [bash, node, escaping, crlf, script, tooling, mon-daily]
 
 ## Références
 
-- [LRN-068](../learnings/LRN-068.md) — origine : reformatage par le hook
+- [LRN-068](../../learnings/LRN-068.md) — origine : reformatage par le hook

@@ -378,4 +378,19 @@ Friction : le hook de formatage a reformaté en entier deux fichiers de configur
 - [BDR-046](decisions/BDR-046.md) — sources régionales `optIn`, colonne `enabled_show_ids`
 - [LRN-065](learnings/LRN-065.md) — chercher `ICI <antenne>`, pas la marque
 - [ZBLK-024](archive/blockers/ZBLK-024.md) — blocage Spotify levé et archivé
-- [BLK-030](blockers/BLK-030.md) — script d'ajout cassé trois fois
+- [ZBLK-030](archive/blockers/ZBLK-030.md) — script d'ajout cassé trois fois
+
+## 2026-10-07
+
+Matthieu a eu ce matin un épisode RMC de 3h07 dans son daily de 4 h. La roadmap prévoyait déjà un filtre par durée d'épisode (Phase 6, « pas prioritaire ») : il a été fait dans la journée.
+
+D'abord une constante en dur dans `podcast-source.ts` (60 min, puis 1h30 à la demande de Baptiste), dans les deux copies script et Edge Function. Puis quatre maquettes statiques (`docs/design/episode-max-variants.html`) pour en faire un réglage : deux potards, petit potard secondaire, touches de présélection, curseur dans Sources. Baptiste a retenu l'afficheur de la première et les touches de la troisième, avec animations, et a demandé de caler les valeurs sur les durées réelles.
+
+La mesure (1 260 épisodes, 127 shows, jeton d'application, aucun 429) a déplacé les paliers : « 15 min » ajoutée, « 2 h » retirée. Intégration complète ensuite : migration `max_episode_minutes` appliquée en production, réglage lu par le script et l'Edge Function, composant `EpisodePresets`, afficheur à deux valeurs, styles et animations. Rendu vérifié dans le volet navigateur avec une fausse session locale (bureau, mobile, clic, clavier) ; l'enregistrement réel en base et une génération complète n'ont pas été testés. Typecheck, 12 tests, lint et build web passent.
+
+Edge Function redéployée (v15), commit `1d08e6d` poussé sur `main`. Le daily de Matthieu du jour n'a pas été régénéré : il contient toujours l'épisode long. `BLK-030` (résolu) archivé.
+
+**Entrées clés :**
+
+- [BDR-047](decisions/BDR-047.md) — durée max par épisode : réglage utilisateur à paliers
+- [LRN-069](learnings/LRN-069.md) — mesurer la distribution avant de fixer les paliers

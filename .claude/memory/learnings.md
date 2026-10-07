@@ -74,3 +74,6 @@ register: learnings
 | [LRN-066](learnings/LRN-066.md) | 2026-10-05 | Journal au titre sans date : `latestOnly` suit l'ordre API | #podcast #title-parsing #latest-only #ici #freshness #mon-daily |
 | [LRN-067](learnings/LRN-067.md) | 2026-10-05 | Edge Function et Vercel : deux déploiements distincts | #deploy #edge-functions #vercel #supabase #git #verification #mon-daily |
 | [LRN-068](learnings/LRN-068.md) | 2026-10-05 | Hook de formatage : tout le fichier reformaté à chaque `Edit` | #hooks #formatter #edit-tool #diff #crlf #git #tooling |
+| [LRN-069](learnings/LRN-069.md) | 2026-10-07 | Paliers d'un réglage : mesurer la distribution avant | #settings #presets #ux #measurement #percentiles #podcast #duration |
+| [LRN-070](learnings/LRN-070.md) | 2026-10-07 | Durées d'épisodes : le jeton d'application suffit | #spotify #client-credentials #episodes #rate-limit #script #measurement #mon-daily |
+| [LRN-071](learnings/LRN-071.md) | 2026-10-07 | Page derrière OAuth : fausse session locale pour le rendu | #supabase-auth #oauth #localstorage #preview #verification #dev-server #ui |

@@ -52,3 +52,4 @@ register: decisions
 | [BDR-044](decisions/BDR-044.md) | 2026-10-05 | HugoDécrypte en double classement (`alsoThematic`) | #podcast #categorization #hugodecrypte #mixed-feed #mix #ui #mon-daily | actif |
 | [BDR-045](decisions/BDR-045.md) | 2026-10-05 | Génération à 7h Paris : cron `0 5,6` + filtre SQL | #pg-cron #supabase #timezone #dst #schedule #mon-daily | actif |
 | [BDR-046](decisions/BDR-046.md) | 2026-10-05 | Sources régionales `optIn`, colonne `enabled_show_ids` | #podcast #regional #opt-in #settings #supabase #migration #mon-daily | actif |
+| [BDR-047](decisions/BDR-047.md) | 2026-10-07 | Durée max par épisode : réglage utilisateur à paliers | #podcast #duration #episode-cap #settings #presets #ui #supabase #mon-daily | actif |
