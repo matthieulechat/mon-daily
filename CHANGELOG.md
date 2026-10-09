@@ -51,6 +51,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Playlist d'un compte non mise à jour le matin quand Spotify renvoyait une erreur passagère (502/503 « Please try again later ») : ces appels sont désormais retentés, comme les 429
 - Un seul podcast très long pouvait occuper l'essentiel de la playlist (ex. une intégrale radio de 3 h 07 dans un mix de 4 h) : les épisodes de plus de 1 h 30 sont désormais écartés, seuil réglable dans l'interface
 - HugoDécrypte : ses interviews n'étaient jamais jouées (reconnues comme thématiques mais écartées du mix). Elles alimentent désormais les thématiques, et le podcast apparaît dans les deux sections de l'interface de réglages (« Flashs & magazines » et « Interviews »), comme Slate Infos
 - Playlist plus courte que la durée maximale réglée (ex. 208 min au lieu de 240) : un podcast trop long pour la place restante coupait toute la fin de la playlist. Il est désormais remplacé par un épisode plus court tiré dans la même file, sans toucher à l'alternance musique/podcast

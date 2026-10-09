@@ -13,6 +13,11 @@ const MAX_RETRY_AFTER_MS = 30_000;
 const wait = (ms: number): Promise<void> =>
   new Promise((resolve) => setTimeout(resolve, ms));
 
+// 5xx : Spotify renvoie des 502/503 passagers ("Please try again later"),
+// sans retry un seul suffit à faire échouer tout le compte.
+const isRetryable = (status: number): boolean =>
+  status === 429 || status >= 500;
+
 export const fetchSpotifyWithRetry = async (
   url: string,
   init?: RequestInit,
@@ -21,7 +26,7 @@ export const fetchSpotifyWithRetry = async (
 
   for (
     let attempt = 0;
-    attempt < MAX_RETRIES && response.status === 429;
+    attempt < MAX_RETRIES && isRetryable(response.status);
     attempt++
   ) {
     const retryAfterHeader = response.headers.get("Retry-After");
@@ -31,7 +36,7 @@ export const fetchSpotifyWithRetry = async (
 
     if (delayMs > MAX_RETRY_AFTER_MS) {
       console.error(
-        `Spotify 429 : Retry-After ${Math.round(delayMs / 1000)}s > plafond, abandon (${url})`,
+        `Spotify ${response.status} : Retry-After ${Math.round(delayMs / 1000)}s > plafond, abandon (${url})`,
       );
       return response;
     }
