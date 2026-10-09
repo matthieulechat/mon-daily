@@ -53,3 +53,4 @@ register: decisions
 | [BDR-045](decisions/BDR-045.md) | 2026-10-05 | Génération à 7h Paris : cron `0 5,6` + filtre SQL | #pg-cron #supabase #timezone #dst #schedule #mon-daily | actif |
 | [BDR-046](decisions/BDR-046.md) | 2026-10-05 | Sources régionales `optIn`, colonne `enabled_show_ids` | #podcast #regional #opt-in #settings #supabase #migration #mon-daily | actif |
 | [BDR-047](decisions/BDR-047.md) | 2026-10-07 | Durée max par épisode : réglage utilisateur à paliers | #podcast #duration #episode-cap #settings #presets #ui #supabase #mon-daily | actif |
+| [BDR-048](decisions/BDR-048.md) | 2026-10-09 | 429 du 2ᵉ compte au cron : pas de pause ajoutée | #spotify #rate-limit #429 #cron #multi-account #yagni #mon-daily | actif |

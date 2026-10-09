@@ -78,3 +78,4 @@ register: learnings
 | [LRN-070](learnings/LRN-070.md) | 2026-10-07 | Durées d'épisodes : le jeton d'application suffit | #spotify #client-credentials #episodes #rate-limit #script #measurement #mon-daily |
 | [LRN-071](learnings/LRN-071.md) | 2026-10-07 | Page derrière OAuth : fausse session locale pour le rendu | #supabase-auth #oauth #localstorage #preview #verification #dev-server #ui |
 | [LRN-072](learnings/LRN-072.md) | 2026-10-07 | Deux filtres fusionnés : un message de log par cause | #logging #filters #debugging #podcast #freshness #duration #mon-daily |
+| [LRN-073](learnings/LRN-073.md) | 2026-10-09 | Symptôme intermittent : compter sur N jours avant d'expliquer | #debugging #logs #supabase #intermittent #429 #verification #mon-daily |

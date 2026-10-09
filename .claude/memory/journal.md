@@ -404,3 +404,17 @@ Les logs de ce run ont montré que le message d'exclusion était devenu commun a
 **Entrées clés :**
 
 - [LRN-072](learnings/LRN-072.md) — un message de log par cause d'exclusion
+
+## 2026-10-09
+
+Un des deux dailys n'avait pas été mis à jour ce matin. Le cron a bien tiré à 05:00 UTC et l'appel est parti (le timeout de 5 s côté `pg_net` est celui de l'appelant, il ne dit rien du résultat), mais la fonction a répondu 207 : un compte à jour avec 56 titres, l'autre en échec sur un 502 Spotify au premier appel d'écriture (`/playlists/{id}/followers`). Le retry existant ne couvrait que les 429.
+
+Correctif au point partagé : `fetchSpotifyWithRetry` retente maintenant 429 et tout statut >= 500, dans le script et la copie Edge Function, avec un test (un 502 est retenté, un 400 ne l'est pas). Typecheck et 14 tests passent. La playlist du compte en échec a été régénérée à la main (53 titres, environ 238 min, 12 podcasts). Edge Function redéployée par Matthieu (v17), présence du correctif vérifiée dans la source en production ; commit `c1e6daf` poussé. La confirmation réelle attendra le prochain 502.
+
+Le même run a ignoré 11 podcasts sur 429 chez le compte traité en second. Première explication : l'enchaînement des deux comptes entame le quota par app. Un comptage sur les matins du 05 au 09/10 l'a contredite (5, 0, 0, 0, 11), et le journal du 05/10 attribuait déjà les 5 refus de ce jour à la sortie du blocage de la veille. Rien n'a donc été changé de ce côté.
+
+**Entrées clés :**
+
+- [BLK-031](blockers/BLK-031.md) — un compte en échec sur un 502 Spotify
+- [BDR-048](decisions/BDR-048.md) — pas de pause ajoutée entre les comptes
+- [LRN-073](learnings/LRN-073.md) — compter sur N jours avant d'expliquer
