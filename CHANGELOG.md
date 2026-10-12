@@ -9,6 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Interface de réglages en ligne sur <https://mon-daily.vercel.app/> : plus besoin de la lancer en local pour régler son Daily
 - Réglage « durée max d'un épisode » dans l'interface : six touches d'ampli à voyant (15 min, 30 min, 45 min, 1 h, 1 h 30, sans limite), 1 h 30 par défaut. La valeur choisie s'affiche à côté de la durée maximale de la playlist ; un épisode plus long n'entre plus dans le mix
 - Sources régionales : journaux locaux « ICI Loire Océan » et « ICI Mayenne » en actu (seul le journal le plus récent est retenu), « L'invité d'ICI Matin, ICI Loire Océan » et « Ça va faire du reuz ! » (Bretagne) en thématique. Nouveau thème « Régions » dans l'interface de réglages
 - Journaux d'autres régions (Nord, Normandie, Lorraine, Pays Basque, Azur, Corse) et d'outre-mer (Martinique, Guadeloupe, Guyane, Nouvelle-Calédonie, Polynésie, journaux d'Outre-mer La 1ère) : désactivés par défaut, à activer un par un dans les thèmes « Régions » et « Outre-mer » des réglages
