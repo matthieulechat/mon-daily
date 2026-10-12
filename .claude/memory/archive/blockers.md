@@ -35,3 +35,4 @@ register: archive_blockers
 | [ZBLK-029](blockers/ZBLK-029.md) | 2026-10-05 | Page blanche au lancement du serveur de dev | #vite #env #blank-page #supabase #dev-server #mon-daily | résolu |
 | [ZBLK-024](blockers/ZBLK-024.md) | 2026-10-04 | Spotify bloque l'app après ~2 000 requêtes (429 ≈ 23 h) | #spotify #rate-limit #429 #search #mon-daily | résolu |
 | [ZBLK-030](blockers/ZBLK-030.md) | 2026-10-05 | Script d'ajout cassé 3 fois (échappements, CRLF) | #bash #node #escaping #crlf #script #tooling #mon-daily | résolu |
+| [ZBLK-031](blockers/ZBLK-031.md) | 2026-10-09 | Cron du 09/10 : un compte en échec sur un 502 Spotify | #spotify #502 #retry #edge-functions #cron #playlist #mon-daily | résolu |

@@ -1,11 +1,11 @@
 ---
-id: BLK-031
+id: ZBLK-031
 type: blocker
 date: 2026-10-09
 tags: [spotify, 502, retry, edge-functions, cron, playlist, mon-daily]
 ---
 
-# BLK-031 — Cron du 09/10 : un compte en échec sur un 502 Spotify
+# ZBLK-031 — Cron du 09/10 : un compte en échec sur un 502 Spotify
 
 | Friction | Cause réelle | Solution | Statut |
 | -------- | ------------ | -------- | ------ |
@@ -13,6 +13,6 @@ tags: [spotify, 502, retry, edge-functions, cron, playlist, mon-daily]
 
 ## Références
 
-- [LRN-073](../learnings/LRN-073.md) — les 429 du même run, analysés à part
-- [BDR-048](../decisions/BDR-048.md) — pas de pause ajoutée entre les comptes
-- [ZBLK-018](../archive/blockers/ZBLK-018.md) — précédent 207 au cron, autre cause
+- [LRN-073](../../learnings/LRN-073.md) — les 429 du même run, analysés à part
+- [BDR-048](../../decisions/BDR-048.md) — pas de pause ajoutée entre les comptes
+- [ZBLK-018](ZBLK-018.md) — précédent 207 au cron, autre cause

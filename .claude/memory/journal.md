@@ -415,6 +415,19 @@ Le même run a ignoré 11 podcasts sur 429 chez le compte traité en second. Pre
 
 **Entrées clés :**
 
-- [BLK-031](blockers/BLK-031.md) — un compte en échec sur un 502 Spotify
+- [ZBLK-031](archive/blockers/ZBLK-031.md) — un compte en échec sur un 502 Spotify
 - [BDR-048](decisions/BDR-048.md) — pas de pause ajoutée entre les comptes
 - [LRN-073](learnings/LRN-073.md) — compter sur N jours avant d'expliquer
+
+## 2026-10-12
+
+Point d'étape sur la roadmap en ouverture : phases 0 à 3 terminées, phase 6 en cours (pool de podcasts à 127 shows, reste le lot 4 régional et l'international), l'interface de réglages n'était pas encore en ligne.
+
+Baptiste a ensuite déployé l'interface sur Vercel (`https://mon-daily.vercel.app/`). La connexion Spotify n'y aboutissait pas. Le parcours a été déroulé dans le navigateur intégré sans se connecter : page chargée, bon projet Supabase, `redirectTo` correct dans le code, `redirect_uri` correct chez Spotify. Il ne restait que le retour de Supabase vers l'app, donc la configuration d'URL de Supabase Auth, que Baptiste a corrigée dans le dashboard (Site URL et Redirect URLs). Connexion confirmée dans la foulée, sans aucun changement de code.
+
+La roadmap et le changelog notent le déploiement ; commit `eae2e4f` poussé. Le blocker du 09/10 sur le 502 Spotify, résolu, a été archivé en [ZBLK-031](archive/blockers/ZBLK-031.md).
+
+**Entrées clés :**
+
+- [BLK-032](blockers/BLK-032.md) — connexion Spotify en échec sur l'app déployée
+- [LRN-074](learnings/LRN-074.md) — valider chaque saut OAuth sans se connecter
