@@ -371,6 +371,42 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   { id: "0Vuq8hhBh2rUl4KGRiLHhx", name: "Journal de 7h - Guyane", category: "actu", optIn: true },
   { id: "3WBk9MxsVc8XIgo36CTRNl", name: "Le journal de 06h30 - Nouvelle-Calédonie", category: "actu", optIn: true },
   { id: "4DHHgaMgj8lse5mw1iaFIL", name: "Le journal de 7h - Polynésie", category: "actu", optIn: true },
+  { id: "1zwGGcYNfFQmpwwjROLJx5", name: "Le journal de 12h - Polynésie", category: "actu", optIn: true },
+  // Lot 4 régional (ajout 2026-10-14) : `optIn` comme le lot 3. Le flux
+  // ICI Périgord mêle journaux et reportages, d'où `titleIncludes`.
+  { id: "6LdT189uA5jez2U6Dl6vkQ", name: "Les journaux, ICI Picardie", category: "actu", latestOnly: true, optIn: true },
+  { id: "0wTvvrv1I04H0WUumAM7oO", name: "Les journaux, ICI Champagne-Ardenne", category: "actu", latestOnly: true, optIn: true },
+  { id: "3nw3mgYQE4v4YZ9PB3onSr", name: "Les journaux, ICI Périgord", category: "actu", latestOnly: true, titleIncludes: "journal", optIn: true },
+  { id: "3kiofCDWBmTKP7VMHSIuXy", name: "Les journaux, ICI Roussillon", category: "actu", latestOnly: true, optIn: true },
+  { id: "6klU84M0zzoOvpfhIARcoM", name: "L'invité d'ICI matin, ICI Nord", category: "thematique", optIn: true },
+  { id: "6neAF0LCGpZPXO72qTFlQ3", name: "L'invité d'ICI matin, ICI Champagne-Ardenne", category: "thematique", optIn: true },
+  { id: "6nu88SpiLTpgtznXSpT9D1", name: "L'invité d'ICI matin, ICI Alsace", category: "thematique", optIn: true },
+  { id: "4hr9bkhK8cu24STokOh0iC", name: "L'invité d'ICI matin, ICI Belfort Montbéliard", category: "thematique", optIn: true },
+  { id: "3Z7lgeyAptyy6A6717NrFd", name: "L'invité d'ICI matin, ICI Normandie (Rouen)", category: "thematique", optIn: true },
+  { id: "1p7yi0VJVMpmJc9eLpVPBY", name: "L'invité d'ICI matin, ICI Normandie (Caen)", category: "thematique", optIn: true },
+  { id: "45MKCbGJTUQ7j4rDHtNoOB", name: "L'invité d'ICI matin, ICI Berry", category: "thematique", optIn: true },
+  { id: "7IKGDQD0HRxv2fnnkr1XYP", name: "L'invité d'ICI matin, ICI Poitou", category: "thematique", optIn: true },
+  { id: "4LhUWf4zU6Km3Nl2uZXXwr", name: "L'invité d'ICI matin, ICI Pays d'Auvergne", category: "thematique", optIn: true },
+  { id: "3dKmhiyMbUnHsX9QosyGXZ", name: "L'invité d'ICI matin, ICI Isère", category: "thematique", optIn: true },
+  { id: "5uKG5reZlvO3uHCNxgqvSw", name: "L'invité d'ICI matin, ICI Périgord", category: "thematique", optIn: true },
+  { id: "6BiIOKIFh7UZm8zgziTE9x", name: "L'invité d'ICI matin, ICI Pays Basque", category: "thematique", optIn: true },
+  { id: "00Sqe8jId3HyWa67whCdkF", name: "L'invité de la rédaction, ICI Béarn Bigorre", category: "thematique", optIn: true },
+  { id: "5FUYdq7L7WvPyogbvr4riU", name: "L'invité d'ICI matin, ICI Hérault", category: "thematique", optIn: true },
+  // International francophone (lot 5, ajout 2026-10-14). Actu locale
+  // belge/québécoise en `optIn` ; le décryptage international (RTS, RFI)
+  // est actif par défaut. "Journal Afrique" : titres GMT, `titleIncludes`
+  // écarte les « Tranches d'information » de 30 min. "Le débat" : publié
+  // du lundi au jeudi à 19h10, très probablement France 24.
+  { id: "53HJyFg6PhT3yRAGxp7d7s", name: "Le Radiojournal (Radio-Canada)", category: "actu", latestOnly: true, optIn: true },
+  { id: "4DeIz7v5GS34Qoe7hypGAt", name: "Journal Afrique (RFI)", category: "actu", latestOnly: true, titleIncludes: "journal afrique", optIn: true },
+  { id: "1oHl61bDlDKxGnv8YQEuK0", name: "Revue de presse Afrique (RFI)", category: "actu", optIn: true },
+  { id: "2YXNbi6TIAH4rdzj6ZHnvM", name: "Le Journal des Sports RTBF", category: "actu", optIn: true },
+  { id: "1FN6d5bRAki5XMKgOEpNNE", name: "Tout un monde (RTS)", category: "thematique" },
+  { id: "14mNXIrgQOoVS7XxqdPtnQ", name: "Reportage Afrique (RFI)", category: "thematique" },
+  { id: "1k0BPQbxlYGqtkrCIIFzHn", name: "Afrique économie (RFI)", category: "thematique" },
+  { id: "1ZmvFORvxIjrTccu8H4y3d", name: "Le débat", category: "thematique" },
+  { id: "2VDbhkCJDUxw891R6rm2oE", name: "L'invité de Matin Première (RTBF)", category: "thematique", optIn: true },
+  { id: "1Lqbu9ZXXaOmVPYY4prwl8", name: "À la une (Québec)", category: "thematique", optIn: true },
 ];
 
 // Un show `optIn` n'est actif que si l'utilisateur l'a activé ; les autres

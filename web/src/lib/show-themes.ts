@@ -151,6 +151,33 @@ export const SHOW_THEMES: ShowTheme[] = [
     ids: [
       "6xXDCGTq81fUSk7lYhPkvw", // L'invité d'ICI Matin, ICI Loire Océan
       "3DzEtV607XVppyShCDyKl6", // Ça va faire du reuz ! (ICI Breizh Izel)
+      "6klU84M0zzoOvpfhIARcoM", // L'invité d'ICI matin, ICI Nord
+      "6neAF0LCGpZPXO72qTFlQ3", // L'invité d'ICI matin, ICI Champagne-Ardenne
+      "6nu88SpiLTpgtznXSpT9D1", // L'invité d'ICI matin, ICI Alsace
+      "4hr9bkhK8cu24STokOh0iC", // L'invité d'ICI matin, ICI Belfort Montbéliard
+      "3Z7lgeyAptyy6A6717NrFd", // L'invité d'ICI matin, ICI Normandie (Rouen)
+      "1p7yi0VJVMpmJc9eLpVPBY", // L'invité d'ICI matin, ICI Normandie (Caen)
+      "45MKCbGJTUQ7j4rDHtNoOB", // L'invité d'ICI matin, ICI Berry
+      "7IKGDQD0HRxv2fnnkr1XYP", // L'invité d'ICI matin, ICI Poitou
+      "4LhUWf4zU6Km3Nl2uZXXwr", // L'invité d'ICI matin, ICI Pays d'Auvergne
+      "3dKmhiyMbUnHsX9QosyGXZ", // L'invité d'ICI matin, ICI Isère
+      "5uKG5reZlvO3uHCNxgqvSw", // L'invité d'ICI matin, ICI Périgord
+      "6BiIOKIFh7UZm8zgziTE9x", // L'invité d'ICI matin, ICI Pays Basque
+      "00Sqe8jId3HyWa67whCdkF", // L'invité de la rédaction, ICI Béarn Bigorre
+      "5FUYdq7L7WvPyogbvr4riU", // L'invité d'ICI matin, ICI Hérault
+    ],
+  },
+  {
+    title: "International",
+    hint: "Médias francophones du monde",
+    color: "#ff9f1c",
+    ids: [
+      "1FN6d5bRAki5XMKgOEpNNE", // Tout un monde (RTS)
+      "14mNXIrgQOoVS7XxqdPtnQ", // Reportage Afrique (RFI)
+      "1k0BPQbxlYGqtkrCIIFzHn", // Afrique économie (RFI)
+      "1ZmvFORvxIjrTccu8H4y3d", // Le débat
+      "2VDbhkCJDUxw891R6rm2oE", // L'invité de Matin Première (RTBF)
+      "1Lqbu9ZXXaOmVPYY4prwl8", // À la une (Québec)
     ],
   },
 ];
@@ -231,6 +258,10 @@ export const ACTU_THEMES: ShowTheme[] = [
       "1PB2neF1R8EbafMf3y2TfS", // Les journaux de ICI Pays Basque
       "678EXSIQfJ1YybipTqCmhL", // Les journaux, ICI Azur
       "2cjg3APakIO4pbsEdjku6h", // Les journaux d'ici RCFM (Corse)
+      "6LdT189uA5jez2U6Dl6vkQ", // Les journaux, ICI Picardie
+      "0wTvvrv1I04H0WUumAM7oO", // Les journaux, ICI Champagne-Ardenne
+      "3nw3mgYQE4v4YZ9PB3onSr", // Les journaux, ICI Périgord
+      "3kiofCDWBmTKP7VMHSIuXy", // Les journaux, ICI Roussillon
     ],
   },
   {
@@ -245,6 +276,18 @@ export const ACTU_THEMES: ShowTheme[] = [
       "0Vuq8hhBh2rUl4KGRiLHhx", // Journal de 7h - Guyane
       "3WBk9MxsVc8XIgo36CTRNl", // Le journal de 06h30 - Nouvelle-Calédonie
       "4DHHgaMgj8lse5mw1iaFIL", // Le journal de 7h - Polynésie
+      "1zwGGcYNfFQmpwwjROLJx5", // Le journal de 12h - Polynésie
+    ],
+  },
+  {
+    title: "International",
+    hint: "Belgique, Québec, Afrique, à activer",
+    color: "#a3e635",
+    ids: [
+      "53HJyFg6PhT3yRAGxp7d7s", // Le Radiojournal (Radio-Canada)
+      "4DeIz7v5GS34Qoe7hypGAt", // Journal Afrique (RFI)
+      "1oHl61bDlDKxGnv8YQEuK0", // Revue de presse Afrique (RFI)
+      "2YXNbi6TIAH4rdzj6ZHnvM", // Le Journal des Sports RTBF
     ],
   },
 ];
