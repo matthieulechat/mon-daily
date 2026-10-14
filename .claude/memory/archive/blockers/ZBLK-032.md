@@ -1,11 +1,11 @@
 ---
-id: BLK-032
+id: ZBLK-032
 type: blocker
 date: 2026-10-12
 tags: [supabase-auth, spotify, oauth, redirect, vercel, deployment, mon-daily]
 ---
 
-# BLK-032 — Connexion Spotify en échec sur l'app déployée
+# ZBLK-032 — Connexion Spotify en échec sur l'app déployée
 
 | Friction | Cause réelle | Solution | Statut |
 | -------- | ------------ | -------- | ------ |
@@ -13,6 +13,6 @@ tags: [supabase-auth, spotify, oauth, redirect, vercel, deployment, mon-daily]
 
 ## Références
 
-- [LRN-074](../learnings/LRN-074.md) — comment le saut fautif a été isolé
-- [BDR-030](../decisions/BDR-030.md) — SPA Vite + Supabase Auth Spotify
+- [LRN-074](../../learnings/LRN-074.md) — comment le saut fautif a été isolé
+- [BDR-030](../../decisions/BDR-030.md) — SPA Vite + Supabase Auth Spotify
 - voir aussi GLRN-339
