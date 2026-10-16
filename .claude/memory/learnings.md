@@ -81,3 +81,4 @@ register: learnings
 | [LRN-073](learnings/LRN-073.md) | 2026-10-09 | Symptôme intermittent : compter sur N jours avant d'expliquer | #debugging #logs #supabase #intermittent #429 #verification #mon-daily |
 | [LRN-074](learnings/LRN-074.md) | 2026-10-12 | Login OAuth en panne : valider chaque saut sans se connecter | #oauth #supabase-auth #debugging #verification #redirect #browser #mon-daily |
 | [LRN-075](learnings/LRN-075.md) | 2026-10-14 | Spotify `/search` : `limit` max 10 depuis février 2026 | #spotify #search #api #pagination #limit #breaking-change #mon-daily |
+| [LRN-076](learnings/LRN-076.md) | 2026-10-16 | Mots-clés : radicaux courts captent des sujets à garder | #moderation #keywords #regex #content-filtering #false-positive #mon-daily |

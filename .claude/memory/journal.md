@@ -446,3 +446,14 @@ Le redéploiement de l'Edge Function a été refusé par le mode auto (GLRN-342)
 
 - [BDR-049](decisions/BDR-049.md) — international : actu locale en `optIn`, décryptage actif
 - [LRN-075](learnings/LRN-075.md) — `/search` plafonné à `limit=10`
+
+## 2026-10-16
+
+Reprise de la roadmap. Le chantier « étoffer les sources podcast » était fini dans les faits (5 lots, 156 shows) : l'étape régional/international a été cochée. Baptiste a ensuite estimé la fréquence de publication déjà réglée. Vérification dans le code : les journaux horaires sont réduits à un épisode par `latestOnly` (par show) et `closestGroup` (entre shows), et le multi-épisodes de HugoDécrypte est voulu (le pool compte les épisodes, pas les shows). L'item a été coché avec cette justification.
+
+Modération des podcasts par mots-clés : trois choix tranchés par Baptiste (un interrupteur par sujet, désactivée par défaut, thématiques seulement). Migration `moderated_topics` appliquée via le MCP Supabase, filtre dans `getEligibleEpisodes` (script et copie Edge Function), carte « Écarter les sujets » dans l'interface, vérifiée dans Chrome sur la session connectée de Baptiste (voyants et état « EDIT », sans enregistrer). En relisant la liste, Baptiste a fait retirer `sex\w*` (captait « sexisme ») puis `violence(s)`, `violent(e)(s)` et « féminicide » : ce sont des sujets de société à garder, seuls les faits violents sont filtrés. Tests, lint et build OK, commit `fa1657e` poussé. L'Edge Function reste à redéployer par Baptiste (`pnpm deploy:edge`).
+
+**Entrées clés :**
+
+- [BDR-050](decisions/BDR-050.md) — modération par sujet sur le titre des thématiques
+- [LRN-076](learnings/LRN-076.md) — radicaux courts qui captent des sujets à garder
