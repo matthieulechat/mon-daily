@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { mock, test } from "node:test";
 import type { PodcastShow } from "../config/podcast-shows.js";
+import { moderatedTopicOf } from "../config/moderation.js";
 import { keepClosestByGroup } from "./podcast-source.js";
 
 const shows: PodcastShow[] = [
@@ -44,4 +45,17 @@ test("à 07h20 Paris, c'est le 7H qui gagne", () => {
   const kept = keepClosestByGroup(picks, shows).map((p) => p.track.name);
   assert.deepEqual(kept, ["JOURNAL DE 7H, du mercredi 30 septembre 2026"]);
   mock.timers.reset();
+});
+
+test("modération : titre normalisé, mots entiers, sujets choisis seulement", () => {
+  assert.equal(moderatedTopicOf("L'Ukraine en GUERRE", ["guerre"]), "guerre");
+  assert.equal(moderatedTopicOf("Un homicide à Lyon", ["violence"]), "violence");
+  assert.equal(moderatedTopicOf("Un féminicide à Lyon", ["violence"]), null);
+  assert.equal(moderatedTopicOf("Les violences conjugales", ["violence"]), null);
+  assert.equal(moderatedTopicOf("Le violon de Mozart", ["violence"]), null);
+  assert.equal(moderatedTopicOf("Il décide de partir", ["violence"]), null);
+  assert.equal(moderatedTopicOf("L'éducation sexuelle", ["guerre"]), null);
+  assert.equal(moderatedTopicOf("L'éducation sexuelle", ["guerre", "sexualite"]), "sexualite");
+  assert.equal(moderatedTopicOf("Le sexisme au travail", ["sexualite"]), null);
+  assert.equal(moderatedTopicOf("Sexualités et handicap", ["sexualite"]), "sexualite");
 });

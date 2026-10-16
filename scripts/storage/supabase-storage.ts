@@ -1,3 +1,4 @@
+import type { ModerationTopic } from "../config/moderation.js";
 import { createClient } from "@supabase/supabase-js";
 import { DEFAULT_SETTINGS } from "../config/default-settings.js";
 import { env } from "../config/env.js";
@@ -17,6 +18,7 @@ interface UserSettingsRow {
   max_episode_minutes: number | null;
   disabled_show_ids: string[];
   enabled_show_ids: string[];
+  moderated_topics: ModerationTopic[];
 }
 
 export const supabaseStorage: Storage = {
@@ -66,7 +68,7 @@ export const supabaseStorage: Storage = {
   getSettings: async (userId) => {
     const { data, error } = await supabase
       .from("user_settings")
-      .select("max_duration_minutes, max_episode_minutes, disabled_show_ids, enabled_show_ids")
+      .select("max_duration_minutes, max_episode_minutes, disabled_show_ids, enabled_show_ids, moderated_topics")
       .eq("platform", "spotify")
       .eq("platform_user_id", userId)
       .maybeSingle<UserSettingsRow>();
@@ -79,6 +81,7 @@ export const supabaseStorage: Storage = {
       maxEpisodeMinutes: data.max_episode_minutes,
       disabledShowIds: data.disabled_show_ids,
       enabledShowIds: data.enabled_show_ids,
+      moderatedTopics: data.moderated_topics,
     };
   },
 

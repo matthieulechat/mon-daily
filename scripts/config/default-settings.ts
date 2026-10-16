@@ -10,10 +10,11 @@ export const SETTINGS_LIMITS = {
 // rien entre 1 h 30 et les intégrales de 3 h) ; `null` = sans limite.
 export const EPISODE_MAX_PRESETS = [15, 30, 45, 60, 90, null] as const;
 
-// 4h, épisodes de 1h30 max, toutes sources actives.
+// 4h, épisodes de 1h30 max, toutes sources actives, sans modération.
 export const DEFAULT_SETTINGS: UserSettings = {
   maxDurationMinutes: 240,
   maxEpisodeMinutes: 90,
   disabledShowIds: [],
   enabledShowIds: [],
+  moderatedTopics: [],
 };

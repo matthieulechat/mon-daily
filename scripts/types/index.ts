@@ -1,3 +1,5 @@
+import type { ModerationTopic } from "../config/moderation.js";
+
 export interface Track {
   id: string;
   name: string;
@@ -25,4 +27,6 @@ export interface UserSettings {
   disabledShowIds: string[];
   // Shows `optIn` (désactivés par défaut) que l'utilisateur a activés.
   enabledShowIds: string[];
+  // Sujets dont les épisodes thématiques sont écartés (titre seul).
+  moderatedTopics: ModerationTopic[];
 }

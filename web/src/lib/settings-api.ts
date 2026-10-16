@@ -17,7 +17,7 @@ export const fetchSettings = async (
 ): Promise<UserSettings> => {
   const { data, error } = await supabase
     .from("user_settings")
-    .select("max_duration_minutes, max_episode_minutes, disabled_show_ids, enabled_show_ids")
+    .select("max_duration_minutes, max_episode_minutes, disabled_show_ids, enabled_show_ids, moderated_topics")
     .eq("platform", "spotify")
     .eq("platform_user_id", platformUserId)
     .maybeSingle();
@@ -31,6 +31,7 @@ export const fetchSettings = async (
     maxEpisodeMinutes: row.max_episode_minutes,
     disabledShowIds: row.disabled_show_ids,
     enabledShowIds: row.enabled_show_ids,
+    moderatedTopics: row.moderated_topics,
   };
 };
 
@@ -47,6 +48,7 @@ export const saveSettings = async (
       max_episode_minutes: valid.maxEpisodeMinutes,
       disabled_show_ids: valid.disabledShowIds,
       enabled_show_ids: valid.enabledShowIds,
+      moderated_topics: valid.moderatedTopics,
       updated_at: new Date().toISOString(),
     },
     { onConflict: "platform,platform_user_id" },

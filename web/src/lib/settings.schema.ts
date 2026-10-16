@@ -1,7 +1,14 @@
 import { z } from "zod";
 import { SETTINGS_LIMITS } from "@shared/config/default-settings";
+import {
+  MODERATION_TOPIC_IDS,
+  type ModerationTopic,
+} from "@shared/config/moderation";
 
 const { maxDurationMinutes } = SETTINGS_LIMITS;
+const topicSchema = z.array(
+  z.enum(MODERATION_TOPIC_IDS as [ModerationTopic, ...ModerationTopic[]]),
+);
 
 // Mêmes bornes que les CHECK de la table `user_settings`.
 export const settingsSchema = z.object({
@@ -13,6 +20,7 @@ export const settingsSchema = z.object({
   maxEpisodeMinutes: z.number().int().min(5).max(600).nullable(),
   disabledShowIds: z.array(z.string()),
   enabledShowIds: z.array(z.string()),
+  moderatedTopics: topicSchema,
 });
 
 export const settingsRowSchema = z.object({
@@ -20,4 +28,5 @@ export const settingsRowSchema = z.object({
   max_episode_minutes: z.number().nullable(),
   disabled_show_ids: z.array(z.string()),
   enabled_show_ids: z.array(z.string()),
+  moderated_topics: topicSchema,
 });

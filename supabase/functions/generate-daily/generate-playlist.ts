@@ -20,7 +20,7 @@ import {
 import type { TopTracksRange } from "./providers/provider.interface.ts";
 import { spotifyProvider } from "./providers/spotify.provider.ts";
 import { supabaseStorage } from "./storage/supabase-storage.ts";
-import type { Track } from "./types/index.ts";
+import type { Track, UserSettings } from "./types/index.ts";
 
 // Jingle très court (~15s) : pas besoin d'un appel API dédié juste pour sa
 // durée exacte, négligeable sur un budget de plusieurs heures.
@@ -67,14 +67,14 @@ const buildMusicMix = async (
 const fetchEligibleEpisodes = async (
   accessToken: string,
   shows: PodcastShow[],
-  maxEpisodeMinutes: number | null,
+  settings: UserSettings,
 ): Promise<PodcastPick[]> => {
   const results = await Promise.all(
     shows.map(async (show) => {
       const episodes = await getEligibleEpisodes(
         accessToken,
         show,
-        maxEpisodeMinutes,
+        settings,
       );
       return episodes.map(({ track, category }) => ({
         showId: show.id,
@@ -135,12 +135,12 @@ export const generatePlaylistForUser = async (
     fetchEligibleEpisodes(
       tokens.accessToken,
       actuShows,
-      settings.maxEpisodeMinutes,
+      settings,
     ),
     fetchEligibleEpisodes(
       tokens.accessToken,
       thematicShows,
-      settings.maxEpisodeMinutes,
+      settings,
     ),
   ]);
   // Le pool "actu" fetché (catégorisation par show) contient aussi la

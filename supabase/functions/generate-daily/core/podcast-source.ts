@@ -1,6 +1,7 @@
+import { moderatedTopicOf } from "../config/moderation.ts";
 import type { PodcastCategory, PodcastShow } from "../config/podcast-shows.ts";
 import { fetchSpotifyWithRetry } from "../providers/spotify-http.ts";
-import type { Track } from "../types/index.ts";
+import type { Track, UserSettings } from "../types/index.ts";
 
 const API_BASE = "https://api.spotify.com/v1";
 // Fraîcheur max d'un épisode selon sa catégorie effective : les actus
@@ -208,10 +209,11 @@ export interface EligibleEpisode {
 // sans lui.
 // `maxEpisodeMinutes` (réglage utilisateur, `null` = sans limite) : au-delà,
 // un seul épisode mange le mix (ex. une intégrale radio de 3 h).
+// `moderatedTopics` : épisodes thématiques écartés sur mots-clés du titre.
 export const getEligibleEpisodes = async (
   accessToken: string,
   show: PodcastShow,
-  maxEpisodeMinutes: number | null,
+  { maxEpisodeMinutes, moderatedTopics }: UserSettings,
 ): Promise<EligibleEpisode[]> => {
   try {
     const response = await fetchSpotifyWithRetry(
@@ -258,17 +260,30 @@ export const getEligibleEpisodes = async (
       return [];
     }
 
-    const eligible = fresh.filter(
+    const unmoderated = fresh.filter(({ episode, category }) => {
+      if (category !== "thematique") return true;
+      const topic = moderatedTopicOf(episode.name, moderatedTopics);
+      if (topic) {
+        console.log(
+          `Podcast "${show.name}" : épisode "${episode.name}" écarté (modération ${topic})`,
+        );
+      }
+      return !topic;
+    });
+    if (unmoderated.length === 0) return [];
+
+    const eligible = unmoderated.filter(
       ({ episode }) =>
         maxEpisodeMinutes === null ||
         episode.duration_ms <= maxEpisodeMinutes * 60_000,
     );
     if (eligible.length === 0) {
       const shortest = Math.round(
-        Math.min(...fresh.map(({ episode }) => episode.duration_ms)) / 60_000,
+        Math.min(...unmoderated.map(({ episode }) => episode.duration_ms)) /
+          60_000,
       );
       console.warn(
-        `Podcast "${show.name}" ignoré (${fresh.length} épisode(s) frais, tous au-delà de ${maxEpisodeMinutes} min, le plus court : ${shortest} min)`,
+        `Podcast "${show.name}" ignoré (${unmoderated.length} épisode(s) frais, tous au-delà de ${maxEpisodeMinutes} min, le plus court : ${shortest} min)`,
       );
       return [];
     }

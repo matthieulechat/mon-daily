@@ -25,6 +25,7 @@ const sorted = (s: UserSettings): UserSettings => ({
   ...s,
   disabledShowIds: [...s.disabledShowIds].sort(),
   enabledShowIds: [...s.enabledShowIds].sort(),
+  moderatedTopics: [...s.moderatedTopics].sort(),
 });
 
 const isDirty = (a: UserSettings, b: UserSettings): boolean =>
