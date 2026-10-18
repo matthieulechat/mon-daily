@@ -2,14 +2,18 @@
 id: ZBLK-005
 type: blocker
 date: 2026-09-21
+summary: "Batch `GET /shows?ids=` renvoie 403, single `/shows/{id}` OK"
 tags: [spotify, shows-api, batch-endpoint, http-403, client-credentials]
+status: résolu
 ---
 
 # ZBLK-005 — Batch `GET /shows?ids=` renvoie 403, `GET /shows/{id}` single fonctionne
 
-| Friction                                                                                                                                                                                     | Cause réelle                                                                                                                                                                                                                                         | Solution                                                                                                                                        | Statut |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| En résolvant les 28 show IDs de la liste des médias via un token Client Credentials, l'appel batch `GET /shows?ids=<jusqu'à 50 ids>` a échoué avec `403 Forbidden`, sans détail exploitable. | Non identifiée précisément (pas de message d'erreur explicite dans la réponse) — testée en isolant un seul ID via `GET /shows/{id}?market=FR`, qui a répondu `200` avec le même token. Le batch semble plus restreint que le single sur ce endpoint. | Abandon du batch, boucle sur des appels individuels `GET /shows/{id}` (28 appels séquentiels avec un léger délai) pour résoudre toute la liste. | résolu |
+**Friction** : En résolvant les 28 show IDs de la liste des médias via un token Client Credentials, l'appel batch `GET /shows?ids=<jusqu'à 50 ids>` a échoué avec `403 Forbidden`, sans détail exploitable.
+
+**Cause réelle** : Non identifiée précisément (pas de message d'erreur explicite dans la réponse) — testée en isolant un seul ID via `GET /shows/{id}?market=FR`, qui a répondu `200` avec le même token. Le batch semble plus restreint que le single sur ce endpoint.
+
+**Solution** : Abandon du batch, boucle sur des appels individuels `GET /shows/{id}` (28 appels séquentiels avec un léger délai) pour résoudre toute la liste.
 
 ## Références
 
