@@ -457,3 +457,14 @@ Modération des podcasts par mots-clés : trois choix tranchés par Baptiste (un
 
 - [BDR-050](decisions/BDR-050.md) — modération par sujet sur le titre des thématiques
 - [LRN-076](learnings/LRN-076.md) — radicaux courts qui captent des sujets à garder
+
+## 2026-10-18
+
+Reprise de la roadmap sur l'item « Notifications ». Après exposé des options (Web Push PWA, e-mail, ntfy, Telegram), Baptiste a recadré : son besoin est un monitoring, pas des notifications utilisateur. Choix d'un heartbeat Uptime Kuma sur son RPi perso (le NAS est au travail, hors sujet pour un projet perso). Kuma tournait déjà (`louislam/uptime-kuma:2`, port 3001) mais n'était pas joignable depuis Internet ; la clé d'hôte du RPi n'était pas connue de ce PC (`Host key verification failed`), empreinte validée par Baptiste puis acceptée. Exposition via Tailscale Funnel limité au chemin `/api/push`, après autorisation de Funnel dans la console Tailscale ; vérifié depuis l'extérieur : faux token → JSON de Kuma, `/dashboard` → 404 Tailscale. Baptiste a créé le push monitor « Mon Daily » (90 000 s, retries 0, Telegram) et le secret Supabase `UPTIME_PUSH_URL`. `pingUptime` ajouté dans `generate-daily/index.ts` (up, ou down si un compte échoue ou si un Daily sort sans podcast), Edge Function redéployée en v21 par la CLI (`--use-api`, sans Docker), ping de test `{"ok":true}`. Le premier vrai ping arrivera au cron de 7h le 2026-10-19 (non vérifié). Commit `3be9195` poussé.
+
+Friction de communication : à trois reprises, Baptiste n'a vu que la case de fin, le texte écrit avant étant replié par l'app. Règle posée : réponses explicatives en texte seul. Enfin, `/memory-close` a d'abord bloqué sur le garde-fou de format (127 fichiers sans `summary:`) : migration par `memory-index.mjs --migrate`, commitée seule (`1e0518a`).
+
+**Entrées clés :**
+
+- [BDR-051](decisions/BDR-051.md) — Monitoring heartbeat Kuma plutôt que notifications
+- [LRN-036](learnings/LRN-036.md) — déploiement CLI désormais par défaut (mise à jour)

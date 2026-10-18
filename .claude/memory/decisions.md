@@ -56,3 +56,4 @@ register: decisions
 | [BDR-048](decisions/BDR-048.md) | 2026-10-09 | 429 du 2ᵉ compte au cron : pas de pause ajoutée | #spotify #rate-limit #429 #cron #multi-account #yagni #mon-daily | actif |
 | [BDR-049](decisions/BDR-049.md) | 2026-10-14 | International : actu locale `optIn`, décryptage actif | #podcast #international #opt-in #rfi #rts #rtbf #settings #mon-daily | actif |
 | [BDR-050](decisions/BDR-050.md) | 2026-10-16 | Modération par sujet sur le titre des thématiques | #podcast #moderation #keywords #settings #supabase #ui #mon-daily | actif |
+| [BDR-051](decisions/BDR-051.md) | 2026-10-18 | Monitoring heartbeat Kuma plutôt que notifications | #monitoring #uptime-kuma #heartbeat #edge-functions #notifications #mon-daily | actif |
