@@ -46,6 +46,14 @@ Dépassement de durée ou de CPU → réponse **546**.
 3. **`pg_cron` tourne en UTC** : pas de suivi de l'heure d'été. Pour générer à **7h Europe/Paris toute l'année**, le job est planifié sur `0 5,6 * * *` et sa commande se termine par `where extract(hour from now() at time zone 'Europe/Paris') = 7` — un seul des deux passages appelle la fonction (5h UTC l'été, 6h UTC l'hiver). Le jour du jingle (`scripts/config/jingles.ts`) reste calculé sur `Europe/Paris`, pas sur l'heure serveur.
 4. **Rétention `cron.job_run_details`** : non purgée automatiquement, à nettoyer périodiquement (job `cron` de suppression) pour ne pas gonfler la base.
 
+## Monitoring
+
+En fin de run, `generate-daily` (`index.ts`, `pingUptime`) appelle le secret `UPTIME_PUSH_URL` avec `status=up` (tous les comptes OK) ou `status=down` + raison (compte en échec, daily sans podcast). Cible : push monitor « Mon Daily » d'Uptime Kuma sur le RPi perso, intervalle 90 000 s (24 h + 1 h de marge), alerte Telegram. Le crash complet ou un cron muet sont couverts par l'absence de heartbeat.
+
+- Exposition : `tailscale funnel --bg --set-path /api/push http://127.0.0.1:3001/api/push` sur le RPi, soit `https://raspberrypi.tail2704a0.ts.net/api/push/<token>`. Le reste de Kuma (dashboard) n'est pas public
+- Secret absent = pas de ping (pas d'erreur). Un ping raté est loggé sans faire échouer la génération
+- Couper l'exposition : `sudo tailscale funnel --https=443 off`
+
 ## Points de portage Node → Deno
 
 - L'Edge Function tourne sur **Deno**, pas Node : `process.env.X` → `Deno.env.get('X')`.
