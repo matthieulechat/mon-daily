@@ -57,3 +57,4 @@ register: decisions
 | [BDR-049](decisions/BDR-049.md) | 2026-10-14 | International : actu locale `optIn`, décryptage actif | #podcast #international #opt-in #rfi #rts #rtbf #settings #mon-daily | actif |
 | [BDR-050](decisions/BDR-050.md) | 2026-10-16 | Modération par sujet sur le titre des thématiques | #podcast #moderation #keywords #settings #supabase #ui #mon-daily | actif |
 | [BDR-051](decisions/BDR-051.md) | 2026-10-18 | Monitoring heartbeat Kuma plutôt que notifications | #monitoring #uptime-kuma #heartbeat #edge-functions #notifications #mon-daily | actif |
+| [BDR-052](decisions/BDR-052.md) | 2026-10-18 | Suivi de santé des sources : passif + rotation, 2e monitor Kuma | #monitoring #podcasts #show-health #uptime-kuma #spotify #rate-limit #supabase | actif |

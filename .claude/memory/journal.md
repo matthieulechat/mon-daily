@@ -468,3 +468,14 @@ Friction de communication : à trois reprises, Baptiste n'a vu que la case de fi
 
 - [BDR-051](decisions/BDR-051.md) — Monitoring heartbeat Kuma plutôt que notifications
 - [LRN-036](learnings/LRN-036.md) — déploiement CLI désormais par défaut (mise à jour)
+
+---
+
+Session podcasts et surveillance des sources. Lot 6 de recherche Spotify (30 requêtes, budget LRN-046, aucun 429) ciblé sur les thèmes manquants : 15 shows ajoutés, tous actifs (science, environnement, tech, éco, débats), avec un nouveau thème « Sciences & Tech » dans l'interface et un filtre `titleExcludes` pour retirer le journal de 8h des Matins de France Culture. Toutes les sources internationales passent en optIn. La connexion locale renvoyait vers la prod car le serveur de dev tournait sur 5174 (5173 occupé) : `http://localhost:*/**` ajouté aux Redirect URLs Supabase.
+
+Puis suivi de la mort des shows : table `show_health` partagée + vue `dead_shows`, vérification passive pendant la génération et rotation de 10 shows/jour pour le reste, alerte sur un second monitor Uptime Kuma (Telegram reçu). Le premier run a trouvé 5 shows morts : 3 retirés (Les Récits du Figaro, En Immersion, La Question du jour), Ultra Run et Undercut gardés en observation. Un `diff` filtré par rtk a affiché « identique » à tort sur la copie Edge Function, rattrapé par `git diff` avant déploiement. Edge Function déployée, commit 852fbd8 poussé.
+
+**Entrées clés :**
+
+- [BDR-052](decisions/BDR-052.md) — Suivi de santé des sources : passif + rotation, 2e monitor Kuma
+- [LRN-077](learnings/LRN-077.md) — Copie Edge Function : `cp` écrase les imports `.ts`
