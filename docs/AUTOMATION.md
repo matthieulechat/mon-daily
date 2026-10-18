@@ -54,6 +54,16 @@ En fin de run, `generate-daily` (`index.ts`, `pingUptime`) appelle le secret `UP
 - Secret absent = pas de ping (pas d'erreur). Un ping raté est loggé sans faire échouer la génération
 - Couper l'exposition : `sudo tailscale funnel --https=443 off`
 
+### Santé des sources podcast
+
+Second push monitor « Mon Daily — sources » (secret `UPTIME_SOURCES_PUSH_URL`, même Funnel, intervalle 90 000 s, rappel tous les 7 beats). Séparé du monitor principal : un show mort le laisse rouge jusqu'au retrait, il ne doit pas masquer une panne de génération.
+
+- Table `show_health` (partagée entre comptes, une ligne par show, RLS sans policy = `service_role` seul) et vue `dead_shows` (shows `stale` ou `not_found`)
+- Vérif passive : chaque show interrogé par la génération remonte la date de son dernier épisode exploitable (filtres de titre appliqués), via le callback `onShowChecked`
+- Rotation : en fin de run, 10 shows non interrogés ce jour-là (optIn jamais activés, désactivés partout), les plus anciennement vérifiés d'abord, token « app » Spotify, 1,2 s d'écart, arrêt au premier 429 (`monitor-sources.ts`)
+- Verdict (`scripts/core/show-health.ts`) : `not_found` sur un 404, `stale` si le dernier épisode a plus de 30 jours (ou aucun épisode exploitable), erreur passagère = pas de verdict
+- Message Kuma tronqué à 250 caractères (« … +N autres ») ; la liste complète est dans `dead_shows` et dans les logs. Un show retiré de `PODCAST_SHOWS` est supprimé de la table au run suivant
+
 ## Points de portage Node → Deno
 
 - L'Edge Function tourne sur **Deno**, pas Node : `process.env.X` → `Deno.env.get('X')`.

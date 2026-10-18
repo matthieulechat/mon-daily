@@ -9,13 +9,15 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Surveillance des sources podcast : alerte Telegram (via un second monitor Uptime Kuma) quand un show n'a rien publié depuis 30 jours ou a disparu de Spotify. Les shows écoutés sont vérifiés chaque matin, les autres (désactivés, à activer) en rotation, 10 par jour ; la liste complète est dans la vue `dead_shows`
+- 15 nouvelles sources thématiques actives par défaut, avec un nouveau thème « Sciences & Tech » dans les réglages : La Science CQFD, La Terre au carré, Grand bien vous fasse !, Choses à Savoir (Sciences, Santé, Tech, Histoire), Monde Numérique, SMART TECH, Tech&Co et Good Morning Business ; côté « Débats », Le vrai ou faux de franceinfo, C ce soir, C à vous et Les Matins de France Culture (sans le journal de 8h, déjà présent ailleurs)
 - Surveillance de la génération quotidienne : alerte Telegram (via Uptime Kuma) si un compte échoue, si un Daily sort sans podcast ou si aucune génération n'a eu lieu en 25 h
 - Interface de réglages en ligne sur <https://mon-daily.vercel.app/> : plus besoin de la lancer en local pour régler son Daily
 - Réglage « durée max d'un épisode » dans l'interface : six touches d'ampli à voyant (15 min, 30 min, 45 min, 1 h, 1 h 30, sans limite), 1 h 30 par défaut. La valeur choisie s'affiche à côté de la durée maximale de la playlist ; un épisode plus long n'entre plus dans le mix
 - Sources régionales : journaux locaux « ICI Loire Océan » et « ICI Mayenne » en actu (seul le journal le plus récent est retenu), « L'invité d'ICI Matin, ICI Loire Océan » et « Ça va faire du reuz ! » (Bretagne) en thématique. Nouveau thème « Régions » dans l'interface de réglages
 - Journaux d'autres régions (Nord, Normandie, Lorraine, Pays Basque, Azur, Corse) et d'outre-mer (Martinique, Guadeloupe, Guyane, Nouvelle-Calédonie, Polynésie, journaux d'Outre-mer La 1ère) : désactivés par défaut, à activer un par un dans les thèmes « Régions » et « Outre-mer » des réglages
 - Nouveaux journaux régionaux (Picardie, Champagne-Ardenne, Périgord, Roussillon), le journal de 12h de Polynésie et 14 « invités du matin » des antennes ICI (Nord, Alsace, Isère, Berry, Hérault, Normandie, Pays Basque…) : désactivés par défaut, à activer dans les thèmes « Régions » et « Outre-mer »
-- Sources internationales francophones, avec un thème « International » dans les réglages : « Tout un monde » (RTS), « Reportage Afrique » et « Afrique économie » (RFI) et « Le débat » entrent dans le mix ; Radiojournal de Radio-Canada, Journal Afrique et Revue de presse Afrique (RFI), Journal des Sports et invité de Matin Première (RTBF) et la matinale québécoise « À la une » sont à activer
+- Sources internationales francophones, avec un thème « International » dans les réglages : toutes désactivées par défaut, à activer une par une : « Tout un monde » (RTS), « Reportage Afrique » et « Afrique économie » (RFI), « Le débat », Radiojournal de Radio-Canada, Journal Afrique et Revue de presse Afrique (RFI), Journal des Sports et invité de Matin Première (RTBF) et la matinale québécoise « À la une »
 - Réglage « écarter les sujets » : trois interrupteurs (guerre et conflits, sexualité, violence et faits divers) qui retirent du mix les épisodes de podcasts thématiques dont le titre aborde le sujet. Désactivé par défaut, l'actu n'est jamais filtrée
 - Interface de réglages : ta photo de profil et ton nom Spotify s'affichent en haut à droite (une pastille avec ton initiale si le compte n'a pas de photo)
 - Animations de l'interface de réglages : entrée de page en cascade, ouverture et fermeture du bac sous la rangée de sa pile (la page défile pour le montrer si besoin), pochettes qui arrivent une à une, vinyle de fond qui se pose avec son bras de platine, retour visuel au clic, compteurs qui « tickent » à chaque changement. Les utilisateurs qui réduisent les animations dans leur système n'ont que des fondus
@@ -52,6 +54,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Removed
 
+- Sources arrêtées depuis des mois : « Les Récits du Figaro », « En Immersion » et « La Question du jour »
 - « La semaine européenne » et sa règle de fraîcheur dédiée (7 jours) : le podcast « L'Express Podcasts », qui l'inclut, la remplace
 
 ### Fixed

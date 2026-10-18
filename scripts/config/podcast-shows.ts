@@ -7,6 +7,9 @@ export interface PodcastShow {
   // Sous-chaîne (insensible à la casse) qu'un titre d'épisode doit contenir
   // pour rester éligible — pour un show qui mélange plusieurs formats.
   titleIncludes?: string;
+  // Sous-chaîne (insensible à la casse) qui rend un épisode inéligible — pour
+  // écarter un format en doublon avec un autre show.
+  titleExcludes?: string;
   // Show publié plusieurs fois par jour (journaux à heures différentes) : on
   // ne garde que l'épisode le plus récent par catégorie effective, donc le
   // plus proche de l'heure de génération.
@@ -212,18 +215,8 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   },
   { id: "3OiGhrRIdqhorrpPhlfiFt", name: "La Story", category: "thematique" },
   {
-    id: "2SWtkazFRAdcOxFN3hUvSL",
-    name: "En Immersion",
-    category: "thematique",
-  },
-  {
     id: "0F3VqxhfFyKB8MxnddgpSg",
     name: "L'édito du Figaro",
-    category: "thematique",
-  },
-  {
-    id: "6E5NW1rh303Jx28QEw18K0",
-    name: "La Question du jour",
     category: "thematique",
   },
   {
@@ -270,11 +263,6 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   {
     id: "5u5HcL7HaColC7ULKhA4zZ",
     name: "Passages, le podcast d'histoires vraies de Louie Media",
-    category: "thematique",
-  },
-  {
-    id: "6yurCuUVoJL5rheKRHzMvM",
-    name: "Les Récits du Figaro",
     category: "thematique",
   },
   {
@@ -393,20 +381,40 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   { id: "00Sqe8jId3HyWa67whCdkF", name: "L'invité de la rédaction, ICI Béarn Bigorre", category: "thematique", optIn: true },
   { id: "5FUYdq7L7WvPyogbvr4riU", name: "L'invité d'ICI matin, ICI Hérault", category: "thematique", optIn: true },
   // International francophone (lot 5, ajout 2026-10-14). Actu locale
-  // belge/québécoise en `optIn` ; le décryptage international (RTS, RFI)
-  // est actif par défaut. "Journal Afrique" : titres GMT, `titleIncludes`
+  // belge/québécoise en `optIn`, et depuis le 2026-10-18 le décryptage
+  // international (RTS, RFI, "Le débat") aussi : tout l'international est à activer. "Journal Afrique" : titres GMT, `titleIncludes`
   // écarte les « Tranches d'information » de 30 min. "Le débat" : publié
   // du lundi au jeudi à 19h10, très probablement France 24.
   { id: "53HJyFg6PhT3yRAGxp7d7s", name: "Le Radiojournal (Radio-Canada)", category: "actu", latestOnly: true, optIn: true },
   { id: "4DeIz7v5GS34Qoe7hypGAt", name: "Journal Afrique (RFI)", category: "actu", latestOnly: true, titleIncludes: "journal afrique", optIn: true },
   { id: "1oHl61bDlDKxGnv8YQEuK0", name: "Revue de presse Afrique (RFI)", category: "actu", optIn: true },
   { id: "2YXNbi6TIAH4rdzj6ZHnvM", name: "Le Journal des Sports RTBF", category: "actu", optIn: true },
-  { id: "1FN6d5bRAki5XMKgOEpNNE", name: "Tout un monde (RTS)", category: "thematique" },
-  { id: "14mNXIrgQOoVS7XxqdPtnQ", name: "Reportage Afrique (RFI)", category: "thematique" },
-  { id: "1k0BPQbxlYGqtkrCIIFzHn", name: "Afrique économie (RFI)", category: "thematique" },
-  { id: "1ZmvFORvxIjrTccu8H4y3d", name: "Le débat", category: "thematique" },
+  { id: "1FN6d5bRAki5XMKgOEpNNE", name: "Tout un monde (RTS)", category: "thematique", optIn: true },
+  { id: "14mNXIrgQOoVS7XxqdPtnQ", name: "Reportage Afrique (RFI)", category: "thematique", optIn: true },
+  { id: "1k0BPQbxlYGqtkrCIIFzHn", name: "Afrique économie (RFI)", category: "thematique", optIn: true },
+  { id: "1ZmvFORvxIjrTccu8H4y3d", name: "Le débat", category: "thematique", optIn: true },
   { id: "2VDbhkCJDUxw891R6rm2oE", name: "L'invité de Matin Première (RTBF)", category: "thematique", optIn: true },
   { id: "1Lqbu9ZXXaOmVPYY4prwl8", name: "À la une (Québec)", category: "thematique", optIn: true },
+  // Sciences, environnement, tech, éco (lot 6, ajout 2026-10-18), tous actifs.
+  // Flux mixtes (émission longue + chroniques/segments courts) : le réglage
+  // de durée max par épisode écarte les intégrales (ex. Good Morning Business,
+  // 140 min). "Les Matins de France Culture" : le journal de 8h est exclu, il
+  // fait doublon avec "Les journaux de France Culture".
+  { id: "6zrx1js0QnTT5rxd1UDMAa", name: "La Science CQFD", category: "thematique" },
+  { id: "7MrYjx3GXUafhHGhgiocej", name: "Choses à Savoir SCIENCES", category: "thematique" },
+  { id: "726fvUQjirlVlD1AhOxetd", name: "Choses à Savoir SANTE", category: "thematique" },
+  { id: "3fzY4N4YOJ9nQvcArB6xE8", name: "Choses à Savoir HISTOIRE", category: "thematique" },
+  { id: "39f5s2RyyzB0oCvOBLTagL", name: "Grand bien vous fasse !", category: "thematique" },
+  { id: "3I3TKZOUBk72GZkSn7G4Q9", name: "La Terre au carré", category: "thematique" },
+  { id: "4uSMkxeKBJvtAqw8ALLw22", name: "Choses à Savoir TECH", category: "thematique" },
+  { id: "2NChkHGPtlt6spYicc0Sc5", name: "Monde Numérique", category: "thematique" },
+  { id: "6TyVaKK2kfEPxA0gtFmJnb", name: "SMART TECH", category: "thematique" },
+  { id: "2b4JRmROa3ZPOE4og6aFIE", name: "Tech&Co, la quotidienne", category: "thematique" },
+  { id: "2Tml2KyQFlZScSwzydHu2d", name: "Good Morning Business", category: "thematique" },
+  { id: "2iWpUooqcICF9rwKbBqnna", name: "Le vrai ou faux", category: "thematique" },
+  { id: "3isnFP4BmGPHKqrzyelsfd", name: "C ce soir", category: "thematique" },
+  { id: "2zwZEwsC0aGgsic37kU8wU", name: "C à vous", category: "thematique" },
+  { id: "7cJC7k8u3OhEBd26RVhqxE", name: "Les Matins de France Culture", category: "thematique", titleExcludes: "journal de 8h" },
 ];
 
 // Un show `optIn` n'est actif que si l'utilisateur l'a activé ; les autres

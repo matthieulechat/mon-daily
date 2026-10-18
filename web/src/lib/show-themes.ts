@@ -26,7 +26,6 @@ export const SHOW_THEMES: ShowTheme[] = [
       "0WjH88Utuz9qOS9FzUp1xu", // Le Titre à la une
       "271pQcFjR0jlqgthMUZdKG", // Décryptage
       "0F3VqxhfFyKB8MxnddgpSg", // L'édito du Figaro
-      "6E5NW1rh303Jx28QEw18K0", // La Question du jour
       "5iZAQiKv5QamDAzT2jOn1f", // L'œil de Philippe Caverivière
       "4WoDw5FtSR53h4Uz76DrqE", // Les Essentiels de l'info
       "7Lfq9hAm5UFyuBoaJE7J3w", // Le sens de l'actu
@@ -70,6 +69,10 @@ export const SHOW_THEMES: ShowTheme[] = [
       "7Msy4JUPv8qodVftr33WGv", // Le Paddock RMC
       "4YrgK0BhFAwXDKqvebvNVP", // Rugby Confidential
       "6iGZsNqtX8q1skSBBtQWik", // Peloton RMC
+      "2iWpUooqcICF9rwKbBqnna", // Le vrai ou faux
+      "3isnFP4BmGPHKqrzyelsfd", // C ce soir
+      "2zwZEwsC0aGgsic37kU8wU", // C à vous
+      "7cJC7k8u3OhEBd26RVhqxE", // Les Matins de France Culture
     ],
   },
   {
@@ -92,17 +95,32 @@ export const SHOW_THEMES: ShowTheme[] = [
     ],
   },
   {
+    title: "Sciences & Tech",
+    hint: "Science, climat, numérique & éco",
+    color: "#818cf8",
+    ids: [
+      "6zrx1js0QnTT5rxd1UDMAa", // La Science CQFD
+      "7MrYjx3GXUafhHGhgiocej", // Choses à Savoir SCIENCES
+      "726fvUQjirlVlD1AhOxetd", // Choses à Savoir SANTE
+      "39f5s2RyyzB0oCvOBLTagL", // Grand bien vous fasse !
+      "3I3TKZOUBk72GZkSn7G4Q9", // La Terre au carré
+      "4uSMkxeKBJvtAqw8ALLw22", // Choses à Savoir TECH
+      "2NChkHGPtlt6spYicc0Sc5", // Monde Numérique
+      "6TyVaKK2kfEPxA0gtFmJnb", // SMART TECH
+      "2b4JRmROa3ZPOE4og6aFIE", // Tech&Co, la quotidienne
+      "2Tml2KyQFlZScSwzydHu2d", // Good Morning Business
+    ],
+  },
+  {
     title: "Histoires",
     hint: "Histoire, enquêtes & reportages",
     color: "#ffd23f",
     ids: [
       "4MF0XYJpnZQ2za6CCJ61Q5", // Saga
       "3OiGhrRIdqhorrpPhlfiFt", // La Story
-      "2SWtkazFRAdcOxFN3hUvSL", // En Immersion
       "6lHI4xTEvCB0PAwahBiwGO", // Interception
       "2mgIj1Y64XTLJT2Ax9rYEx", // Affaires sensibles
       "5u5HcL7HaColC7ULKhA4zZ", // Passages
-      "6yurCuUVoJL5rheKRHzMvM", // Les Récits du Figaro
       "6uvxJSBUQxaKkrJ7zux3OJ", // Les enquêtes d'Yvan Casta
       "7lcxzeC0jTbpU7jBDu5IyW", // Entrez dans l'Histoire
       "7iFJQotqjCziytm2RSuXB8", // Un Jour dans l'Histoire
@@ -112,6 +130,7 @@ export const SHOW_THEMES: ShowTheme[] = [
       "3pYH5Kxw9IiznsPz0WoIn5", // L'Heure Du Crime
       "38EKOHm8o9LflZRiqDmrmf", // Crime story
       "4RSOfC8evY1VaRZrMO5PNk", // LSD, la série documentaire
+      "3fzY4N4YOJ9nQvcArB6xE8", // Choses à Savoir HISTOIRE
     ],
   },
   {
@@ -169,7 +188,7 @@ export const SHOW_THEMES: ShowTheme[] = [
   },
   {
     title: "International",
-    hint: "Médias francophones du monde",
+    hint: "Médias francophones du monde, à activer",
     color: "#ff9f1c",
     ids: [
       "1FN6d5bRAki5XMKgOEpNNE", // Tout un monde (RTS)

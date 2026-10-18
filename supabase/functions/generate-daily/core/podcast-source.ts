@@ -29,9 +29,13 @@ const ACTU_DU_JOUR_DESC = "résumé de l’actualité du jour";
 const ACTU_POP_TITLE_PREFIX = "(pop)";
 const ACTU_POP_DESC = "résumé de l’actualité culturelle";
 
-const matchesTitleFilter = (show: PodcastShow, episodeName: string): boolean =>
-  !show.titleIncludes ||
-  episodeName.toLowerCase().includes(show.titleIncludes.toLowerCase());
+export const matchesTitleFilter = (show: PodcastShow, episodeName: string): boolean => {
+  const title = episodeName.toLowerCase();
+  return (
+    (!show.titleIncludes || title.includes(show.titleIncludes.toLowerCase())) &&
+    (!show.titleExcludes || !title.includes(show.titleExcludes.toLowerCase()))
+  );
+};
 
 const detectEpisodeCategory = (
   show: PodcastShow,
@@ -195,6 +199,15 @@ const toEpisodeTrack = (
   durationMs: episode.duration_ms,
 });
 
+// Résultat brut de l'appel API d'un show, pour le suivi de sa santé
+// (show-health.ts) : date du dernier épisode exploitable (filtres de titre
+// appliqués), `null` si aucun.
+export interface ShowCheck {
+  showId: string;
+  httpStatus: number;
+  lastEpisodeDate: string | null;
+}
+
 export interface EligibleEpisode {
   track: Track;
   category: PodcastCategory;
@@ -214,6 +227,7 @@ export const getEligibleEpisodes = async (
   accessToken: string,
   show: PodcastShow,
   { maxEpisodeMinutes, moderatedTopics }: UserSettings,
+  onChecked?: (check: ShowCheck) => void,
 ): Promise<EligibleEpisode[]> => {
   try {
     const response = await fetchSpotifyWithRetry(
@@ -222,6 +236,7 @@ export const getEligibleEpisodes = async (
     );
 
     if (!response.ok) {
+      onChecked?.({ showId: show.id, httpStatus: response.status, lastEpisodeDate: null });
       console.warn(
         `Podcast "${show.name}" ignoré (${response.status} sur /shows/${show.id}/episodes)`,
       );
@@ -236,6 +251,11 @@ export const getEligibleEpisodes = async (
     const episodes = data.items
       .filter((item): item is SpotifyEpisodeObject => item !== null)
       .filter((episode) => matchesTitleFilter(show, episode.name));
+    onChecked?.({
+      showId: show.id,
+      httpStatus: response.status,
+      lastEpisodeDate: episodes[0]?.release_date ?? null,
+    });
 
     if (episodes.length === 0) {
       console.warn(

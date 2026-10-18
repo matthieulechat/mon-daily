@@ -16,6 +16,7 @@ import {
 import {
   getEligibleEpisodes,
   keepClosestByGroup,
+  type ShowCheck,
 } from "./core/podcast-source.ts";
 import type { TopTracksRange } from "./providers/provider.interface.ts";
 import { spotifyProvider } from "./providers/spotify.provider.ts";
@@ -68,6 +69,7 @@ const fetchEligibleEpisodes = async (
   accessToken: string,
   shows: PodcastShow[],
   settings: UserSettings,
+  onShowChecked?: (check: ShowCheck) => void,
 ): Promise<PodcastPick[]> => {
   const results = await Promise.all(
     shows.map(async (show) => {
@@ -75,6 +77,7 @@ const fetchEligibleEpisodes = async (
         accessToken,
         show,
         settings,
+        onShowChecked,
       );
       return episodes.map(({ track, category }) => ({
         showId: show.id,
@@ -98,6 +101,8 @@ export interface GenerationResult {
 
 export const generatePlaylistForUser = async (
   userId: string,
+  // Suivi de santé des sources (show-health.ts), alimenté au passage.
+  onShowChecked?: (check: ShowCheck) => void,
 ): Promise<GenerationResult> => {
   const storedTokens = await supabaseStorage.getTokens(userId);
   if (!storedTokens) {
@@ -136,11 +141,13 @@ export const generatePlaylistForUser = async (
       tokens.accessToken,
       actuShows,
       settings,
+      onShowChecked,
     ),
     fetchEligibleEpisodes(
       tokens.accessToken,
       thematicShows,
       settings,
+      onShowChecked,
     ),
   ]);
   // Le pool "actu" fetché (catégorisation par show) contient aussi la

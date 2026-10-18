@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { mock, test } from "node:test";
 import type { PodcastShow } from "../config/podcast-shows.js";
 import { moderatedTopicOf } from "../config/moderation.js";
-import { keepClosestByGroup } from "./podcast-source.js";
+import { keepClosestByGroup, matchesTitleFilter } from "./podcast-source.js";
 
 const shows: PodcastShow[] = [
   { id: "fc", name: "Les journaux de France Culture", category: "actu", closestGroup: "g" },
@@ -58,4 +58,11 @@ test("modération : titre normalisé, mots entiers, sujets choisis seulement", (
   assert.equal(moderatedTopicOf("L'éducation sexuelle", ["guerre", "sexualite"]), "sexualite");
   assert.equal(moderatedTopicOf("Le sexisme au travail", ["sexualite"]), null);
   assert.equal(moderatedTopicOf("Sexualités et handicap", ["sexualite"]), "sexualite");
+});
+
+test("titleExcludes écarte l'épisode, titleIncludes le garde", () => {
+  const show: PodcastShow = { id: "m", name: "Matins", category: "thematique", titleExcludes: "journal de 8h" };
+  assert.equal(matchesTitleFilter(show, "JOURNAL DE 8H du dimanche 18 octobre"), false);
+  assert.equal(matchesTitleFilter(show, "Travailler comme une bête"), true);
+  assert.equal(matchesTitleFilter({ ...show, titleExcludes: undefined, titleIncludes: "actu" }, "Hors sujet"), false);
 });
