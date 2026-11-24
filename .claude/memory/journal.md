@@ -479,3 +479,11 @@ Puis suivi de la mort des shows : table `show_health` partagée + vue `dead_show
 
 - [BDR-052](decisions/BDR-052.md) — Suivi de santé des sources : passif + rotation, 2e monitor Kuma
 - [LRN-077](learnings/LRN-077.md) — Copie Edge Function : `cp` écrase les imports `.ts`
+
+## 2026-11-24
+
+Contrôle des sources mortes via la vue `dead_shows` : une seule sur 168, « Ultra Run, le podcast trail de L'Équipe » (dernier épisode le 25/08), déjà gardé en observation depuis le 2026-10-18. Retiré des deux configs, des pochettes et des thèmes web, avec une note dans la roadmap. Ajout de « L'Enquête — par Arcos » (hebdo, argent/pouvoir/influence) en thématique actif par défaut, thème Géopolitique, pochette ajoutée à la main. Le redéploiement de l'Edge Function (v26) a d'abord été refusé par la CLI Supabase 3.3.0, qui exige désormais `--yes` en mode agent ; relancé après accord. La suppression de la ligne `show_health` d'Ultra Run a été refusée deux fois côté permission, Baptiste l'a faite à la main ; `dead_shows` est vide. Commit 773293b poussé.
+
+**Entrées clés :**
+
+- [LRN-261124_1515-2](learnings/LRN-261124_1515-2.md) — Ajouter/retirer un show : 4 fichiers + ligne show_health
