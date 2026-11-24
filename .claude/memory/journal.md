@@ -487,3 +487,13 @@ Contrôle des sources mortes via la vue `dead_shows` : une seule sur 168, « Ult
 **Entrées clés :**
 
 - [LRN-261124_1515-2](learnings/LRN-261124_1515-2.md) — Ajouter/retirer un show : 4 fichiers + ligne show_health
+
+---
+
+Ajout du podcast « Bavardage » (Grande Bavardeuse x Gong, `6YaahYoPXFClc8PJFyMl8g`) en suivant la checklist des 4 fichiers. Show vérifié via l'API (17 épisodes, rythme bimensuel, épisode du jour), rangé en thématique sous « Interviews » plutôt que « Culture » car chaque épisode est un entretien avec un invité. Pochette 300 px récupérée sur la page publique. Typecheck et build web OK.
+
+Le redéploiement de l'Edge Function a buté sur le consentement en mode agent de la CLI Supabase : relancé avec `--yes` après l'accord de Baptiste, version 27 vérifiée avec le nouvel id. `deploy:edge` est passé de `--project-ref` à `--remote=`. `--yes` a été ajouté au script puis retiré à la demande de Baptiste, qui veut valider chaque mise en prod lui-même. Commit `e4776c1` poussé.
+
+**Entrées clés :**
+
+- GLRN-261124_1515-1 — Supabase CLI v3 en agent : déploiement bloqué sans `--yes` (déjà existant, réappliqué)
