@@ -54,6 +54,7 @@ export const SHOW_THEMES: ShowTheme[] = [
       "7BayWqjvFaZDTY1P8h1jN6", // Le Grand reportage de France Inter
       "1EJVUzPQJAM9b3Qp7gyaPm", // Grand reportage (RFI)
       "2R47RsdPn70kVpLIK0cIKl", // Conflits, géopolitique
+      "001zPcp23ZYwQIm7KlUfYL", // L'Enquête (Arcos)
     ],
   },
   {
@@ -64,7 +65,6 @@ export const SHOW_THEMES: ShowTheme[] = [
       "17gHyBzJ8BC7i8O9DgJUal", // Undercut (F1)
       "4CjHsp28z1bL2ji5j6PCGX", // Big 5 (foot)
       "5SqKygFl8gfylpIDtfqVe2", // Crunch (rugby)
-      "1a9RSfnhxLiwOZJL0mU3ww", // Ultra Run (trail)
       "3ixMUAbmKEYcoRt62l48Zp", // L'After Foot
       "7Msy4JUPv8qodVftr33WGv", // Le Paddock RMC
       "4YrgK0BhFAwXDKqvebvNVP", // Rugby Confidential

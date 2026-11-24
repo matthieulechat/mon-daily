@@ -187,11 +187,6 @@ export const PODCAST_SHOWS: PodcastShow[] = [
     category: "thematique",
   },
   {
-    id: "1a9RSfnhxLiwOZJL0mU3ww",
-    name: "Ultra Run, le podcast trail de L'Équipe",
-    category: "thematique",
-  },
-  {
     id: "4l7WZcg5qBOdo76lL9ZtEj",
     name: "Libération Podcast",
     category: "thematique",
@@ -415,6 +410,7 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   { id: "3isnFP4BmGPHKqrzyelsfd", name: "C ce soir", category: "thematique" },
   { id: "2zwZEwsC0aGgsic37kU8wU", name: "C à vous", category: "thematique" },
   { id: "7cJC7k8u3OhEBd26RVhqxE", name: "Les Matins de France Culture", category: "thematique", titleExcludes: "journal de 8h" },
+  { id: "001zPcp23ZYwQIm7KlUfYL", name: "L'Enquête — par Arcos", category: "thematique" },
 ];
 
 // Un show `optIn` n'est actif que si l'utilisateur l'a activé ; les autres

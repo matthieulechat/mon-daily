@@ -9,6 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- « L'Enquête — par Arcos » (argent, pouvoir, influence) dans le thème « Géopolitique », actif par défaut
 - Surveillance des sources podcast : alerte Telegram (via un second monitor Uptime Kuma) quand un show n'a rien publié depuis 30 jours ou a disparu de Spotify. Les shows écoutés sont vérifiés chaque matin, les autres (désactivés, à activer) en rotation, 10 par jour ; la liste complète est dans la vue `dead_shows`
 - 15 nouvelles sources thématiques actives par défaut, avec un nouveau thème « Sciences & Tech » dans les réglages : La Science CQFD, La Terre au carré, Grand bien vous fasse !, Choses à Savoir (Sciences, Santé, Tech, Histoire), Monde Numérique, SMART TECH, Tech&Co et Good Morning Business ; côté « Débats », Le vrai ou faux de franceinfo, C ce soir, C à vous et Les Matins de France Culture (sans le journal de 8h, déjà présent ailleurs)
 - Surveillance de la génération quotidienne : alerte Telegram (via Uptime Kuma) si un compte échoue, si un Daily sort sans podcast ou si aucune génération n'a eu lieu en 25 h
@@ -54,7 +55,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Removed
 
-- Sources arrêtées depuis des mois : « Les Récits du Figaro », « En Immersion » et « La Question du jour »
+- Sources arrêtées depuis des mois : « Les Récits du Figaro », « En Immersion », « La Question du jour » et « Ultra Run, le podcast trail de L'Équipe »
 - « La semaine européenne » et sa règle de fraîcheur dédiée (7 jours) : le podcast « L'Express Podcasts », qui l'inclut, la remplace
 
 ### Fixed

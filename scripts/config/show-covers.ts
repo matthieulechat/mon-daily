@@ -36,7 +36,6 @@ export const SHOW_COVERS: Record<string, string> = {
   "17gHyBzJ8BC7i8O9DgJUal": "https://i.scdn.co/image/ab67656300005f1fd8559d9748dad4aa15b3706c",
   "4CjHsp28z1bL2ji5j6PCGX": "https://i.scdn.co/image/ab67656300005f1f9a15deb4cec6852d6465cc93",
   "5SqKygFl8gfylpIDtfqVe2": "https://i.scdn.co/image/ab67656300005f1ff6274fdc9ffb3b910949ca5f",
-  "1a9RSfnhxLiwOZJL0mU3ww": "https://i.scdn.co/image/ab67656300005f1f05c9f7f7c7904433dd7dfab5",
   "4l7WZcg5qBOdo76lL9ZtEj": "https://i.scdn.co/image/ab67656300005f1fce0d5e4bf4bde4fe2ced7446",
   "6d9U2NiY1792t8gNE9Eptm": "https://i.scdn.co/image/ab67656300005f1f191f71aba4f61dd8223a59ce",
   "0WjH88Utuz9qOS9FzUp1xu": "https://i.scdn.co/image/ab67656300005f1fd5dd56a42d19343c490300a1",
@@ -168,4 +167,5 @@ export const SHOW_COVERS: Record<string, string> = {
   "3isnFP4BmGPHKqrzyelsfd": "https://i.scdn.co/image/ab67656300005f1fa54591ea788b1de81c081ca6",
   "2zwZEwsC0aGgsic37kU8wU": "https://i.scdn.co/image/ab67656300005f1ffbace2884913e967440d1847",
   "7cJC7k8u3OhEBd26RVhqxE": "https://i.scdn.co/image/ab67656300005f1f0099e30bbfadb28905ed2112",
+  "001zPcp23ZYwQIm7KlUfYL": "https://i.scdn.co/image/ab67656300005f1f3c34df593ef754b618884ab2",
 };
