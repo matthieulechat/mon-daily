@@ -11,7 +11,7 @@
     "test": "tsx --test scripts/**/*.test.ts",
     "web:dev": "pnpm --filter mon-daily-web dev",
     "web:build": "pnpm --filter mon-daily-web build",
-    "deploy:edge": "npx supabase@latest functions deploy generate-daily --project-ref lwrcbeaxsgolooqafogz --use-api",
+    "deploy:edge": "npx supabase@latest functions deploy generate-daily --remote=lwrcbeaxsgolooqafogz --use-api",
     "deploy:login": "npx supabase@latest login && pnpm run deploy:edge"
   },
   "dependencies": {

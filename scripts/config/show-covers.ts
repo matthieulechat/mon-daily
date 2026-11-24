@@ -168,4 +168,5 @@ export const SHOW_COVERS: Record<string, string> = {
   "2zwZEwsC0aGgsic37kU8wU": "https://i.scdn.co/image/ab67656300005f1ffbace2884913e967440d1847",
   "7cJC7k8u3OhEBd26RVhqxE": "https://i.scdn.co/image/ab67656300005f1f0099e30bbfadb28905ed2112",
   "001zPcp23ZYwQIm7KlUfYL": "https://i.scdn.co/image/ab67656300005f1f3c34df593ef754b618884ab2",
+  "6YaahYoPXFClc8PJFyMl8g": "https://i.scdn.co/image/ab67656300005f1f8fb53f54218c349c3afea8c0",
 };

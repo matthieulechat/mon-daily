@@ -9,6 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- « Bavardage » (Grande Bavardeuse x Gong, entretiens société et politique) dans le thème « Interviews », actif par défaut
 - « L'Enquête — par Arcos » (argent, pouvoir, influence) dans le thème « Géopolitique », actif par défaut
 - Surveillance des sources podcast : alerte Telegram (via un second monitor Uptime Kuma) quand un show n'a rien publié depuis 30 jours ou a disparu de Spotify. Les shows écoutés sont vérifiés chaque matin, les autres (désactivés, à activer) en rotation, 10 par jour ; la liste complète est dans la vue `dead_shows`
 - 15 nouvelles sources thématiques actives par défaut, avec un nouveau thème « Sciences & Tech » dans les réglages : La Science CQFD, La Terre au carré, Grand bien vous fasse !, Choses à Savoir (Sciences, Santé, Tech, Histoire), Monde Numérique, SMART TECH, Tech&Co et Good Morning Business ; côté « Débats », Le vrai ou faux de franceinfo, C ce soir, C à vous et Les Matins de France Culture (sans le journal de 8h, déjà présent ailleurs)

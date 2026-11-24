@@ -411,6 +411,7 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   { id: "2zwZEwsC0aGgsic37kU8wU", name: "C à vous", category: "thematique" },
   { id: "7cJC7k8u3OhEBd26RVhqxE", name: "Les Matins de France Culture", category: "thematique", titleExcludes: "journal de 8h" },
   { id: "001zPcp23ZYwQIm7KlUfYL", name: "L'Enquête — par Arcos", category: "thematique" },
+  { id: "6YaahYoPXFClc8PJFyMl8g", name: "Bavardage", category: "thematique" },
 ];
 
 // Un show `optIn` n'est actif que si l'utilisateur l'a activé ; les autres
