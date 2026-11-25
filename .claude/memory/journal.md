@@ -497,3 +497,15 @@ Le redéploiement de l'Edge Function a buté sur le consentement en mode agent d
 **Entrées clés :**
 
 - GLRN-261124_1515-1 — Supabase CLI v3 en agent : déploiement bloqué sans `--yes` (déjà existant, réappliqué)
+
+## 2026-11-25
+
+Ajout de 14 podcasts au pool. D'abord First Team (basket) et Small Talk (Konbini), fournis par Baptiste, puis une recherche de podcasts YouTube/Twitch présents sur Spotify : LEGEND, Clique, Génération Do It Yourself, Underscore_, Popcorn, Zack en Roue Libre, BACKSEAT et Épicurieux (Jamy). En fin de session, 4 podcasts d'histoire fournis par Baptiste : La Folle Histoire, Les histoires de César, Rivenzi et Nota Bene. Avant d'ajouter, j'ai mesuré la durée des derniers épisodes, puisque la limite par défaut est de 1 h 30 : Thinkerview est écarté (aucun épisode sous 1 h 30), Floodcast aussi (inactif depuis 2025), et « Histoires de Guerre » faute de lien prouvé avec Mamytwink. Zack en Roue Libre et Rivenzi sont gardés à la demande de Baptiste, même s'ils sortiront rarement.
+
+Au passage, Baptiste a repéré Les Matins de France Culture dans le thème Sport. L'audit a montré que 4 shows Débats y avaient été collés lors du lot Sciences & Tech. Le croisement config / pochettes / thèmes a aussi révélé deux lignes mortes (HugoDécrypte et Slate Infos listés dans la section de l'autre catégorie), supprimées. Pool final : 183 shows, cohérent. Edge Function redéployée (v28) avec accord explicite, commit 955452d poussé.
+
+Incident de login sur le serveur de dev : page Cloudflare « Sorry, you have been blocked » au clic sur Connecter. Cause : l'app était ouverte via l'IP Tailscale, envoyée dans `redirect_to`, et le WAF de supabase.co bloque les IP 100.x. Reproduit au curl, résolu en passant par localhost.
+
+**Entrées clés :**
+
+- [LRN-261124_1515-2](learnings/LRN-261124_1515-2.md) — checklist d'ajout de show, enrichie (durées, audit des thèmes)
