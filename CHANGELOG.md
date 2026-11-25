@@ -9,6 +9,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- 10 podcasts vidéo YouTube/Twitch aussi publiés sur Spotify, actifs par défaut : LEGEND, Clique, Génération Do It Yourself et Small Talk (Konbini) en « Interviews », First Team (basket) et Zack en Roue Libre (foot) en « Sport », Underscore_ et Épicurieux (Jamy) en « Sciences & Tech », BACKSEAT (Jean Massiet) en « Débats », Popcorn en « Humour ». Leurs épisodes sont souvent longs : avec la limite par défaut de 1 h 30, Zack en Roue Libre sort rarement
+- 4 podcasts d'histoire YouTube en « Histoires », actifs par défaut : La Folle Histoire, Les histoires de César, Rivenzi : Le Cercle de l'histoire (souvent plus d'1 h 30) et Nota Bene
 - « Bavardage » (Grande Bavardeuse x Gong, entretiens société et politique) dans le thème « Interviews », actif par défaut
 - « L'Enquête — par Arcos » (argent, pouvoir, influence) dans le thème « Géopolitique », actif par défaut
 - Surveillance des sources podcast : alerte Telegram (via un second monitor Uptime Kuma) quand un show n'a rien publié depuis 30 jours ou a disparu de Spotify. Les shows écoutés sont vérifiés chaque matin, les autres (désactivés, à activer) en rotation, 10 par jour ; la liste complète est dans la vue `dead_shows`
@@ -61,6 +63,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Le vrai ou faux, C ce soir, C à vous et Les Matins de France Culture s'affichaient dans le thème « Sport » des réglages au lieu de « Débats »
 - Playlist d'un compte non mise à jour le matin quand Spotify renvoyait une erreur passagère (502/503 « Please try again later ») : ces appels sont désormais retentés, comme les 429
 - Un seul podcast très long pouvait occuper l'essentiel de la playlist (ex. une intégrale radio de 3 h 07 dans un mix de 4 h) : les épisodes de plus de 1 h 30 sont désormais écartés, seuil réglable dans l'interface
 - HugoDécrypte : ses interviews n'étaient jamais jouées (reconnues comme thématiques mais écartées du mix). Elles alimentent désormais les thématiques, et le podcast apparaît dans les deux sections de l'interface de réglages (« Flashs & magazines » et « Interviews »), comme Slate Infos

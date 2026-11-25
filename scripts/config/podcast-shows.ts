@@ -412,6 +412,22 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   { id: "7cJC7k8u3OhEBd26RVhqxE", name: "Les Matins de France Culture", category: "thematique", titleExcludes: "journal de 8h" },
   { id: "001zPcp23ZYwQIm7KlUfYL", name: "L'Enquête — par Arcos", category: "thematique" },
   { id: "6YaahYoPXFClc8PJFyMl8g", name: "Bavardage", category: "thematique" },
+  // Podcasts vidéo YouTube/Twitch aussi publiés sur Spotify (ajout 2026-11-25).
+  // Épisodes souvent longs : Zack en Roue Libre dépasse les 90 min par défaut.
+  { id: "4ifyD5Iwm3R1fuFcD8RDQm", name: "First Team", category: "thematique" },
+  { id: "3KiWj4g3uxatHMPox4MKcj", name: "Small Talk - Konbini", category: "thematique" },
+  { id: "4xQ0IUSsrfs6pltTnwr3Kk", name: "LEGEND", category: "thematique" },
+  { id: "15fzy1d2ujbu3u7zRnVfOZ", name: "Clique", category: "thematique" },
+  { id: "6jCObFeQTf0VARXdMv9iE4", name: "Génération Do It Yourself", category: "thematique" },
+  { id: "1sz1NhoHqbpXbzNlpOnFoz", name: "Underscore_", category: "thematique" },
+  { id: "2OmoGL1JstslNihvKivfPa", name: "Popcorn", category: "thematique" },
+  { id: "6GW6k36C3KJU6q76T0rpfC", name: "Zack en Roue Libre by Zack Nani", category: "thematique" },
+  { id: "7GkydXbqcZqPCxutCvv6WU", name: "BACKSEAT", category: "thematique" },
+  { id: "4MTfO6FJTXgN6xWmM045Pc", name: "Épicurieux - Jamy Gourmaud", category: "thematique" },
+  { id: "28kQoNrtaUMsXu4rqwT261", name: "La Folle Histoire", category: "thematique" },
+  { id: "2ujWP0XzU0jNxm0jUe5dsI", name: "Les histoires de César", category: "thematique" },
+  { id: "2GP2SidQDOvjpewmMkDxUI", name: "Rivenzi : Le Cercle de l'histoire", category: "thematique" },
+  { id: "1bKU1X5ESCZzbiS0S7Zi9a", name: "Nota Bene", category: "thematique" },
 ];
 
 // Un show `optIn` n'est actif que si l'utilisateur l'a activé ; les autres

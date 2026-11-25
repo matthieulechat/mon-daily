@@ -27,6 +27,11 @@ export const SHOW_THEMES: ShowTheme[] = [
       "271pQcFjR0jlqgthMUZdKG", // Décryptage
       "0F3VqxhfFyKB8MxnddgpSg", // L'édito du Figaro
       "5iZAQiKv5QamDAzT2jOn1f", // L'œil de Philippe Caverivière
+      "7GkydXbqcZqPCxutCvv6WU", // BACKSEAT (Jean Massiet)
+      "2iWpUooqcICF9rwKbBqnna", // Le vrai ou faux
+      "3isnFP4BmGPHKqrzyelsfd", // C ce soir
+      "2zwZEwsC0aGgsic37kU8wU", // C à vous
+      "7cJC7k8u3OhEBd26RVhqxE", // Les Matins de France Culture
       "4WoDw5FtSR53h4Uz76DrqE", // Les Essentiels de l'info
       "7Lfq9hAm5UFyuBoaJE7J3w", // Le sens de l'actu
       "3FA6OTTrmQw7nJQailXCda", // Les coulisses de la politique
@@ -69,10 +74,8 @@ export const SHOW_THEMES: ShowTheme[] = [
       "7Msy4JUPv8qodVftr33WGv", // Le Paddock RMC
       "4YrgK0BhFAwXDKqvebvNVP", // Rugby Confidential
       "6iGZsNqtX8q1skSBBtQWik", // Peloton RMC
-      "2iWpUooqcICF9rwKbBqnna", // Le vrai ou faux
-      "3isnFP4BmGPHKqrzyelsfd", // C ce soir
-      "2zwZEwsC0aGgsic37kU8wU", // C à vous
-      "7cJC7k8u3OhEBd26RVhqxE", // Les Matins de France Culture
+      "4ifyD5Iwm3R1fuFcD8RDQm", // First Team (basket)
+      "6GW6k36C3KJU6q76T0rpfC", // Zack en Roue Libre (foot)
     ],
   },
   {
@@ -109,6 +112,8 @@ export const SHOW_THEMES: ShowTheme[] = [
       "6TyVaKK2kfEPxA0gtFmJnb", // SMART TECH
       "2b4JRmROa3ZPOE4og6aFIE", // Tech&Co, la quotidienne
       "2Tml2KyQFlZScSwzydHu2d", // Good Morning Business
+      "1sz1NhoHqbpXbzNlpOnFoz", // Underscore_ (Micode)
+      "4MTfO6FJTXgN6xWmM045Pc", // Épicurieux (Jamy)
     ],
   },
   {
@@ -131,6 +136,10 @@ export const SHOW_THEMES: ShowTheme[] = [
       "38EKOHm8o9LflZRiqDmrmf", // Crime story
       "4RSOfC8evY1VaRZrMO5PNk", // LSD, la série documentaire
       "3fzY4N4YOJ9nQvcArB6xE8", // Choses à Savoir HISTOIRE
+      "28kQoNrtaUMsXu4rqwT261", // La Folle Histoire
+      "2ujWP0XzU0jNxm0jUe5dsI", // Les histoires de César
+      "2GP2SidQDOvjpewmMkDxUI", // Rivenzi : Le Cercle de l'histoire
+      "1bKU1X5ESCZzbiS0S7Zi9a", // Nota Bene
     ],
   },
   {
@@ -149,8 +158,11 @@ export const SHOW_THEMES: ShowTheme[] = [
       "52nCR9jqRKsiN1Ve0aZiGA", // Le Club Le Figaro Politique
       "50GTqIdUIvw0nxFMdPBGrB", // Le Club Le Figaro Culture
       "5jZmbWSaEIQMPOjbarGxWB", // Laurent Baffie
-      "6y1PloEyNsCNJH9vHias4T", // HugoDécrypte (interviews)
       "6YaahYoPXFClc8PJFyMl8g", // Bavardage (Grande Bavardeuse x Gong)
+      "4xQ0IUSsrfs6pltTnwr3Kk", // LEGEND (Guillaume Pley)
+      "15fzy1d2ujbu3u7zRnVfOZ", // Clique (Mouloud Achour)
+      "6jCObFeQTf0VARXdMv9iE4", // Génération Do It Yourself
+      "3KiWj4g3uxatHMPox4MKcj", // Small Talk (Konbini)
     ],
   },
   {
@@ -162,6 +174,7 @@ export const SHOW_THEMES: ShowTheme[] = [
       "5WPgD6986cdh0P31pVAYbE", // Laurent Gerra
       "5mHgwovq7vwh1hw88tidWS", // Les chroniques d'Arnaud Demanche
       "0oEyqaLqs3WCbnLMqUAj3S", // Les chroniques de Daniel Morin
+      "2OmoGL1JstslNihvKivfPa", // Popcorn (Domingo)
     ],
   },
   {
@@ -251,7 +264,6 @@ export const ACTU_THEMES: ShowTheme[] = [
       "1sR81vYrWb2MGSyiaJxa5U", // Le Flash info 20 Minutes
       "7BULZvzhFCdZEf3D1m8yOt", // Le Journal de l'Économie
       "2KhIYTtyuWb1K2F5VThYRf", // Entendez-vous l'éco ?
-      "1AHG8f8NWv9WZtRTA7k3dy", // Slate Infos (La quotidienne)
     ],
   },
   {
