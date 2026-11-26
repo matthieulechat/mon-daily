@@ -9,6 +9,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- « Dbunk » (Albane Dbunk, fact-checking des discours d’extrême droite) dans le thème « Débats », actif par défaut
+
 - 10 podcasts vidéo YouTube/Twitch aussi publiés sur Spotify, actifs par défaut : LEGEND, Clique, Génération Do It Yourself et Small Talk (Konbini) en « Interviews », First Team (basket) et Zack en Roue Libre (foot) en « Sport », Underscore_ et Épicurieux (Jamy) en « Sciences & Tech », BACKSEAT (Jean Massiet) en « Débats », Popcorn en « Humour ». Leurs épisodes sont souvent longs : avec la limite par défaut de 1 h 30, Zack en Roue Libre sort rarement
 - 4 podcasts d'histoire YouTube en « Histoires », actifs par défaut : La Folle Histoire, Les histoires de César, Rivenzi : Le Cercle de l'histoire (souvent plus d'1 h 30) et Nota Bene
 - « Bavardage » (Grande Bavardeuse x Gong, entretiens société et politique) dans le thème « Interviews », actif par défaut

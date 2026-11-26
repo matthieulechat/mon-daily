@@ -38,6 +38,7 @@ export const SHOW_THEMES: ShowTheme[] = [
       "7kcz74SPx9ZqS5eE4HbBkW", // Chronique économique
       "3HNRGEtjT3UrOpc6vsfRdt", // Anatomie d'une décision
       "5vWK8VVtYVqez2TTc0vBwN", // 28 Minutes
+      "11nsFb6NtGTpf5q0cq7mML", // Dbunk (Albane Dbunk)
       "0L85fRQXSTXgbqQWAa6wY4", // Points de Vue
       "5ZdVWjo3QIdEOpGdcb8HPP", // Les Echos de l'IA
       "4lPbJxQ3b1G5B60PEwK0t3", // Les podcasts 20 Minutes

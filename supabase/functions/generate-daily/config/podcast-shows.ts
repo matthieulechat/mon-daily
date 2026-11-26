@@ -428,6 +428,7 @@ export const PODCAST_SHOWS: PodcastShow[] = [
   { id: "2ujWP0XzU0jNxm0jUe5dsI", name: "Les histoires de César", category: "thematique" },
   { id: "2GP2SidQDOvjpewmMkDxUI", name: "Rivenzi : Le Cercle de l'histoire", category: "thematique" },
   { id: "1bKU1X5ESCZzbiS0S7Zi9a", name: "Nota Bene", category: "thematique" },
+  { id: "11nsFb6NtGTpf5q0cq7mML", name: "Dbunk", category: "thematique" },
 ];
 
 // Un show `optIn` n'est actif que si l'utilisateur l'a activé ; les autres
