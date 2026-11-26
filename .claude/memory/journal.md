@@ -517,3 +517,11 @@ HugoDécrypte apparaissait dans la pile « Autres » de la section thématique d
 **Entrées clés :**
 
 - [LRN-261126_1222-1](learnings/LRN-261126_1222-1.md) — un show `alsoThematic` doit figurer dans les deux fichiers de thèmes
+
+---
+
+Ajout du podcast « Dbunk » d'Albane Dbunk (fact-checking des discours d'extrême droite, show `11nsFb6NtGTpf5q0cq7mML`, 3 épisodes de 2 à 59 min), trouvé via `/search?type=show` avec un jeton d'application, puis rangé dans le thème « Débats » en suivant la checklist des 4 fichiers + CHANGELOG. Tests et `web:build` verts, commit `959576e` poussé. Le redéploiement de l'Edge Function a buté deux fois : consentement exigé par la CLI Supabase, puis `--yes` refusé par le mode auto malgré l'accord de Baptiste. Baptiste l'a lancé lui-même, et la présence de l'ID dans la version en ligne a été vérifiée via `get_edge_function`.
+
+**Entrées clés :**
+
+- [LRN-261126_2325-1](learnings/LRN-261126_2325-1.md) — `deploy:edge --yes` refusé en mode auto même avec accord
