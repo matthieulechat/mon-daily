@@ -163,6 +163,7 @@ export const SHOW_THEMES: ShowTheme[] = [
       "15fzy1d2ujbu3u7zRnVfOZ", // Clique (Mouloud Achour)
       "6jCObFeQTf0VARXdMv9iE4", // Génération Do It Yourself
       "3KiWj4g3uxatHMPox4MKcj", // Small Talk (Konbini)
+      "6y1PloEyNsCNJH9vHias4T", // HugoDécrypte (interviews, alsoThematic)
     ],
   },
   {
