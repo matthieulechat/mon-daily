@@ -509,3 +509,11 @@ Incident de login sur le serveur de dev : page Cloudflare « Sorry, you have bee
 **Entrées clés :**
 
 - [LRN-261124_1515-2](learnings/LRN-261124_1515-2.md) — checklist d'ajout de show, enrichie (durées, audit des thèmes)
+
+## 2026-11-26
+
+HugoDécrypte apparaissait dans la pile « Autres » de la section thématique de l'interface en prod. Cause : le commit distant `955452d` (« fix theme placement ») l'avait retiré de la pile « Interviews » en le prenant pour un doublon, alors que son double classement `alsoThematic` impose un id dans les deux fichiers de thèmes. Le checkout local avait 4 commits de retard, d'où un premier diagnostic trompeur (code local correct). Pull, id remis dans « Interviews », lint et build web OK, commit `c84f1c9` (non poussé). Changelog inchangé : la ligne Fixed d'Unreleased couvre déjà ce comportement.
+
+**Entrées clés :**
+
+- [LRN-261126_1222-1](learnings/LRN-261126_1222-1.md) — un show `alsoThematic` doit figurer dans les deux fichiers de thèmes

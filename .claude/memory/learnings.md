@@ -84,3 +84,4 @@ register: learnings
 | [LRN-076](learnings/LRN-076.md) | 2026-10-16 | Mots-clés : radicaux courts captent des sujets à garder | #moderation #keywords #regex #content-filtering #false-positive #mon-daily |
 | [LRN-077](learnings/LRN-077.md) | 2026-10-18 | Copie Edge Function : `cp` écrase les imports `.ts` | #deno #edge-function #supabase #imports #sync #deploy |
 | [LRN-261124_1515-2](learnings/LRN-261124_1515-2.md) | 2026-11-24 | Ajouter/retirer un show : 4 fichiers + ligne show_health | #podcasts #show-health #config #checklist #edge-functions #uptime-kuma |
+| [LRN-261126_1222-1](learnings/LRN-261126_1222-1.md) | 2026-11-26 | Show `alsoThematic` : un id dans chaque fichier de thèmes, actu ET thématique | #podcast #ui #show-themes #alsoThematic #mixed-feed #regression #hugodecrypte |
